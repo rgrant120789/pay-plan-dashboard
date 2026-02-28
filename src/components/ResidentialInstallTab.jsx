@@ -76,7 +76,7 @@ export default function ResidentialInstallTab() {
       <div className="rounded-xl border px-5 py-4" style={{ borderColor: 'rgba(141,198,63,0.3)', background: 'rgba(141,198,63,0.06)' }}>
         <p className="text-xs font-bold tracking-widest uppercase mb-2" style={{ color: '#8dc63f' }}>How Pay is Calculated</p>
         <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-slate-300">
-          <span><span className="text-white font-bold">Guaranteed Pay</span> = Hourly Rate × Regular Hours + (Hourly Rate × 1.5 × OT Hours)</span>
+          <span><span className="text-white font-bold">Hourly Pay</span> = Hourly Rate × Regular Hours + (Hourly Rate × 1.5 × OT Hours)</span>
           <span className="text-2xl font-black text-[#8dc63f]">+</span>
           <span><span className="text-white font-bold">Bonus Goals Opportunities</span> = $1,000 for Billable Hours + $1,000 for Revenue + $1,000 for Sales <span className="text-[#8dc63f] font-bold">(= $3,000/mo max)</span></span>
         </div>

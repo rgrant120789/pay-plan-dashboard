@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import RosterTab from './RosterTab';
 import ResidentialServiceTab from './ResidentialServiceTab';
 import ResidentialInstallTab from './ResidentialInstallTab';
@@ -6,14 +6,85 @@ import CommercialTab from './CommercialTab';
 import STDataTab from './STDataTab';
 import PayDataTab from './PayDataTab';
 
-const TABS = [
-  { id: 'roster',       label: 'Roster' },
-  { id: 'resi-service', label: 'Residential Service' },
-  { id: 'resi-install', label: 'Residential Install' },
-  { id: 'commercial',   label: 'Commercial' },
-  { id: 'st-data',      label: '2025 ST Data' },
-  { id: 'pay-data',     label: '2025 Pay Data' },
+const NAV_ITEMS = [
+  { id: 'roster', label: 'Roster' },
+  {
+    label: '2026 Pay Plans',
+    children: [
+      { id: 'resi-service', label: 'Residential Service' },
+      { id: 'resi-install', label: 'Residential Install' },
+      { id: 'commercial',   label: 'Commercial' },
+    ],
+  },
+  {
+    label: '2025 Data',
+    children: [
+      { id: 'st-data',  label: '2025 ST Data' },
+      { id: 'pay-data', label: '2025 Pay Data' },
+    ],
+  },
 ];
+
+function DropdownMenu({ item, activeTab, setActiveTab }) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef(null);
+  const isActive = item.children.some((c) => c.id === activeTab);
+
+  useEffect(() => {
+    function handler(e) {
+      if (ref.current && !ref.current.contains(e.target)) setOpen(false);
+    }
+    document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
+  }, []);
+
+  return (
+    <div ref={ref} className="relative">
+      <button
+        onClick={() => setOpen((o) => !o)}
+        className="relative px-3 sm:px-6 py-3 sm:py-4 font-semibold tracking-wide whitespace-nowrap cursor-pointer transition-all flex items-center gap-1"
+        style={{
+          color: isActive ? '#8dc63f' : '#94a3b8',
+          background: isActive ? 'rgba(141,198,63,0.08)' : 'transparent',
+          borderBottom: isActive ? '3px solid #8dc63f' : '3px solid transparent',
+          fontFamily: "'Barlow', sans-serif",
+          letterSpacing: '0.06em',
+          textTransform: 'uppercase',
+          fontSize: 12,
+        }}
+      >
+        {item.label}
+        <span style={{ fontSize: 10, marginLeft: 2 }}>{open ? '▲' : '▼'}</span>
+      </button>
+      {open && (
+        <div
+          className="absolute top-full left-0 z-50 rounded-b-xl overflow-hidden shadow-xl"
+          style={{ background: '#0d2b4e', border: '1px solid rgba(141,198,63,0.3)', minWidth: 200 }}
+        >
+          {item.children.map((child) => (
+            <button
+              key={child.id}
+              onClick={() => { setActiveTab(child.id); setOpen(false); }}
+              className="w-full text-left px-5 py-3 text-xs font-semibold tracking-wide transition-all cursor-pointer"
+              style={{
+                color: activeTab === child.id ? '#8dc63f' : '#94a3b8',
+                background: activeTab === child.id ? 'rgba(141,198,63,0.1)' : 'transparent',
+                borderLeft: activeTab === child.id ? '3px solid #8dc63f' : '3px solid transparent',
+                fontFamily: "'Barlow', sans-serif",
+                letterSpacing: '0.06em',
+                textTransform: 'uppercase',
+              }}
+              onMouseOver={(e) => { if (activeTab !== child.id) e.currentTarget.style.background = 'rgba(255,255,255,0.05)'; }}
+              onMouseOut={(e) => { if (activeTab !== child.id) e.currentTarget.style.background = 'transparent'; }}
+            >
+              {child.label}
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
 
 export default function Dashboard() {
   const [activeTab, setActiveTab] = useState('roster');
@@ -43,7 +114,6 @@ export default function Dashboard() {
           }}
         />
         <div className="relative max-w-7xl mx-auto px-3 sm:px-6 py-2 flex items-center gap-3 sm:gap-6">
-          {/* Actual A1 Door logo */}
           <img
             src="/logo.png"
             alt="A1 Door Logo"
@@ -74,36 +144,32 @@ export default function Dashboard() {
         </div>
       </header>
 
-      {/* Tab Nav */}
-      <nav
-        style={{
-          background: '#0d2b4e',
-          borderBottom: '2px solid rgba(141,198,63,0.25)',
-        }}
-      >
+      {/* Nav */}
+      <nav style={{ background: '#0d2b4e', borderBottom: '2px solid rgba(141,198,63,0.25)' }}>
         <div className="max-w-7xl mx-auto px-2 sm:px-6">
           <div className="flex gap-0 overflow-x-auto scrollbar-none">
-            {TABS.map(({ id, label }) => {
-              const isActive = activeTab === id;
-              return (
+            {NAV_ITEMS.map((item) =>
+              item.children ? (
+                <DropdownMenu key={item.label} item={item} activeTab={activeTab} setActiveTab={setActiveTab} />
+              ) : (
                 <button
-                  key={id}
-                  onClick={() => setActiveTab(id)}
-                  className="relative px-3 sm:px-6 py-3 sm:py-4 text-sm font-semibold tracking-wide whitespace-nowrap cursor-pointer transition-all"
+                  key={item.id}
+                  onClick={() => setActiveTab(item.id)}
+                  className="relative px-3 sm:px-6 py-3 sm:py-4 font-semibold tracking-wide whitespace-nowrap cursor-pointer transition-all"
                   style={{
-                    color: isActive ? '#8dc63f' : '#94a3b8',
-                    background: isActive ? 'rgba(141,198,63,0.08)' : 'transparent',
-                    borderBottom: isActive ? '3px solid #8dc63f' : '3px solid transparent',
+                    color: activeTab === item.id ? '#8dc63f' : '#94a3b8',
+                    background: activeTab === item.id ? 'rgba(141,198,63,0.08)' : 'transparent',
+                    borderBottom: activeTab === item.id ? '3px solid #8dc63f' : '3px solid transparent',
                     fontFamily: "'Barlow', sans-serif",
                     letterSpacing: '0.06em',
                     textTransform: 'uppercase',
                     fontSize: 12,
                   }}
                 >
-                  {label}
+                  {item.label}
                 </button>
-              );
-            })}
+              )
+            )}
           </div>
         </div>
       </nav>

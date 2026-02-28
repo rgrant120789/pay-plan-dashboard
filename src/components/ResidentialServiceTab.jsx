@@ -85,7 +85,7 @@ export default function ResidentialServiceTab() {
         <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-slate-300">
           <span>Each week, the tech is paid whichever is <span className="text-white font-bold">higher</span>:</span>
         </div>
-        <div className="flex flex-wrap gap-x-8 gap-y-2 text-sm mt-2">
+        <div className="flex flex-wrap items-center gap-x-8 gap-y-2 text-sm mt-2">
           <span className="text-white font-bold">Hourly Pay <span className="text-slate-400 font-normal">= Hourly Rate × Regular Hours + (Hourly Rate × 1.5 × OT Hours)</span></span>
           <span className="text-2xl font-black text-[#8dc63f] self-center">or</span>
           <span className="text-white font-bold">Commission <span className="text-slate-400 font-normal">= (Revenue × Work Done %) + (Sales × Sold By %)</span></span>
