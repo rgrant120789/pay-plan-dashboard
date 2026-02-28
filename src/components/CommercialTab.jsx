@@ -140,11 +140,11 @@ export default function CommercialTab() {
       <div className="rounded-xl border px-5 py-4" style={{ borderColor: 'rgba(141,198,63,0.3)', background: 'rgba(141,198,63,0.06)' }}>
         <p className="text-xs font-bold tracking-widest uppercase mb-2" style={{ color: '#8dc63f' }}>How Pay is Calculated</p>
         <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-slate-300">
-          <span><span className="text-white font-bold">Base Pay</span> = Hourly Rate × Regular Hours + (Hourly Rate × 1.5 × OT Hours)</span>
+          <span><span className="text-white font-bold">Guaranteed Pay</span> = Hourly Rate × Regular Hours + (Hourly Rate × 1.5 × OT Hours)</span>
           <span className="text-slate-500">+</span>
-          <span><span className="text-white font-bold">Bonuses</span> = Up to $1,000/mo each for Billable Hours, Revenue, and Sales + TGL goals</span>
+          <span><span className="text-white font-bold">Bonus Opportunity</span> = Up to $1,000/mo for each of: Billable Hours, Revenue, and Sales + TGL goals</span>
         </div>
-        <p className="text-xs text-slate-500 mt-2">Bonus goals vary by focus (Service / Install / Entry). Max bonus potential is $3,000/month ($36,000/year) on top of base hourly pay.</p>
+        <p className="text-xs text-slate-500 mt-2">Hourly pay is guaranteed regardless of performance. Bonus goals vary by focus (Service / Install / Entry). Techs can earn up to $3,000/month ($36,000/year) in additional bonuses by hitting all 3 goals.</p>
       </div>
 
       {/* Top row */}

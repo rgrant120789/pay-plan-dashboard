@@ -59,9 +59,7 @@ export default function RosterTab() {
   const serviceRows = residentialServiceData.technicians.map(t => [
     t.name,
     <BeltBadge belt={t.belt} />,
-    <span className="text-slate-300">L{t.level}</span>,
     <span className="font-bold text-[#8dc63f]">${t.hourly2026}/hr</span>,
-    <span className="text-slate-400">${t.hourly2025}/hr</span>,
   ]);
 
   const installRows = residentialInstallData.technicians.map(t => [
@@ -69,7 +67,6 @@ export default function RosterTab() {
     <BeltBadge belt={t.belt} />,
     <span className="text-slate-300">L{t.level}</span>,
     <span className="font-bold text-[#8dc63f]">${t.hourly2026}/hr</span>,
-    <span className="text-slate-400">${t.hourly2025}/hr</span>,
   ]);
 
   const commercialRows = commercialData.technicians.map(t => [
@@ -77,24 +74,23 @@ export default function RosterTab() {
     <BeltBadge belt={t.belt} />,
     <span className="text-slate-300">{t.focus}</span>,
     <span className="font-bold text-[#8dc63f]">${t.hourly2026}/hr</span>,
-    <span className="text-slate-400">${t.hourly2025}/hr</span>,
   ]);
 
   return (
     <div className="space-y-4">
       <DeptTable
         title="Residential Service"
-        headers={['Name', 'Belt', 'Service Level', '2026 Hourly', '2025 Hourly']}
+        headers={['Name', 'Belt', '2026 Hourly']}
         rows={serviceRows}
       />
       <DeptTable
         title="Residential Install"
-        headers={['Name', 'Belt', 'Level', '2026 Hourly', '2025 Hourly']}
+        headers={['Name', 'Belt', 'Level', '2026 Hourly']}
         rows={installRows}
       />
       <DeptTable
         title="Commercial"
-        headers={['Name', 'Belt', 'Focus', '2026 Hourly', '2025 Hourly']}
+        headers={['Name', 'Belt', 'Focus', '2026 Hourly']}
         rows={commercialRows}
       />
     </div>
