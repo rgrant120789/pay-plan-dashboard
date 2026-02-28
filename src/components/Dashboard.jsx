@@ -4,6 +4,7 @@ import ResidentialServiceTab from './ResidentialServiceTab';
 import ResidentialInstallTab from './ResidentialInstallTab';
 import CommercialTab from './CommercialTab';
 import STDataTab from './STDataTab';
+import PayDataTab from './PayDataTab';
 
 const TABS = [
   { id: 'roster',       label: 'Roster' },
@@ -11,6 +12,7 @@ const TABS = [
   { id: 'resi-install', label: 'Residential Install' },
   { id: 'commercial',   label: 'Commercial' },
   { id: 'st-data',      label: '2025 ST Data' },
+  { id: 'pay-data',     label: '2025 Pay Data' },
 ];
 
 export default function Dashboard() {
@@ -113,6 +115,7 @@ export default function Dashboard() {
         {activeTab === 'resi-install' && <ResidentialInstallTab />}
         {activeTab === 'commercial'   && <CommercialTab />}
         {activeTab === 'st-data'      && <STDataTab />}
+        {activeTab === 'pay-data'     && <PayDataTab />}
       </main>
 
       {/* Footer */}
