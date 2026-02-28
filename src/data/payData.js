@@ -247,7 +247,7 @@ export const residentialServiceData = {
     { metric: 'Avg Ticket', l1: '$650', l2: '$800', l3: '$1,000', l4: '$1,200' },
     { metric: 'Close Rate', l1: '65%', l2: '70%', l3: '75%', l4: '80%' },
     { metric: 'Avg Ticket', l1: '$750', l2: '$900', l3: '$1,200', l4: '—' },
-    { metric: 'Close Rate', l1: '75%', l2: '75%', l3: '80%', l4: '—' },
+    { metric: 'Close Rate', l1: '70%', l2: '75%', l3: '80%', l4: '—' },
   ],
   technicians: [
     { name: 'Tim W.', belt: 'Black', level: 3, hourly2026: 34, hourly2025: 25 },
