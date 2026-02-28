@@ -139,12 +139,13 @@ export default function CommercialTab() {
       {/* Pay Formula */}
       <div className="rounded-xl border px-5 py-4" style={{ borderColor: 'rgba(141,198,63,0.3)', background: 'rgba(141,198,63,0.06)' }}>
         <p className="text-xs font-bold tracking-widest uppercase mb-2" style={{ color: '#8dc63f' }}>How Pay is Calculated</p>
-        <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-slate-300">
+        <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-slate-300">
           <span><span className="text-white font-bold">Hourly Pay</span> = Hourly Rate × Regular Hours + (Hourly Rate × 1.5 × OT Hours)</span>
           <span className="text-2xl font-black text-[#8dc63f]">+</span>
           <span><span className="text-white font-bold">Bonus Goals Opportunities</span> = $1,000 for Billable Hours + $1,000 for Revenue + $1,000 for Sales + TGL <span className="text-[#8dc63f] font-bold">(= $3,000/mo max)</span></span>
         </div>
         <p className="text-xs text-slate-500 mt-2">Hourly pay is guaranteed regardless of performance. Each bonus category is independent — hit any combination to earn that month's bonus. Goals vary by focus (Service / Install / Entry).</p>
+        <p className="text-xs text-slate-500 mt-1">Additional spiffs: <span className="text-slate-300 font-semibold">Google Reviews = $15</span> &nbsp;·&nbsp; <span className="text-slate-300 font-semibold">Weekly On-Call = $300</span></p>
       </div>
 
       {/* Top row */}

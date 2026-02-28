@@ -91,6 +91,7 @@ export default function ResidentialServiceTab() {
           <span className="text-white font-bold">Commission <span className="text-slate-400 font-normal">= (Revenue × Work Done %) + (Sales × Sold By %)</span></span>
         </div>
         <p className="text-xs text-slate-500 mt-2">Commission % is determined by Service Level (L1–L4). If commission exceeds hourly pay for the week, the tech earns the commission amount instead.</p>
+        <p className="text-xs text-slate-500 mt-1">Additional spiffs: <span className="text-slate-300 font-semibold">Google Reviews = $15</span> &nbsp;·&nbsp; <span className="text-slate-300 font-semibold">Yard Signs = $5</span> &nbsp;·&nbsp; <span className="text-slate-300 font-semibold">Weekly On-Call = $150</span></p>
       </div>
 
       {/* Top row */}
