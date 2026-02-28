@@ -77,17 +77,19 @@ export default function RosterTab() {
   ]);
 
   return (
-    <div className="space-y-4">
-      <DeptTable
-        title="Residential Service"
-        headers={['Name', 'Belt', '2026 Hourly']}
-        rows={serviceRows}
-      />
-      <DeptTable
-        title="Residential Install"
-        headers={['Name', 'Belt', 'Level', '2026 Hourly']}
-        rows={installRows}
-      />
+    <div className="space-y-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <DeptTable
+          title="Residential Service"
+          headers={['Name', 'Belt', '2026 Hourly']}
+          rows={serviceRows}
+        />
+        <DeptTable
+          title="Residential Install"
+          headers={['Name', 'Belt', 'Level', '2026 Hourly']}
+          rows={installRows}
+        />
+      </div>
       <DeptTable
         title="Commercial"
         headers={['Name', 'Belt', 'Focus', '2026 Hourly']}
