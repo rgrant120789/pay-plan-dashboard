@@ -59,7 +59,7 @@ export default function RosterTab() {
   const serviceRows = residentialServiceData.technicians.map(t => [
     t.name,
     <BeltBadge belt={t.belt} />,
-    <span className="text-slate-300">L{t.serviceLevel}</span>,
+    <span className="text-slate-300">L{t.level}</span>,
     <span className="font-bold text-[#8dc63f]">${t.hourly2026}/hr</span>,
   ]);
 
