@@ -142,9 +142,9 @@ export default function CommercialTab() {
         <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-slate-300">
           <span><span className="text-white font-bold">Guaranteed Pay</span> = Hourly Rate × Regular Hours + (Hourly Rate × 1.5 × OT Hours)</span>
           <span className="text-slate-500">+</span>
-          <span><span className="text-white font-bold">Bonus Opportunity</span> = Up to $1,000/mo for each of: Billable Hours, Revenue, and Sales + TGL goals</span>
+          <span><span className="text-white font-bold">Bonus Opportunity</span> = $1,000 for Billable Hours + $1,000 for Revenue + $1,000 for Sales + TGL <span className="text-[#8dc63f] font-bold">(= $3,000/mo max)</span></span>
         </div>
-        <p className="text-xs text-slate-500 mt-2">Hourly pay is guaranteed regardless of performance. Bonus goals vary by focus (Service / Install / Entry). Techs can earn up to $3,000/month ($36,000/year) in additional bonuses by hitting all 3 goals.</p>
+        <p className="text-xs text-slate-500 mt-2">Hourly pay is guaranteed regardless of performance. Each bonus category is independent — hit any combination to earn that month's bonus. Goals vary by focus (Service / Install / Entry).</p>
       </div>
 
       {/* Top row */}
