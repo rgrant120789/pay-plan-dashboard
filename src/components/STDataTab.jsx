@@ -23,6 +23,18 @@ const DEPARTMENTS = [
   },
 ];
 
+const COMMERCIAL_FOCUSES = [
+  { label: 'Commercial — Service', techs: ['Dorie L.', 'Grady T.', 'Jack D.'] },
+  { label: 'Commercial — Install', techs: ['Alex T.', 'Brandon G.', 'Ethan H.'] },
+  { label: 'Commercial — Entry', techs: ['Ronnie S.'] },
+];
+
+const SUMMARY_GROUPS = [
+  { label: 'Residential Service', techs: ['Tim W.', 'Adam E.', 'Cannan B.', 'JJ L.', 'Kaleb G.', 'Adam D.', 'Marisa H.'] },
+  { label: 'Residential Install', techs: ['Bubba B.', 'Mike N.', 'Steve G.', 'Greg C.', 'Josiah B.', 'Josh S.'] },
+  ...COMMERCIAL_FOCUSES,
+];
+
 function TechTable({ name, showTGL }) {
   const rows = MONTHS.map((month) => {
     const d = monthlyData.find((r) => r.name === name && r.month === month);
@@ -92,7 +104,7 @@ function TechTable({ name, showTGL }) {
 }
 
 function DeptSummaryTable() {
-  const summaries = DEPARTMENTS.map((dept) => {
+  const summaries = SUMMARY_GROUPS.map((dept) => {
     let totalRevenue = 0, totalSales = 0, totalHours = 0, count = 0;
     dept.techs.forEach((name) => {
       MONTHS.forEach((month) => {

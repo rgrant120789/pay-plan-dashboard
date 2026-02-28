@@ -79,6 +79,19 @@ export default function ResidentialServiceTab() {
   return (
     <div className="space-y-6">
 
+      {/* Pay Formula */}
+      <div className="rounded-xl border px-5 py-4" style={{ borderColor: 'rgba(141,198,63,0.3)', background: 'rgba(141,198,63,0.06)' }}>
+        <p className="text-xs font-bold tracking-widest uppercase mb-2" style={{ color: '#8dc63f' }}>How Pay is Calculated</p>
+        <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-slate-300">
+          <span><span className="text-white font-bold">Base Pay</span> = Hourly Rate × Hours Worked</span>
+          <span className="text-slate-500">+</span>
+          <span><span className="text-white font-bold">Commission</span> = (Revenue × Work Done %) + (Sales × Sold By %)</span>
+          <span className="text-slate-500">+</span>
+          <span><span className="text-white font-bold">Bonuses</span> = Monthly goal hits (separate from pay plan)</span>
+        </div>
+        <p className="text-xs text-slate-500 mt-2">Commission % is determined by Service Level (L1–L4). Higher levels earn a greater % of revenue and sales.</p>
+      </div>
+
       {/* Top row */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
 

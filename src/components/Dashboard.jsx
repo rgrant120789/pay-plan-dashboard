@@ -1,10 +1,12 @@
 import { useState } from 'react';
+import RosterTab from './RosterTab';
 import ResidentialServiceTab from './ResidentialServiceTab';
 import ResidentialInstallTab from './ResidentialInstallTab';
 import CommercialTab from './CommercialTab';
 import STDataTab from './STDataTab';
 
 const TABS = [
+  { id: 'roster',       label: 'Roster' },
   { id: 'resi-service', label: 'Residential Service' },
   { id: 'resi-install', label: 'Residential Install' },
   { id: 'commercial',   label: 'Commercial' },
@@ -12,7 +14,7 @@ const TABS = [
 ];
 
 export default function Dashboard() {
-  const [activeTab, setActiveTab] = useState('resi-service');
+  const [activeTab, setActiveTab] = useState('roster');
 
   return (
     <div className="min-h-screen" style={{ background: '#0a1f3a', fontFamily: "'Barlow', sans-serif" }}>
@@ -106,6 +108,7 @@ export default function Dashboard() {
 
       {/* Content */}
       <main className="max-w-7xl mx-auto px-3 sm:px-6 py-4 sm:py-8">
+        {activeTab === 'roster'       && <RosterTab />}
         {activeTab === 'resi-service' && <ResidentialServiceTab />}
         {activeTab === 'resi-install' && <ResidentialInstallTab />}
         {activeTab === 'commercial'   && <CommercialTab />}
