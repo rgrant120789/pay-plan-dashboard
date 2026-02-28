@@ -59,13 +59,13 @@ export default function RosterTab() {
   const serviceRows = residentialServiceData.technicians.map(t => [
     t.name,
     <BeltBadge belt={t.belt} />,
+    <span className="text-slate-300">L{t.serviceLevel}</span>,
     <span className="font-bold text-[#8dc63f]">${t.hourly2026}/hr</span>,
   ]);
 
   const installRows = residentialInstallData.technicians.map(t => [
     t.name,
     <BeltBadge belt={t.belt} />,
-    <span className="text-slate-300">L{t.level}</span>,
     <span className="font-bold text-[#8dc63f]">${t.hourly2026}/hr</span>,
   ]);
 
@@ -81,12 +81,12 @@ export default function RosterTab() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <DeptTable
           title="Residential Service"
-          headers={['Name', 'Belt', 'Proposed Hourly']}
+          headers={['Name', 'Belt', 'Level', 'Proposed Hourly']}
           rows={serviceRows}
         />
         <DeptTable
           title="Residential Install"
-          headers={['Name', 'Belt', 'Level', 'Proposed Hourly']}
+          headers={['Name', 'Belt', 'Proposed Hourly']}
           rows={installRows}
         />
       </div>
