@@ -87,7 +87,7 @@ export default function ResidentialServiceTab() {
         </div>
         <div className="flex flex-wrap gap-x-8 gap-y-2 text-sm mt-2">
           <span className="text-white font-bold">Hourly Pay <span className="text-slate-400 font-normal">= Hourly Rate × Regular Hours + (Hourly Rate × 1.5 × OT Hours)</span></span>
-          <span className="text-slate-500 self-center">or</span>
+          <span className="text-2xl font-black text-[#8dc63f] self-center">or</span>
           <span className="text-white font-bold">Commission <span className="text-slate-400 font-normal">= (Revenue × Work Done %) + (Sales × Sold By %)</span></span>
         </div>
         <p className="text-xs text-slate-500 mt-2">Commission % is determined by Service Level (L1–L4). If commission exceeds hourly pay for the week, the tech earns the commission amount instead.</p>

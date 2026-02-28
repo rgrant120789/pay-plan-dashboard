@@ -77,7 +77,7 @@ export default function ResidentialInstallTab() {
         <p className="text-xs font-bold tracking-widest uppercase mb-2" style={{ color: '#8dc63f' }}>How Pay is Calculated</p>
         <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-slate-300">
           <span><span className="text-white font-bold">Guaranteed Pay</span> = Hourly Rate × Regular Hours + (Hourly Rate × 1.5 × OT Hours)</span>
-          <span className="text-slate-500">+</span>
+          <span className="text-2xl font-black text-[#8dc63f]">+</span>
           <span><span className="text-white font-bold">Bonus Goals Opportunities</span> = $1,000 for Billable Hours + $1,000 for Revenue + $1,000 for Sales <span className="text-[#8dc63f] font-bold">(= $3,000/mo max)</span></span>
         </div>
         <p className="text-xs text-slate-500 mt-2">Hourly pay is guaranteed regardless of performance. Each bonus category is independent — hit any combination to earn that month's bonus.</p>
