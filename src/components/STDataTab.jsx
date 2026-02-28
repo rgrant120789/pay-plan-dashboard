@@ -53,11 +53,11 @@ function TechTable({ name, showTGL }) {
           <thead>
             <tr className="bg-[#1e4d8c]/80 text-slate-200">
               <th className="px-4 py-2 text-left font-semibold">Month</th>
-              <th className="px-4 py-2 text-right font-semibold">Revenue</th>
-              <th className="px-4 py-2 text-right font-semibold">Sales</th>
-              {showTGL && <th className="px-4 py-2 text-right font-semibold">TGL</th>}
-              {showTGL && <th className="px-4 py-2 text-right font-semibold">Sales + TGL</th>}
-              <th className="px-4 py-2 text-right font-semibold">Billable Hrs</th>
+              <th className="px-4 py-2 text-center font-semibold">Revenue</th>
+              <th className="px-4 py-2 text-center font-semibold">Sales</th>
+              {showTGL && <th className="px-4 py-2 text-center font-semibold">TGL</th>}
+              {showTGL && <th className="px-4 py-2 text-center font-semibold">Sales + TGL</th>}
+              <th className="px-4 py-2 text-center font-semibold">Billable Hrs</th>
             </tr>
           </thead>
           <tbody>
@@ -66,11 +66,11 @@ function TechTable({ name, showTGL }) {
               return (
                 <tr key={r.month} className={i % 2 === 0 ? 'bg-white/5' : 'bg-white/[0.02]'}>
                   <td className="px-4 py-2 text-slate-300 font-medium">{r.month}</td>
-                  <td className={`px-4 py-2 text-right ${isEmpty ? 'text-slate-600' : 'text-white'}`}>{isEmpty ? '—' : fmt(r.revenue)}</td>
-                  <td className={`px-4 py-2 text-right ${isEmpty ? 'text-slate-600' : 'text-slate-300'}`}>{isEmpty ? '—' : fmt(r.sales)}</td>
-                  {showTGL && <td className={`px-4 py-2 text-right ${isEmpty ? 'text-slate-600' : 'text-slate-300'}`}>{isEmpty ? '—' : fmt(r.tgl)}</td>}
-                  {showTGL && <td className={`px-4 py-2 text-right font-semibold ${isEmpty ? 'text-slate-600' : 'text-[#8dc63f]'}`}>{isEmpty ? '—' : fmt(r.totalSales)}</td>}
-                  <td className={`px-4 py-2 text-right ${isEmpty ? 'text-slate-600' : 'text-slate-300'}`}>{isEmpty ? '—' : fmtH(r.billableHours)}</td>
+                  <td className={`px-4 py-2 text-center ${isEmpty ? 'text-slate-600' : 'text-white'}`}>{isEmpty ? '—' : fmt(r.revenue)}</td>
+                  <td className={`px-4 py-2 text-center ${isEmpty ? 'text-slate-600' : 'text-slate-300'}`}>{isEmpty ? '—' : fmt(r.sales)}</td>
+                  {showTGL && <td className={`px-4 py-2 text-center ${isEmpty ? 'text-slate-600' : 'text-slate-300'}`}>{isEmpty ? '—' : fmt(r.tgl)}</td>}
+                  {showTGL && <td className={`px-4 py-2 text-center font-semibold ${isEmpty ? 'text-slate-600' : 'text-[#8dc63f]'}`}>{isEmpty ? '—' : fmt(r.totalSales)}</td>}
+                  <td className={`px-4 py-2 text-center ${isEmpty ? 'text-slate-600' : 'text-slate-300'}`}>{isEmpty ? '—' : fmtH(r.billableHours)}</td>
                 </tr>
               );
             })}
@@ -78,11 +78,11 @@ function TechTable({ name, showTGL }) {
           <tfoot>
             <tr style={{ background: 'rgba(13,43,78,0.8)', borderTop: '1px solid rgba(141,198,63,0.3)' }}>
               <td className="px-4 py-2 font-bold text-[#8dc63f]">TOTAL</td>
-              <td className="px-4 py-2 text-right font-bold text-white">{fmt(totals.revenue)}</td>
-              <td className="px-4 py-2 text-right font-bold text-slate-200">{fmt(totals.sales)}</td>
-              {showTGL && <td className="px-4 py-2 text-right font-bold text-slate-200">{fmt(totals.tgl)}</td>}
-              {showTGL && <td className="px-4 py-2 text-right font-bold text-[#8dc63f]">{fmt(totals.totalSales)}</td>}
-              <td className="px-4 py-2 text-right font-bold text-slate-200">{fmtH(totals.billableHours)}</td>
+              <td className="px-4 py-2 text-center font-bold text-white">{fmt(totals.revenue)}</td>
+              <td className="px-4 py-2 text-center font-bold text-slate-200">{fmt(totals.sales)}</td>
+              {showTGL && <td className="px-4 py-2 text-center font-bold text-slate-200">{fmt(totals.tgl)}</td>}
+              {showTGL && <td className="px-4 py-2 text-center font-bold text-[#8dc63f]">{fmt(totals.totalSales)}</td>}
+              <td className="px-4 py-2 text-center font-bold text-slate-200">{fmtH(totals.billableHours)}</td>
             </tr>
           </tfoot>
         </table>

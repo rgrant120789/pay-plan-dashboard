@@ -2,7 +2,7 @@ export default function SectionCard({ title, children, accent = false }) {
   return (
     <div className="rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-sm overflow-hidden">
       <div
-        className="px-5 py-3 font-bold text-sm tracking-widest uppercase"
+        className="px-3 sm:px-5 py-2.5 sm:py-3 font-bold text-xs sm:text-sm tracking-widest uppercase"
         style={{
           background: accent
             ? 'linear-gradient(90deg, #8dc63f 0%, #6aaa1f 100%)'
@@ -12,7 +12,7 @@ export default function SectionCard({ title, children, accent = false }) {
       >
         {title}
       </div>
-      <div className="p-5">{children}</div>
+      <div className="p-3 sm:p-5">{children}</div>
     </div>
   );
 }

@@ -38,19 +38,20 @@ export default function Dashboard() {
             )`,
           }}
         />
-        <div className="relative max-w-7xl mx-auto px-6 py-2 flex items-center gap-6">
+        <div className="relative max-w-7xl mx-auto px-3 sm:px-6 py-2 flex items-center gap-3 sm:gap-6">
           {/* Actual A1 Door logo */}
           <img
             src="/logo.png"
             alt="A1 Door Logo"
-            style={{ height: 90, width: 'auto', flexShrink: 0 }}
+            className="h-12 sm:h-[90px]"
+            style={{ width: 'auto', flexShrink: 0 }}
           />
           <div>
             <div className="flex items-baseline gap-3">
               <span
+                className="text-xl sm:text-[32px]"
                 style={{
                   fontFamily: "'Barlow Condensed', sans-serif",
-                  fontSize: 32,
                   fontWeight: 700,
                   color: '#8dc63f',
                   letterSpacing: '0.08em',
@@ -76,15 +77,15 @@ export default function Dashboard() {
           borderBottom: '2px solid rgba(141,198,63,0.25)',
         }}
       >
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="flex gap-0 overflow-x-auto">
+        <div className="max-w-7xl mx-auto px-2 sm:px-6">
+          <div className="flex gap-0 overflow-x-auto scrollbar-none">
             {TABS.map(({ id, label }) => {
               const isActive = activeTab === id;
               return (
                 <button
                   key={id}
                   onClick={() => setActiveTab(id)}
-                  className="relative px-6 py-4 text-sm font-semibold tracking-wide whitespace-nowrap cursor-pointer transition-all"
+                  className="relative px-3 sm:px-6 py-3 sm:py-4 text-sm font-semibold tracking-wide whitespace-nowrap cursor-pointer transition-all"
                   style={{
                     color: isActive ? '#8dc63f' : '#94a3b8',
                     background: isActive ? 'rgba(141,198,63,0.08)' : 'transparent',
@@ -104,7 +105,7 @@ export default function Dashboard() {
       </nav>
 
       {/* Content */}
-      <main className="max-w-7xl mx-auto px-6 py-8">
+      <main className="max-w-7xl mx-auto px-3 sm:px-6 py-4 sm:py-8">
         {activeTab === 'resi-service' && <ResidentialServiceTab />}
         {activeTab === 'resi-install' && <ResidentialInstallTab />}
         {activeTab === 'commercial'   && <CommercialTab />}
