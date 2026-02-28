@@ -43,8 +43,8 @@ function TechTable({ name, showTGL }) {
   return (
     <div className="mb-8">
       <div
-        className="px-4 py-2 text-xs font-bold tracking-widest uppercase rounded-t-xl"
-        style={{ background: 'rgba(141,198,63,0.15)', color: '#8dc63f', borderBottom: '1px solid rgba(141,198,63,0.3)' }}
+        className="px-4 py-3 text-sm font-bold tracking-widest uppercase rounded-t-xl"
+        style={{ background: 'rgba(141,198,63,0.2)', color: '#8dc63f', borderBottom: '1px solid rgba(141,198,63,0.3)', fontSize: 15, letterSpacing: '0.06em' }}
       >
         {name}
       </div>
