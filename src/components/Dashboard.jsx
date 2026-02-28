@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef } from 'react';
 import RosterTab from './RosterTab';
 import ResidentialServiceTab from './ResidentialServiceTab';
 import ResidentialInstallTab from './ResidentialInstallTab';
@@ -30,31 +30,27 @@ function DropdownMenu({ item, activeTab, setActiveTab }) {
   const ref = useRef(null);
   const isActive = item.children.some((c) => c.id === activeTab);
 
-  useEffect(() => {
-    function handler(e) {
-      if (ref.current && !ref.current.contains(e.target)) setOpen(false);
-    }
-    document.addEventListener('mousedown', handler);
-    return () => document.removeEventListener('mousedown', handler);
-  }, []);
-
   return (
-    <div ref={ref} className="relative">
+    <div
+      ref={ref}
+      className="relative"
+      onMouseEnter={() => setOpen(true)}
+      onMouseLeave={() => setOpen(false)}
+    >
       <button
-        onClick={() => setOpen((o) => !o)}
-        className="relative px-3 sm:px-6 py-3 sm:py-4 font-semibold tracking-wide whitespace-nowrap cursor-pointer transition-all flex items-center gap-1"
+        className="relative px-3 sm:px-6 py-3 sm:py-4 font-semibold tracking-wide whitespace-nowrap cursor-default transition-all flex items-center gap-1"
         style={{
-          color: isActive ? '#8dc63f' : '#94a3b8',
+          color: isActive ? '#8dc63f' : '#cbd5e1',
           background: isActive ? 'rgba(141,198,63,0.08)' : 'transparent',
           borderBottom: isActive ? '3px solid #8dc63f' : '3px solid transparent',
-          fontFamily: "'Barlow', sans-serif",
-          letterSpacing: '0.06em',
+          fontFamily: "'Barlow Condensed', sans-serif",
+          letterSpacing: '0.1em',
           textTransform: 'uppercase',
-          fontSize: 12,
+          fontSize: 15,
         }}
       >
         {item.label}
-        <span style={{ fontSize: 10, marginLeft: 2 }}>{open ? '▲' : '▼'}</span>
+        <span style={{ fontSize: 11, marginLeft: 3 }}>{open ? '▲' : '▼'}</span>
       </button>
       {open && (
         <div
@@ -157,13 +153,13 @@ export default function Dashboard() {
                   onClick={() => setActiveTab(item.id)}
                   className="relative px-3 sm:px-6 py-3 sm:py-4 font-semibold tracking-wide whitespace-nowrap cursor-pointer transition-all"
                   style={{
-                    color: activeTab === item.id ? '#8dc63f' : '#94a3b8',
+                    color: activeTab === item.id ? '#8dc63f' : '#cbd5e1',
                     background: activeTab === item.id ? 'rgba(141,198,63,0.08)' : 'transparent',
                     borderBottom: activeTab === item.id ? '3px solid #8dc63f' : '3px solid transparent',
-                    fontFamily: "'Barlow', sans-serif",
-                    letterSpacing: '0.06em',
+                    fontFamily: "'Barlow Condensed', sans-serif",
+                    letterSpacing: '0.1em',
                     textTransform: 'uppercase',
-                    fontSize: 12,
+                    fontSize: 15,
                   }}
                 >
                   {item.label}
