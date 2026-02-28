@@ -141,9 +141,9 @@ export default function Dashboard() {
       </header>
 
       {/* Nav */}
-      <nav style={{ background: '#0d2b4e', borderBottom: '2px solid rgba(141,198,63,0.25)' }}>
+      <nav style={{ background: '#0d2b4e', borderBottom: '2px solid rgba(141,198,63,0.25)', overflow: 'visible', position: 'relative', zIndex: 40 }}>
         <div className="max-w-7xl mx-auto px-2 sm:px-6">
-          <div className="flex gap-0 overflow-x-auto scrollbar-none">
+          <div className="flex gap-0 overflow-x-auto overflow-y-visible scrollbar-none" style={{ overflow: 'visible' }}>
             {NAV_ITEMS.map((item) =>
               item.children ? (
                 <DropdownMenu key={item.label} item={item} activeTab={activeTab} setActiveTab={setActiveTab} />
