@@ -129,7 +129,6 @@ function SummaryTable() {
               <th className="px-4 py-2.5 text-center font-bold">Avg Reg Hrs</th>
               <th className="px-4 py-2.5 text-center font-bold">Avg OT Hrs</th>
               <th className="px-4 py-2.5 text-center font-bold">Avg 2025 Pay</th>
-              <th className="px-4 py-2.5 text-center font-bold">Total 2025 Pay</th>
             </tr>
           </thead>
           <tbody>
@@ -139,7 +138,6 @@ function SummaryTable() {
                 <td className="px-4 py-2.5 text-center text-white">{s.avgReg.toFixed(0)}</td>
                 <td className="px-4 py-2.5 text-center text-white">{s.avgOT.toFixed(0)}</td>
                 <td className="px-4 py-2.5 text-center text-white">{fmt(s.avgPay)}</td>
-                <td className="px-4 py-2.5 text-center font-bold text-[#8dc63f]">{fmt(s.totals.pay2025)}</td>
               </tr>
             ))}
           </tbody>
