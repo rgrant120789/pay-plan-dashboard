@@ -115,9 +115,6 @@ export default function ResidentialServiceTab() {
           {/* Service Level Requirements */}
           <div className="flex items-center gap-3 mt-4 mb-2">
             <p className="text-xs font-bold tracking-widest text-[#8dc63f] uppercase">Level Requirements</p>
-            <span className="text-xs font-bold px-2 py-0.5 rounded-full" style={{ background: 'rgba(141,198,63,0.18)', color: '#8dc63f', border: '1px solid rgba(141,198,63,0.4)', letterSpacing: '0.06em' }}>
-              MEASURED QUARTERLY
-            </span>
           </div>
           {/* Minimum KPI's */}
           <div className="overflow-hidden rounded-xl border border-white/10">
@@ -126,6 +123,7 @@ export default function ResidentialServiceTab() {
                 <tr className="bg-[#1e4d8c]/80 text-slate-200">
                   <th className="px-4 py-2 text-left font-semibold" colSpan={5}>
                     <span className="text-xs font-bold tracking-widest uppercase" style={{ color: '#8dc63f' }}>Retain Level KPI's</span>
+                    <span className="ml-2 text-xs font-bold px-2 py-0.5 rounded-full" style={{ background: 'rgba(141,198,63,0.18)', color: '#8dc63f', border: '1px solid rgba(141,198,63,0.4)', letterSpacing: '0.06em' }}>MEASURED QUARTERLY</span>
                   </th>
                 </tr>
                 <tr className="bg-[#1e4d8c]/50 text-slate-300">
@@ -154,7 +152,7 @@ export default function ResidentialServiceTab() {
           <div className="overflow-hidden rounded-xl border border-white/10 mt-3">
             <table className="w-full text-sm">
               <thead>
-                <tr style={{ background: 'rgba(141,198,63,0.12)' }}>
+                <tr className="bg-[#1e4d8c]/80 text-slate-200">
                   <th className="px-4 py-2 text-left font-semibold" colSpan={5}>
                     <span className="text-xs font-bold tracking-widest uppercase" style={{ color: '#8dc63f' }}>Level Up KPI's</span>
                     <span className="ml-2 text-xs font-bold px-2 py-0.5 rounded-full" style={{ background: 'rgba(141,198,63,0.18)', color: '#8dc63f', border: '1px solid rgba(141,198,63,0.4)', letterSpacing: '0.06em' }}>MEASURED QUARTERLY</span>
