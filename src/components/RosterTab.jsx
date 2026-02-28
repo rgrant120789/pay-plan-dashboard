@@ -81,18 +81,18 @@ export default function RosterTab() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <DeptTable
           title="Residential Service"
-          headers={['Name', 'Belt', '2026 Hourly']}
+          headers={['Name', 'Belt', 'Proposed Hourly']}
           rows={serviceRows}
         />
         <DeptTable
           title="Residential Install"
-          headers={['Name', 'Belt', 'Level', '2026 Hourly']}
+          headers={['Name', 'Belt', 'Level', 'Proposed Hourly']}
           rows={installRows}
         />
       </div>
       <DeptTable
         title="Commercial"
-        headers={['Name', 'Belt', 'Focus', '2026 Hourly']}
+        headers={['Name', 'Belt', 'Focus', 'Proposed Hourly']}
         rows={commercialRows}
       />
     </div>
