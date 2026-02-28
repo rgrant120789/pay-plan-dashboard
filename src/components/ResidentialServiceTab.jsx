@@ -114,7 +114,7 @@ export default function ResidentialServiceTab() {
 
           {/* Service Level Requirements */}
           <div className="flex items-center gap-3 mt-4 mb-2">
-            <p className="text-xs font-bold tracking-widest text-[#8dc63f] uppercase">Level-Up Requirements</p>
+            <p className="text-xs font-bold tracking-widest text-[#8dc63f] uppercase">Level Requirements</p>
             <span className="text-xs font-bold px-2 py-0.5 rounded-full" style={{ background: 'rgba(141,198,63,0.18)', color: '#8dc63f', border: '1px solid rgba(141,198,63,0.4)', letterSpacing: '0.06em' }}>
               MEASURED QUARTERLY
             </span>
