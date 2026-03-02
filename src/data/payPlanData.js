@@ -9,7 +9,7 @@ export const resiServiceTechs = [
   { id: 'jj_l', name: 'JJ L.', belt: 'Green', serviceLevel: 2, currentHourly: 29.00, newHourly: 29.00 },
   { id: 'kaleb_g', name: 'Kaleb G.', belt: 'Green', serviceLevel: 3, currentHourly: 28.00, newHourly: 28.00 },
   { id: 'marissa_h', name: 'Marissa H.', belt: 'Green', serviceLevel: 2, currentHourly: 28.00, newHourly: 28.00 },
-  { id: 'tim_w', name: 'Tim W.', belt: 'Black', serviceLevel: 3, currentHourly: 35.00, newHourly: 35.00 },
+  { id: 'tim_w', name: 'Tim W.', belt: 'Brown', serviceLevel: 3, currentHourly: 35.00, newHourly: 35.00 },
 ];
 
 export const resiInstallTechs = [
