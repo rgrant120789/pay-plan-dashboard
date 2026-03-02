@@ -9,7 +9,7 @@ import PayDataTab from './PayDataTab';
 const NAV_ITEMS = [
   { id: 'roster', label: 'Roster' },
   {
-    label: '2026 Pay Plans',
+    label: 'New Pay Plans',
     children: [
       { id: 'resi-service', label: 'Residential Service' },
       { id: 'resi-install', label: 'Residential Install' },
