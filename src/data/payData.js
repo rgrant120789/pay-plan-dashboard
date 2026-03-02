@@ -252,20 +252,20 @@ export const residentialServiceData = {
   technicians: [
     { name: 'Tim W.', belt: 'Brown', level: 3, hourly2026: 34, hourly2025: 25 },
     { name: 'Adam E.', belt: 'Brown', level: 3, hourly2026: 34, hourly2025: 25 },
-    { name: 'JJ L.', belt: 'Green', level: 2, hourly2026: 29, hourly2025: 25 },
+    { name: 'JJ L.', belt: 'Green', level: 3, hourly2026: 29, hourly2025: 25 },
     { name: 'Kaleb G.', belt: 'Green', level: 3, hourly2026: 29, hourly2025: 25 },
-    { name: 'Cannan B.', belt: 'Green', level: 2, hourly2026: 29, hourly2025: 25 },
+    { name: 'Cannan B.', belt: 'Green', level: 3, hourly2026: 29, hourly2025: 25 },
     { name: 'Adam D.', belt: 'Blue', level: 3, hourly2026: 25, hourly2025: 25 },
-    { name: 'Marisa H.', belt: 'Blue', level: 2, hourly2026: 25, hourly2025: 20 },
+    { name: 'Marisa H.', belt: 'Blue', level: 3, hourly2026: 25, hourly2025: 20 },
   ],
   comparison: [
     { name: 'Tim W.',   revenue: 392206.77,  sales: 852626.27,   pay2026: 86593.99,  pay2025: 88891.39,  level: 3, bonusTotal: 4741.99 },
     { name: 'Adam E.',  revenue: 478375.31,  sales: 1042841.07,  pay2026: 105465.58, pay2025: 104806.66, level: 3, bonusTotal: 5465.58 },
     { name: 'Kaleb G.', revenue: 559363.20,  sales: 794479.27,   pay2026: 100177.28, pay2025: 103273.18, level: 3, bonusTotal: 559.28 },
-    { name: 'Cannan B.',revenue: 364614.16,  sales: 384376.20,   pay2026: 48387.94,  pay2025: 66776.41,  level: 2, bonusTotal: 0 },
+    { name: 'Cannan B.',revenue: 364614.16,  sales: 384376.20,   pay2026: 48387.94,  pay2025: 66776.41,  level: 3, bonusTotal: 0 },
     { name: 'Adam D.',  revenue: 96162.50,   sales: 155398,      pay2026: 17386.15,  pay2025: 45538.32,  level: 3, bonusTotal: 0, note: 'partial year' },
-    { name: 'JJ L.',    revenue: 18267,      sales: 31075.17,    pay2026: 3015.12,   pay2025: 16202.10,  level: 2, bonusTotal: 0, note: 'partial year' },
-    { name: 'Marisa H.',revenue: 28212.10,   sales: 33903.85,    pay2026: 3952.16,   pay2025: 19015.96,  level: 2, bonusTotal: 0, note: 'partial year' },
+    { name: 'JJ L.',    revenue: 18267,      sales: 31075.17,    pay2026: 3015.12,   pay2025: 16202.10,  level: 3, bonusTotal: 0, note: 'partial year' },
+    { name: 'Marisa H.',revenue: 28212.10,   sales: 33903.85,    pay2026: 3952.16,   pay2025: 19015.96,  level: 3, bonusTotal: 0, note: 'partial year' },
   ],
 };
 
