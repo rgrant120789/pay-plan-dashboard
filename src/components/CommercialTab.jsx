@@ -24,9 +24,9 @@ const GOAL_FIELDS_ENTRY = [
   { key: 'sales',         label: 'Sales + TGL Goal',     min: 5000,  max: 50000,  step: 2500 },
 ];
 
-const DEFAULT_SERVICE = { billableHours: 150, revenue: 55000, sales: 35000 };
-const DEFAULT_INSTALL = { billableHours: 150, revenue: 75000, sales: 20000 };
-const DEFAULT_ENTRY   = { billableHours: 150, revenue: 65000, sales: 20000 };
+const DEFAULT_SERVICE = { billableHours: 160, revenue: 65000, sales: 45000 };
+const DEFAULT_INSTALL = { billableHours: 160, revenue: 85000, sales: 20000 };
+const DEFAULT_ENTRY   = { billableHours: 160, revenue: 65000, sales: 20000 };
 
 function FocusBadge({ focus }) {
   return (

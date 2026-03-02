@@ -310,17 +310,17 @@ export const commercialData = {
   ],
   bonuses: {
     service: [
-      { metric: 'Billable Hours', goal: '150 hrs/mo', bonus: '$1,000' },
-      { metric: 'Revenue', goal: '$55,000/mo', bonus: '$1,000' },
-      { metric: 'Sales + TGL', goal: '$35,000/mo', bonus: '$1,000' },
+      { metric: 'Billable Hours', goal: '160 hrs/mo', bonus: '$1,000' },
+      { metric: 'Revenue', goal: '$65,000/mo', bonus: '$1,000' },
+      { metric: 'Sales + TGL', goal: '$45,000/mo', bonus: '$1,000' },
     ],
     install: [
-      { metric: 'Billable Hours', goal: '150 hrs/mo', bonus: '$1,000' },
-      { metric: 'Revenue', goal: '$75,000/mo', bonus: '$1,000' },
+      { metric: 'Billable Hours', goal: '160 hrs/mo', bonus: '$1,000' },
+      { metric: 'Revenue', goal: '$85,000/mo', bonus: '$1,000' },
       { metric: 'Sales + TGL', goal: '$20,000/mo', bonus: '$1,000' },
     ],
     entry: [
-      { metric: 'Billable Hours', goal: '150 hrs/mo', bonus: '$1,000' },
+      { metric: 'Billable Hours', goal: '160 hrs/mo', bonus: '$1,000' },
       { metric: 'Revenue', goal: '$65,000/mo', bonus: '$1,000' },
       { metric: 'Sales + TGL', goal: '$20,000/mo', bonus: '$1,000' },
     ],
