@@ -286,7 +286,7 @@ export const residentialInstallData = {
     { name: 'Bubba B.', belt: 'Black', level: 4, hourly2026: 35, hourly2025: 25 },
     { name: 'Mike N.', belt: 'Black', level: 4, hourly2026: 35, hourly2025: 25 },
     { name: 'Steve G.', belt: 'Black', level: 4, hourly2026: 35, hourly2025: 20 },
-    { name: 'Greg C.', belt: 'Brown', level: 3, hourly2026: 30, hourly2025: 25, note: 'will hit hourly rate' },
+    { name: 'Greg C.', belt: 'Brown', level: 3, hourly2026: 34, hourly2025: 25 },
     { name: 'Josiah B.', belt: 'Brown', level: 3, hourly2026: 34, hourly2025: 36, note: 'partial year' },
     { name: 'Josh S.', belt: 'Green', level: 3, hourly2026: 29, hourly2025: 25 },
   ],
