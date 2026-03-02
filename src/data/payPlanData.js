@@ -23,7 +23,7 @@ export const resiInstallTechs = [
 
 export const commercialTechs = [
   { id: 'alex_t', name: 'Alex T.', belt: 'Brown', focus: 'Install', currentHourly: 41.00, newHourly: 41.00 },
-  { id: 'brandon_g', name: 'Brandon G.', belt: 'Green', focus: 'Install', currentHourly: 32.00, newHourly: 32.00 },
+  { id: 'brandon_g', name: 'Brandon G.', belt: 'Green', focus: 'Service', currentHourly: 32.00, newHourly: 32.00 },
   { id: 'dorie_l', name: 'Dorie L.', belt: 'Black', focus: 'Service', currentHourly: 46.00, newHourly: 46.00 },
   { id: 'ethan_h', name: 'Ethan H.', belt: 'Brown', focus: 'Install', currentHourly: 39.00, newHourly: 39.00 },
   { id: 'grady_t', name: 'Grady T.', belt: 'Black', focus: 'Service', currentHourly: 43.00, newHourly: 43.00 },

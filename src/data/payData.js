@@ -278,8 +278,8 @@ export const residentialInstallData = {
     { title: 'Master Tech', belt: 'Black', basePay: '$35+', tenure: '10+ yrs' },
   ],
   bonuses: [
-    { metric: 'Billable Hours', goal: '150 hrs/mo', bonus: '$1,000' },
-    { metric: 'Revenue', goal: '$80,000/mo', bonus: '$1,000' },
+    { metric: 'Billable Hours', goal: '160 hrs/mo', bonus: '$1,000' },
+    { metric: 'Revenue', goal: '$85,000/mo', bonus: '$1,000' },
     { metric: 'Sales', goal: '$10,000/mo', bonus: '$1,000' },
   ],
   technicians: [
@@ -330,7 +330,7 @@ export const commercialData = {
     { name: 'Grady T.', belt: 'Black', focus: 'Service', hourly2026: 43, hourly2025: 32 },
     { name: 'Alex T.', belt: 'Brown', focus: 'Install', hourly2026: 41, hourly2025: 32 },
     { name: 'Ronnie S.', belt: 'Brown', focus: 'Entry', hourly2026: 38, hourly2025: 32, note: 'partial year' },
-    { name: 'Brandon G.', belt: 'Green', focus: 'Install', hourly2026: 30, hourly2025: 25 },
+    { name: 'Brandon G.', belt: 'Green', focus: 'Service', hourly2026: 30, hourly2025: 25 },
     { name: 'Ethan H.', belt: 'Green', focus: 'Install', hourly2026: 35, hourly2025: 30 },
     { name: 'Jack D.', belt: 'Green', focus: 'Service', hourly2026: 35, hourly2025: 25 },
   ],
