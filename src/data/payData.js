@@ -250,7 +250,7 @@ export const residentialServiceData = {
     { metric: 'Close Rate', l1: '70%', l2: '75%', l3: '80%', l4: '—' },
   ],
   technicians: [
-    { name: 'Tim W.', belt: 'Black', level: 3, hourly2026: 34, hourly2025: 25 },
+    { name: 'Tim W.', belt: 'Brown', level: 3, hourly2026: 34, hourly2025: 25 },
     { name: 'Adam E.', belt: 'Brown', level: 3, hourly2026: 34, hourly2025: 25 },
     { name: 'JJ L.', belt: 'Green', level: 2, hourly2026: 29, hourly2025: 25 },
     { name: 'Kaleb G.', belt: 'Green', level: 3, hourly2026: 29, hourly2025: 25 },
