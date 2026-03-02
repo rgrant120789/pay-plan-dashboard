@@ -1,6 +1,6 @@
 import { Settings2 } from 'lucide-react';
 
-const fmt = (n) => '$' + Number(n).toLocaleString();
+const fmt = (n, isHours) => isHours ? Number(n).toLocaleString() : '$' + Number(n).toLocaleString();
 
 export default function GoalEditor({ goals, onChange, fields, title = 'Adjust Bonus Goals', defaultGoals }) {
   function handleReset() {
@@ -43,7 +43,7 @@ export default function GoalEditor({ goals, onChange, fields, title = 'Adjust Bo
             </label>
             <div className="flex items-center gap-2">
               <span className="text-xs font-bold" style={{ color: '#8dc63f' }}>
-                {fmt(goals[field.key])}
+                {fmt(goals[field.key], field.key === 'billableHours')}
               </span>
             </div>
             <input
@@ -57,8 +57,8 @@ export default function GoalEditor({ goals, onChange, fields, title = 'Adjust Bo
               style={{ accentColor: '#8dc63f' }}
             />
             <div className="flex justify-between text-xs mt-0.5" style={{ color: '#475569' }}>
-              <span>{fmt(field.min)}</span>
-              <span>{fmt(field.max)}</span>
+              <span>{fmt(field.min, field.key === 'billableHours')}</span>
+              <span>{fmt(field.max, field.key === 'billableHours')}</span>
             </div>
           </div>
         ))}
