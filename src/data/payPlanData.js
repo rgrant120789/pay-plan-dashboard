@@ -14,7 +14,7 @@ export const resiServiceTechs = [
 
 export const resiInstallTechs = [
   { id: 'bubba_b', name: 'Bubba B.', belt: 'Black', installLevel: 4, currentHourly: 35.00, newHourly: 35.00 },
-  { id: 'greg_c', name: 'Greg C.', belt: 'Brown', installLevel: 3, currentHourly: 32.00, newHourly: 32.00 },
+  { id: 'greg_c', name: 'Greg C.', belt: 'Brown', installLevel: 3, currentHourly: 34.00, newHourly: 34.00 },
   { id: 'josh_s', name: 'Josh S.', belt: 'Brown', installLevel: 3, currentHourly: 30.00, newHourly: 30.00 },
   { id: 'josiah_b', name: 'Josiah B.', belt: 'Brown', installLevel: 3, currentHourly: 34.00, newHourly: 34.00 },
   { id: 'mike_n', name: 'Mike N.', belt: 'Black', installLevel: 4, currentHourly: 35.00, newHourly: 35.00 },
