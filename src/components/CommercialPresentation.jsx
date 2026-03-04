@@ -14,7 +14,7 @@ const beltLevels = [
 const focuses = [
   {
     name: 'Service Focus',
-    color: '#a855f7',
+    color: '#8dc63f',
     bonuses: [
       { metric: 'Billable Hours', goal: '160 hrs/mo', bonus: '$1,000' },
       { metric: 'Revenue',        goal: '$65,000/mo',  bonus: '$1,000' },
@@ -23,7 +23,7 @@ const focuses = [
   },
   {
     name: 'Install Focus',
-    color: '#06b6d4',
+    color: '#8dc63f',
     bonuses: [
       { metric: 'Billable Hours', goal: '160 hrs/mo', bonus: '$1,000' },
       { metric: 'Revenue',        goal: '$85,000/mo',  bonus: '$1,000' },
@@ -32,7 +32,7 @@ const focuses = [
   },
   {
     name: 'Entry Focus',
-    color: '#f59e0b',
+    color: '#8dc63f',
     bonuses: [
       { metric: 'Billable Hours', goal: '160 hrs/mo', bonus: '$1,000' },
       { metric: 'Revenue',        goal: '$65,000/mo',  bonus: '$1,000' },
@@ -41,7 +41,7 @@ const focuses = [
   },
 ];
 
-function Card({ title, accent = '#a855f7', children }) {
+function Card({ title, accent = '#8dc63f', children }) {
   return (
     <div className="rounded-2xl p-6" style={{ background: '#0d2b4e', border: `1px solid ${accent}30` }}>
       <h2 className="text-xs font-bold tracking-widest uppercase mb-4" style={{ color: accent }}>{title}</h2>
@@ -60,8 +60,8 @@ export default function CommercialPresentation({ setActiveTab }) {
       </button>
 
       {/* Hero */}
-      <div className="rounded-2xl px-6 py-8 text-center" style={{ background: 'linear-gradient(135deg, #0d2b4e, #1a0d2e)', border: '2px solid #a855f740' }}>
-        <p className="text-xs font-bold tracking-widest uppercase mb-2" style={{ color: '#a855f7' }}>2026 Pay Plan</p>
+      <div className="rounded-2xl px-6 py-8 text-center" style={{ background: 'linear-gradient(135deg, #0d2b4e, #0a3d1f)', border: '2px solid #8dc63f40' }}>
+        <p className="text-xs font-bold tracking-widest uppercase mb-2" style={{ color: '#8dc63f' }}>2026 Pay Plan</p>
         <h1 className="text-3xl sm:text-4xl font-black tracking-wide uppercase mb-3" style={{ color: '#fff', fontFamily: "'Barlow Condensed', sans-serif" }}>
           Commercial
         </h1>
@@ -71,15 +71,15 @@ export default function CommercialPresentation({ setActiveTab }) {
       </div>
 
       {/* How pay works */}
-      <Card title="How Your Pay Works" accent="#a855f7">
+      <Card title="How Your Pay Works">
         <div className="space-y-4">
-          <div className="rounded-xl p-4" style={{ background: 'rgba(168,85,247,0.08)', border: '1px solid rgba(168,85,247,0.25)' }}>
+          <div className="rounded-xl p-4" style={{ background: 'rgba(141,198,63,0.07)', border: '1px solid rgba(141,198,63,0.2)' }}>
             <p className="text-white font-bold mb-1">Guaranteed Hourly Pay</p>
             <p className="text-slate-300 text-sm">Hourly Rate × Regular Hours <span className="text-slate-500">+</span> (Hourly Rate × 1.5 × Overtime Hours)</p>
             <p className="text-slate-400 text-xs mt-2">This is paid every week, no matter what. Your base pay is never at risk.</p>
           </div>
-          <div className="text-center text-2xl font-black" style={{ color: '#a855f7' }}>+</div>
-          <div className="rounded-xl p-4" style={{ background: 'rgba(168,85,247,0.08)', border: '1px solid rgba(168,85,247,0.25)' }}>
+          <div className="text-center text-2xl font-black" style={{ color: '#8dc63f' }}>+</div>
+          <div className="rounded-xl p-4" style={{ background: 'rgba(141,198,63,0.07)', border: '1px solid rgba(141,198,63,0.2)' }}>
             <p className="text-white font-bold mb-1">Monthly Bonus Goals — Up to $3,000/mo</p>
             <p className="text-slate-300 text-sm">Goals are set per focus area. Each of the three categories is independent — hit any combination to earn that bonus.</p>
           </div>
@@ -87,7 +87,7 @@ export default function CommercialPresentation({ setActiveTab }) {
       </Card>
 
       {/* Focus bonus goals */}
-      <Card title="Monthly Bonus Goals by Focus Area" accent="#a855f7">
+      <Card title="Monthly Bonus Goals by Focus Area">
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
           {focuses.map((f) => (
             <div key={f.name} className="rounded-xl overflow-hidden" style={{ border: `1px solid ${f.color}30` }}>
@@ -115,14 +115,14 @@ export default function CommercialPresentation({ setActiveTab }) {
       </Card>
 
       {/* Spiffs */}
-      <Card title="Additional Spiff Opportunities" accent="#a855f7">
+      <Card title="Additional Spiff Opportunities">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {[
             { label: 'Google Review', value: '$15', desc: 'Per verified 5-star review' },
             { label: 'Weekly On-Call', value: '$300', desc: 'Per on-call week completed' },
           ].map((s) => (
-            <div key={s.label} className="rounded-xl p-4 text-center" style={{ background: 'rgba(168,85,247,0.07)', border: '1px solid rgba(168,85,247,0.2)' }}>
-              <p className="text-2xl font-black mb-1" style={{ color: '#a855f7' }}>{s.value}</p>
+            <div key={s.label} className="rounded-xl p-4 text-center" style={{ background: 'rgba(141,198,63,0.07)', border: '1px solid rgba(141,198,63,0.2)' }}>
+              <p className="text-2xl font-black mb-1" style={{ color: '#8dc63f' }}>{s.value}</p>
               <p className="text-white font-bold text-sm mb-1">{s.label}</p>
               <p className="text-slate-400 text-xs">{s.desc}</p>
             </div>
@@ -131,7 +131,7 @@ export default function CommercialPresentation({ setActiveTab }) {
       </Card>
 
       {/* Belt levels */}
-      <Card title="Belt Levels & Base Hourly Ranges" accent="#a855f7">
+      <Card title="Belt Levels & Base Hourly Ranges">
         <div className="grid grid-cols-1 sm:grid-cols-5 gap-3">
           {beltLevels.map((b) => (
             <div key={b.belt} className="rounded-xl p-4 text-center" style={{ background: BELT_BG[b.belt], border: `1px solid ${BELT_COLORS[b.belt]}40` }}>
@@ -146,12 +146,12 @@ export default function CommercialPresentation({ setActiveTab }) {
       </Card>
 
       {/* Skills - Service */}
-      <Card title="Commercial Service — Skills by Belt Level" accent="#a855f7">
+      <Card title="Commercial Service — Skills by Belt Level">
         <BeltSkillsTable type="commercial_service" />
       </Card>
 
       {/* Skills - Install */}
-      <Card title="Commercial Install — Skills by Belt Level" accent="#a855f7">
+      <Card title="Commercial Install — Skills by Belt Level">
         <BeltSkillsTable type="commercial_install" />
       </Card>
 
