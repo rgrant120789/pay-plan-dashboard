@@ -7,8 +7,13 @@ import STDataTab from './STDataTab';
 import PayDataTab from './PayDataTab';
 import ResidentialBeltLevelsPage from './ResidentialBeltLevelsPage';
 import CommercialBeltLevelsPage from './CommercialBeltLevelsPage';
+import PresentationsHome from './PresentationsHome';
+import ResidentialServicePresentation from './ResidentialServicePresentation';
+import ResidentialInstallPresentation from './ResidentialInstallPresentation';
+import CommercialPresentation from './CommercialPresentation';
 
 const NAV_ITEMS = [
+  { id: 'presentations', label: 'Presentations' },
   { id: 'roster', label: 'Roster' },
   {
     label: 'New Pay Plans',
@@ -187,8 +192,12 @@ export default function Dashboard() {
         {activeTab === 'commercial'   && <CommercialTab />}
         {activeTab === 'st-data'      && <STDataTab />}
         {activeTab === 'pay-data'          && <PayDataTab />}
-        {activeTab === 'belt-residential'  && <ResidentialBeltLevelsPage />}
-        {activeTab === 'belt-commercial'   && <CommercialBeltLevelsPage />}
+        {activeTab === 'belt-residential'    && <ResidentialBeltLevelsPage />}
+        {activeTab === 'belt-commercial'     && <CommercialBeltLevelsPage />}
+        {activeTab === 'presentations'       && <PresentationsHome setActiveTab={setActiveTab} />}
+        {activeTab === 'pres-resi-service'   && <ResidentialServicePresentation setActiveTab={setActiveTab} />}
+        {activeTab === 'pres-resi-install'   && <ResidentialInstallPresentation setActiveTab={setActiveTab} />}
+        {activeTab === 'pres-commercial'     && <CommercialPresentation setActiveTab={setActiveTab} />}
       </main>
 
       {/* Footer */}
