@@ -13,7 +13,15 @@ import ResidentialInstallPresentation from './ResidentialInstallPresentation';
 import CommercialPresentation from './CommercialPresentation';
 
 const NAV_ITEMS = [
-  { id: 'presentations', label: 'Presentations' },
+  {
+    label: 'Presentations',
+    children: [
+      { id: 'presentations',     label: 'Presentations Home' },
+      { id: 'pres-resi-service', label: 'Residential Service' },
+      { id: 'pres-resi-install', label: 'Residential Install' },
+      { id: 'pres-commercial',   label: 'Commercial' },
+    ],
+  },
   { id: 'roster', label: 'Roster' },
   {
     label: 'New Pay Plans',

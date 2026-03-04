@@ -90,6 +90,75 @@ export default function ResidentialServicePresentation({ setActiveTab }) {
         <p className="text-xs text-slate-500 mt-3">Service Level is based on your average ticket value and close rate. Higher performance = higher commission %.</p>
       </Card>
 
+      {/* Service Level Requirements */}
+      <Card title="Service Level Requirements">
+        <p className="text-xs text-slate-400 mb-4">All KPIs are measured quarterly. You must meet Retain Level KPIs to keep your current level, and Level Up KPIs to advance.</p>
+
+        {/* Retain */}
+        <p className="text-xs font-bold tracking-widest uppercase mb-2" style={{ color: '#8dc63f' }}>
+          Retain Level KPIs <span className="ml-2 px-2 py-0.5 rounded-full text-xs" style={{ background: 'rgba(141,198,63,0.15)', border: '1px solid rgba(141,198,63,0.35)', color: '#8dc63f' }}>Measured Quarterly</span>
+        </p>
+        <div className="overflow-hidden rounded-xl border border-white/10 mb-4">
+          <table className="w-full text-sm">
+            <thead>
+              <tr style={{ background: 'rgba(30,77,140,0.6)', color: '#cbd5e1' }}>
+                <th className="px-4 py-2.5 text-left font-semibold">KPI</th>
+                <th className="px-4 py-2.5 text-center font-semibold">L1</th>
+                <th className="px-4 py-2.5 text-center font-semibold">L2</th>
+                <th className="px-4 py-2.5 text-center font-semibold">L3</th>
+                <th className="px-4 py-2.5 text-center font-semibold">L4</th>
+              </tr>
+            </thead>
+            <tbody>
+              {[
+                { metric: 'Avg Ticket', l1: '$650', l2: '$800', l3: '$1,000', l4: '$1,200' },
+                { metric: 'Close Rate', l1: '65%',  l2: '70%',  l3: '75%',   l4: '80%'   },
+              ].map((row, i) => (
+                <tr key={row.metric} style={{ background: i % 2 === 0 ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.02)' }}>
+                  <td className="px-4 py-2.5 text-slate-300">{row.metric}</td>
+                  <td className="px-4 py-2.5 text-center text-white">{row.l1}</td>
+                  <td className="px-4 py-2.5 text-center text-white">{row.l2}</td>
+                  <td className="px-4 py-2.5 text-center text-white">{row.l3}</td>
+                  <td className="px-4 py-2.5 text-center text-white">{row.l4}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        {/* Level Up */}
+        <p className="text-xs font-bold tracking-widest uppercase mb-2" style={{ color: '#8dc63f' }}>
+          Level Up KPIs <span className="ml-2 px-2 py-0.5 rounded-full text-xs" style={{ background: 'rgba(141,198,63,0.15)', border: '1px solid rgba(141,198,63,0.35)', color: '#8dc63f' }}>Measured Quarterly</span>
+        </p>
+        <div className="overflow-hidden rounded-xl border border-white/10">
+          <table className="w-full text-sm">
+            <thead>
+              <tr style={{ background: 'rgba(30,77,140,0.6)', color: '#cbd5e1' }}>
+                <th className="px-4 py-2.5 text-left font-semibold">KPI</th>
+                <th className="px-4 py-2.5 text-center font-semibold">L1</th>
+                <th className="px-4 py-2.5 text-center font-semibold">L2</th>
+                <th className="px-4 py-2.5 text-center font-semibold">L3</th>
+                <th className="px-4 py-2.5 text-center font-semibold">L4</th>
+              </tr>
+            </thead>
+            <tbody>
+              {[
+                { metric: 'Avg Ticket', l1: '$750', l2: '$900', l3: '$1,200', l4: '—' },
+                { metric: 'Close Rate', l1: '70%',  l2: '75%',  l3: '80%',   l4: '—' },
+              ].map((row, i) => (
+                <tr key={row.metric + 'up'} style={{ background: i % 2 === 0 ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.02)' }}>
+                  <td className="px-4 py-2.5 text-slate-300">{row.metric}</td>
+                  <td className="px-4 py-2.5 text-center text-white">{row.l1}</td>
+                  <td className="px-4 py-2.5 text-center text-white">{row.l2}</td>
+                  <td className="px-4 py-2.5 text-center text-white">{row.l3}</td>
+                  <td className="px-4 py-2.5 text-center text-white">{row.l4}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </Card>
+
       {/* Spiffs */}
       <Card title="Additional Spiff Opportunities">
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
