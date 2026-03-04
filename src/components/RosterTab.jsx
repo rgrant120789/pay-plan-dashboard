@@ -56,22 +56,22 @@ function DeptTable({ title, headers, rows }) {
 }
 
 const residentialApprentices = [
+  { name: 'Josh C.',   belt: 'Blue', hourly: 25 },
+  { name: 'Miguel R.', belt: 'Blue', hourly: 25 },
   { name: 'Austin B.',  belt: 'Gray', hourly: 20 },
   { name: 'Hector L.', belt: 'Gray', hourly: 21 },
   { name: 'Kaleb S.',  belt: 'Gray', hourly: 20 },
   { name: 'AJ W.',     belt: 'Gray', hourly: 20 },
-  { name: 'Josh C.',   belt: 'Blue', hourly: 25 },
-  { name: 'Miguel R.', belt: 'Blue', hourly: 25 },
 ];
 
 const commercialApprentices = [
-  { name: 'Chris Darlington', belt: 'Blue',  hourly: 27 },
-  { name: 'Nick Franklin',    belt: 'Gray',  hourly: 20 },
   { name: 'Patrick Walker',   belt: 'Brown', hourly: 37.50 },
-  { name: 'Jeremy Williams',  belt: 'Blue',  hourly: 26 },
   { name: 'Jake Lewis',       belt: 'Blue',  hourly: 28 },
-  { name: 'Hayden Mickles',   belt: 'Blue',  hourly: 26 },
   { name: 'Ethan Sanchez',    belt: 'Blue',  hourly: 28 },
+  { name: 'Chris Darlington', belt: 'Blue',  hourly: 27 },
+  { name: 'Jeremy Williams',  belt: 'Blue',  hourly: 26 },
+  { name: 'Hayden Mickles',   belt: 'Blue',  hourly: 26 },
+  { name: 'Nick Franklin',    belt: 'Gray',  hourly: 20 },
 ];
 
 export default function RosterTab() {
