@@ -12,14 +12,14 @@ export default function PresentationsHome({ setActiveTab }) {
       title: 'Residential Install',
       subtitle: 'Hourly pay + monthly bonus goals',
       description: 'Guaranteed hourly pay with up to $3,000/mo in bonus opportunities for Residential Install technicians.',
-      color: '#3b82f6',
+      color: '#8dc63f',
     },
     {
       id: 'pres-commercial',
       title: 'Commercial',
       subtitle: 'Hourly pay + monthly bonus goals',
       description: 'Guaranteed hourly pay with up to $3,000/mo in bonus opportunities across Service, Install, and Entry focus areas.',
-      color: '#a855f7',
+      color: '#8dc63f',
     },
   ];
 
