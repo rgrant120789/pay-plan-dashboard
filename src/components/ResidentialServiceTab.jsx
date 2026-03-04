@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { residentialServiceData as d } from '../data/payData';
 import BeltLevelsTable from './BeltLevelsTable';
+import BeltSkillsTable from './BeltSkillsTable';
 import SectionCard from './SectionCard';
 import BeltBadge from './BeltBadge';
 
@@ -100,6 +101,11 @@ export default function ResidentialServiceTab() {
         {/* Belt Levels */}
         <SectionCard title="Belt Levels &amp; Base Pay">
           <BeltLevelsTable levels={d.beltLevels} />
+        </SectionCard>
+
+        {/* Skills Table */}
+        <SectionCard title="Belt Skills Requirements">
+          <BeltSkillsTable type="service" />
         </SectionCard>
 
         {/* Commission Structure */}

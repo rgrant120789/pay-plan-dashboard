@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { residentialInstallData as d } from '../data/payData';
 import BeltLevelsTable from './BeltLevelsTable';
+import BeltSkillsTable from './BeltSkillsTable';
 import SectionCard from './SectionCard';
 import BeltBadge from './BeltBadge';
 import GoalEditor from './GoalEditor';
@@ -90,6 +91,11 @@ export default function ResidentialInstallTab() {
         {/* Belt Levels */}
         <SectionCard title="Belt Levels &amp; Base Pay">
           <BeltLevelsTable levels={d.beltLevels} />
+        </SectionCard>
+
+        {/* Skills Table */}
+        <SectionCard title="Belt Skills Requirements">
+          <BeltSkillsTable type="install" />
         </SectionCard>
 
         {/* Monthly Bonus Goals */}

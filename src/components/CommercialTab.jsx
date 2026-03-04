@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { commercialData as d } from '../data/payData';
 import BeltLevelsTable from './BeltLevelsTable';
+import BeltSkillsTable from './BeltSkillsTable';
 import SectionCard from './SectionCard';
 import BeltBadge from './BeltBadge';
 import GoalEditor from './GoalEditor';
@@ -152,6 +153,11 @@ export default function CommercialTab() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <SectionCard title="Belt Levels &amp; Base Pay">
           <BeltLevelsTable levels={d.beltLevels} />
+        </SectionCard>
+
+        {/* Skills Table */}
+        <SectionCard title="Belt Skills Requirements">
+          <BeltSkillsTable type="service" />
         </SectionCard>
 
         <SectionCard title="Monthly Goal Bonuses by Focus (Up to $3,000/mo)">
