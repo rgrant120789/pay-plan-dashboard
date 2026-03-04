@@ -5,6 +5,8 @@ import ResidentialInstallTab from './ResidentialInstallTab';
 import CommercialTab from './CommercialTab';
 import STDataTab from './STDataTab';
 import PayDataTab from './PayDataTab';
+import ResidentialBeltLevelsPage from './ResidentialBeltLevelsPage';
+import CommercialBeltLevelsPage from './CommercialBeltLevelsPage';
 
 const NAV_ITEMS = [
   { id: 'roster', label: 'Roster' },
@@ -14,6 +16,13 @@ const NAV_ITEMS = [
       { id: 'resi-service', label: 'Residential Service' },
       { id: 'resi-install', label: 'Residential Install' },
       { id: 'commercial',   label: 'Commercial' },
+    ],
+  },
+  {
+    label: 'Belt Levels',
+    children: [
+      { id: 'belt-residential', label: 'Residential Belt Levels' },
+      { id: 'belt-commercial',  label: 'Commercial Belt Levels' },
     ],
   },
   {
@@ -177,7 +186,9 @@ export default function Dashboard() {
         {activeTab === 'resi-install' && <ResidentialInstallTab />}
         {activeTab === 'commercial'   && <CommercialTab />}
         {activeTab === 'st-data'      && <STDataTab />}
-        {activeTab === 'pay-data'     && <PayDataTab />}
+        {activeTab === 'pay-data'          && <PayDataTab />}
+        {activeTab === 'belt-residential'  && <ResidentialBeltLevelsPage />}
+        {activeTab === 'belt-commercial'   && <CommercialBeltLevelsPage />}
       </main>
 
       {/* Footer */}

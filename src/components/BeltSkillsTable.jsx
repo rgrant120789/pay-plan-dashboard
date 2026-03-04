@@ -23,6 +23,20 @@ const SKILLS = {
     Brown: ['ALL OF ABOVE PLUS…', 'Diagnostic Repair Unassisted', 'Solo Install - High Lift'],
     Black: ['ALL OF ABOVE PLUS…', 'Diagnostic Excellence / Assist Others', 'Solo Install - ALL', 'Install Phone Consultations (from Sales/Service)'],
   },
+  commercial_service: {
+    Gray:  ['Tool Knowledge', 'Service Titan / Tablet', 'Identify Spring Systems', 'Springs / IPPT', 'Gauge Springs', 'Sectional Door Assembly', 'Rolling Steel Door Assembly', 'Commercial Operator Assembly', 'Commercial Operator Accessories'],
+    Blue:  ['ALL OF ABOVE PLUS…', 'Basic Sectional Repairs & Diagnostics', 'Basic Rolling Steel Repairs & Diagnostics', 'Basic Fire Door Repairs & Testing', 'Commercial Operator Repairs & Diagnostics', 'Basic Slide Gate Operator Diagnostics', 'Basic Electrical Knowledge (High and Low)', 'Minor Dock Leveler Repairs & Diagnostics', 'Ability to Navigate through the Pricebook', 'Formulate Estimates in ST', 'Ability to Weld'],
+    Green: ['ALL OF ABOVE PLUS…', 'Advanced Sectional Repairs', 'Advanced Slide Gate Operator Repairs & Diagnostics', 'Advanced Rolling Steel Repairs', 'Installation of Fire Doors and Shutters', 'Advanced Commercial Operator Repairs & Diagnostics', 'Advanced Dock Leveler Repairs & Diagnostics', 'Advanced Welding', 'Advanced Electrical Knowledge'],
+    Brown: ['ALL OF ABOVE PLUS…', 'Advanced Diagnostics of All Brands of Doors and Operators', 'Basic High Speed Door Repairs & Diagnostics', 'Basic Diagnostics of all Specialty Doors', 'Basic Diagnostic of Entry Doors'],
+    Black: ['ALL OF ABOVE PLUS…', 'Advanced High Speed Door Repairs & Diagnostics', 'Advanced Diagnostics of all Specialty Doors'],
+  },
+  commercial_install: {
+    Gray:  ['Tool Knowledge', 'Service Titan / Tablet', 'Identify Spring Systems', 'Springs / IPPT', 'Gauge Springs', 'Sectional Door Assembly', 'Rolling Steel Door Assembly', 'Commercial Operator Assembly', 'Commercial Operator Accessories'],
+    Blue:  ['ALL OF ABOVE PLUS…', 'Assist with Installation of Rolling Steel Doors/Counter Shutters', 'Assist with Installation of Rolling Fire Doors and Shutters', 'Installation of Sectional Doors 14\'x14\' or Smaller', 'Installation of Commercial Operators', 'Installation of Compression Seals and Shelters', 'Basic Electrical Knowledge (High & Low)', 'Ability to Weld'],
+    Green: ['ALL OF ABOVE PLUS…', 'Installation of Sectional Doors 14\'x14\' or Larger', 'Installation of Slide Gate Operators', 'Installation of Rolling Steel Doors/Counter Shutters', 'Installation of Fire Doors and Shutters', 'Installation of Mechanical Dock Levelers and EODs', 'Installation of Trailer Restraints', 'Advanced Welding', 'Advanced Electrical Knowledge'],
+    Brown: ['ALL OF ABOVE PLUS…', 'Installation of All Brands of Sectional/Rolling/Fire Doors', 'Installation of All Brands of Commercial Operators', 'Mechanical Installation of High Speed Doors', 'Basic Installation of Entry Doors'],
+    Black: ['ALL OF ABOVE PLUS…', 'Advanced Installation of High Speed Doors including Wiring', 'Advanced Installation of All Specialty Doors'],
+  },
 };
 
 function SkillList({ skills, belt }) {
