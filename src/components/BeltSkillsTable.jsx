@@ -64,9 +64,6 @@ export default function BeltSkillsTable({ type = 'service' }) {
 
   return (
     <div>
-      <p className="text-xs font-bold tracking-widest uppercase mb-3" style={{ color: '#8dc63f' }}>
-        Skills Required by Belt Level
-      </p>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
         {BELTS.map((belt) => {
           const c = BELT_COLORS[belt];

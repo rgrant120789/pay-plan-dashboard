@@ -165,7 +165,7 @@ export default function ResidentialServicePresentation({ setActiveTab }) {
           {[
             { label: 'Google Review', value: '$15', desc: 'Per verified 5-star review' },
             { label: 'Yard Sign', value: '$5', desc: 'Per yard sign placed' },
-            { label: 'Weekly On-Call', value: '$150', desc: 'Per on-call week completed' },
+            { label: 'Weekly On-Call', value: '$100', desc: 'Per on-call week completed' },
           ].map((s) => (
             <div key={s.label} className="rounded-xl p-4 text-center" style={{ background: 'rgba(141,198,63,0.07)', border: '1px solid rgba(141,198,63,0.2)' }}>
               <p className="text-2xl font-black mb-1" style={{ color: '#8dc63f' }}>{s.value}</p>
