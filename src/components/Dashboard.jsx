@@ -15,8 +15,8 @@ import CommercialPresentation from './CommercialPresentation';
 const NAV_ITEMS = [
   {
     label: 'Presentations',
+    homeId: 'presentations',
     children: [
-      { id: 'presentations',     label: 'Presentations Home' },
       { id: 'pres-resi-service', label: 'Residential Service' },
       { id: 'pres-resi-install', label: 'Residential Install' },
       { id: 'pres-commercial',   label: 'Commercial' },
@@ -50,7 +50,7 @@ const NAV_ITEMS = [
 function DropdownMenu({ item, activeTab, setActiveTab }) {
   const [open, setOpen] = useState(false);
   const ref = useRef(null);
-  const isActive = item.children.some((c) => c.id === activeTab);
+  const isActive = item.children.some((c) => c.id === activeTab) || activeTab === item.homeId;
 
   return (
     <div
@@ -60,8 +60,10 @@ function DropdownMenu({ item, activeTab, setActiveTab }) {
       onMouseLeave={() => setOpen(false)}
     >
       <button
-        className="relative px-3 sm:px-6 py-3 sm:py-4 font-semibold tracking-wide whitespace-nowrap cursor-default transition-all flex items-center gap-1"
+        onClick={() => item.homeId && setActiveTab(item.homeId)}
+        className="relative px-3 sm:px-6 py-3 sm:py-4 font-semibold tracking-wide whitespace-nowrap transition-all flex items-center gap-1"
         style={{
+          cursor: item.homeId ? 'pointer' : 'default',
           color: isActive ? '#8dc63f' : '#cbd5e1',
           background: isActive ? 'rgba(141,198,63,0.08)' : 'transparent',
           borderBottom: isActive ? '3px solid #8dc63f' : '3px solid transparent',
