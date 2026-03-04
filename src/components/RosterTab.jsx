@@ -55,6 +55,25 @@ function DeptTable({ title, headers, rows }) {
   );
 }
 
+const residentialApprentices = [
+  { name: 'Austin B.',  belt: 'Gray', hourly: 20 },
+  { name: 'Hector L.', belt: 'Gray', hourly: 21 },
+  { name: 'Kaleb S.',  belt: 'Gray', hourly: 20 },
+  { name: 'AJ W.',     belt: 'Gray', hourly: 20 },
+  { name: 'Josh C.',   belt: 'Blue', hourly: 25 },
+  { name: 'Miguel R.', belt: 'Blue', hourly: 25 },
+];
+
+const commercialApprentices = [
+  { name: 'Chris Darlington', belt: 'Blue',  hourly: 27 },
+  { name: 'Nick Franklin',    belt: 'Gray',  hourly: 20 },
+  { name: 'Patrick Walker',   belt: 'Brown', hourly: 37.50 },
+  { name: 'Jeremy Williams',  belt: 'Blue',  hourly: 26 },
+  { name: 'Jake Lewis',       belt: 'Blue',  hourly: 28 },
+  { name: 'Hayden Mickles',   belt: 'Blue',  hourly: 26 },
+  { name: 'Ethan Sanchez',    belt: 'Blue',  hourly: 28 },
+];
+
 export default function RosterTab() {
   const serviceRows = residentialServiceData.technicians.map(t => [
     t.name,
@@ -76,6 +95,18 @@ export default function RosterTab() {
     <span className="font-bold text-[#8dc63f]">${t.hourly2026}/hr</span>,
   ]);
 
+  const resiApprenticeRows = residentialApprentices.map(t => [
+    t.name,
+    <BeltBadge belt={t.belt} />,
+    <span className="font-bold text-[#8dc63f]">${t.hourly.toFixed(2)}/hr</span>,
+  ]);
+
+  const commApprenticeRows = commercialApprentices.map(t => [
+    t.name,
+    <BeltBadge belt={t.belt} />,
+    <span className="font-bold text-[#8dc63f]">${t.hourly.toFixed(2)}/hr</span>,
+  ]);
+
   return (
     <div className="space-y-6">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -95,6 +126,18 @@ export default function RosterTab() {
         headers={['Name', 'Belt', 'Focus', 'Proposed Hourly']}
         rows={commercialRows}
       />
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <DeptTable
+          title="Residential Apprentices"
+          headers={['Name', 'Belt', 'Hourly']}
+          rows={resiApprenticeRows}
+        />
+        <DeptTable
+          title="Commercial Apprentices"
+          headers={['Name', 'Belt', 'Hourly']}
+          rows={commApprenticeRows}
+        />
+      </div>
     </div>
   );
 }
