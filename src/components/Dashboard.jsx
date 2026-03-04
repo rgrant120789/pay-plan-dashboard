@@ -13,7 +13,15 @@ import ResidentialInstallPresentation from './ResidentialInstallPresentation';
 import CommercialPresentation from './CommercialPresentation';
 
 const NAV_ITEMS = [
-  { id: 'presentations', label: 'Presentations' },
+  {
+    label: 'Presentations',
+    homeId: 'presentations',
+    children: [
+      { id: 'pres-resi-service', label: 'Residential Service' },
+      { id: 'pres-resi-install', label: 'Residential Install' },
+      { id: 'pres-commercial',   label: 'Commercial' },
+    ],
+  },
   { id: 'roster', label: 'Roster' },
   {
     label: 'New Pay Plans',
@@ -99,7 +107,7 @@ function DropdownMenu({ item, activeTab, setActiveTab }) {
 }
 
 export default function Dashboard() {
-  const [activeTab, setActiveTab] = useState('roster');
+  const [activeTab, setActiveTab] = useState('presentations');
 
   return (
     <div className="min-h-screen" style={{ background: '#0a1f3a', fontFamily: "'Barlow', sans-serif" }}>
