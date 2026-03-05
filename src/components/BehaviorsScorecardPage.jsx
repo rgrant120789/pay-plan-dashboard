@@ -35,7 +35,7 @@ const BEHAVIORS = [
     category: 'Operational',
     behavior: 'Preparation & Job Readiness',
     description: 'Arrives prepared for each job with the necessary tools, materials, and understanding of the work required.',
-    kpis: ['Reviews job details before arrival', 'Brings necessary tools and materials', 'Minimizes repeat trips to the truck'],
+    kpis: ['Reviews job details before arrival', 'Brings necessary tools and materials', 'Minimizes repeat trips'],
   },
   {
     category: 'Operational',
