@@ -7,6 +7,7 @@ import STDataTab from './STDataTab';
 import PayDataTab from './PayDataTab';
 import ResidentialBeltLevelsPage from './ResidentialBeltLevelsPage';
 import CommercialBeltLevelsPage from './CommercialBeltLevelsPage';
+import BehaviorsScorecardPage from './BehaviorsScorecardPage';
 import PresentationsHome from './PresentationsHome';
 import ResidentialServicePresentation from './ResidentialServicePresentation';
 import ResidentialInstallPresentation from './ResidentialInstallPresentation';
@@ -36,6 +37,7 @@ const NAV_ITEMS = [
     children: [
       { id: 'belt-residential', label: 'Residential Belt Levels' },
       { id: 'belt-commercial',  label: 'Commercial Belt Levels' },
+      { id: 'behaviors-scorecard', label: 'Behaviors Scorecard' },
     ],
   },
   {
@@ -204,6 +206,7 @@ export default function Dashboard() {
         {activeTab === 'pay-data'          && <PayDataTab />}
         {activeTab === 'belt-residential'    && <ResidentialBeltLevelsPage />}
         {activeTab === 'belt-commercial'     && <CommercialBeltLevelsPage />}
+        {activeTab === 'behaviors-scorecard' && <BehaviorsScorecardPage />}
         {activeTab === 'presentations'       && <PresentationsHome setActiveTab={setActiveTab} />}
         {activeTab === 'pres-resi-service'   && <ResidentialServicePresentation setActiveTab={setActiveTab} />}
         {activeTab === 'pres-resi-install'   && <ResidentialInstallPresentation setActiveTab={setActiveTab} />}
