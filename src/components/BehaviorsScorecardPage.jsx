@@ -48,17 +48,17 @@ const BEHAVIORS = [
 const SCORES = ['Excellent', 'Meets Expectations', 'Needs Improvement'];
 
 const SCORE_COLORS = {
-  'Excellent':           { color: '#8dc63f', bg: 'rgba(141,198,63,0.08)' },
+  'Excellent':           { color: '#94a3b8', bg: 'transparent' },
   'Meets Expectations':  { color: '#94a3b8', bg: 'transparent' },
   'Needs Improvement':   { color: '#f87171', bg: 'transparent' },
 };
 
 const PROMO_REQUIREMENTS = [
-  { label: 'Attitude & Team Mindset', value: 'Excellent', critical: true },
-  { label: 'Attendance & Reliability', value: 'Excellent', critical: true },
-  { label: 'Customer Satisfaction', value: 'Excellent', critical: true },
-  { label: 'No category rated', value: 'Needs Improvement', critical: false },
-  { label: 'Minimum 4 of 7 categories', value: 'Excellent', critical: false },
+  { label: 'Attitude & Team Mindset', value: 'Excellent', valueColor: '#8dc63f' },
+  { label: 'Attendance & Reliability', value: 'Excellent', valueColor: '#8dc63f' },
+  { label: 'Customer Satisfaction', value: 'Excellent', valueColor: '#8dc63f' },
+  { label: 'No category rated', value: 'Needs Improvement', valueColor: '#f87171' },
+  { label: 'Minimum 4 of 7 categories', value: 'Excellent', valueColor: '#8dc63f' },
 ];
 
 export default function BehaviorsScorecardPage() {
@@ -143,9 +143,9 @@ export default function BehaviorsScorecardPage() {
           <div className="divide-y" style={{ borderColor: 'rgba(255,255,255,0.07)' }}>
             {PROMO_REQUIREMENTS.map((req, i) => (
               <div key={i} className="py-3 flex items-center gap-2 text-sm">
-                <span style={{ color: req.critical ? '#f87171' : '#cbd5e1' }}>{req.label}</span>
+                <span style={{ color: '#cbd5e1' }}>{req.label}</span>
                 <span className="text-slate-500">=</span>
-                <span className="font-black" style={{ color: req.critical ? '#f87171' : '#8dc63f' }}>{req.value}</span>
+                <span className="font-black" style={{ color: req.valueColor }}>{req.value}</span>
               </div>
             ))}
           </div>
