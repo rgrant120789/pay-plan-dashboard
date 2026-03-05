@@ -77,9 +77,8 @@ export default function BehaviorsScorecardPage() {
           <table className="w-full text-sm">
             <thead>
               <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
-                <th className="text-left px-3 py-2.5 font-bold tracking-widest uppercase text-xs" style={{ color: '#8dc63f', width: '12%' }}>Category</th>
-                <th className="text-left px-3 py-2.5 font-bold tracking-widest uppercase text-xs" style={{ color: '#8dc63f', width: '30%' }}>Behavior</th>
-                <th className="text-left px-3 py-2.5 font-bold tracking-widest uppercase text-xs" style={{ color: '#8dc63f', width: '32%' }}>KPI's</th>
+                <th className="text-left px-3 py-2.5 font-bold tracking-widest uppercase text-xs" style={{ color: '#8dc63f', width: '38%' }}>Behavior</th>
+                <th className="text-left px-3 py-2.5 font-bold tracking-widest uppercase text-xs" style={{ color: '#8dc63f', width: '36%' }}>KPI's</th>
                 <th className="text-left px-3 py-2.5 font-bold tracking-widest uppercase text-xs" style={{ color: '#8dc63f', width: '26%' }}>Score</th>
               </tr>
             </thead>
@@ -93,18 +92,19 @@ export default function BehaviorsScorecardPage() {
                   }}
                 >
                   <td className="px-3 py-4 align-top">
-                    <span
-                      className="text-xs font-black tracking-wider uppercase"
-                      style={{ color: row.category === 'CRITICAL' ? '#f87171' : '#94a3b8' }}
-                    >
-                      {row.category}
-                    </span>
-                  </td>
-                  <td className="px-3 py-4 align-top">
-                    <p className="text-white">
-                      <span className="font-bold">{row.behavior}:</span>{' '}
-                      <span className="text-slate-300">{row.description}</span>
-                    </p>
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="font-bold text-white">{row.behavior}</span>
+                      <span
+                        className="text-xs font-black tracking-wider uppercase px-2 py-0.5 rounded-full"
+                        style={{
+                          color: row.category === 'CRITICAL' ? '#8dc63f' : '#94a3b8',
+                          background: row.category === 'CRITICAL' ? 'rgba(141,198,63,0.12)' : 'rgba(148,163,184,0.12)',
+                        }}
+                      >
+                        {row.category}
+                      </span>
+                    </div>
+                    <p className="text-slate-300 text-sm">{row.description}</p>
                   </td>
                   <td className="px-3 py-4 align-top">
                     <ul className="space-y-1">
