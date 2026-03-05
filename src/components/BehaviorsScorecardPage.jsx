@@ -99,26 +99,6 @@ export default function BehaviorsScorecardPage() {
         <p className="text-sm text-slate-300">Used during performance reviews to evaluate technician behaviors. Scores determine promotion eligibility.</p>
       </div>
 
-      {/* Promotion Eligibility */}
-      <SectionCard title="Promotion Eligibility">
-        <div className="space-y-0">
-          <p className="text-xs font-bold tracking-widest uppercase mb-3" style={{ color: '#94a3b8' }}>Requirement</p>
-          <div className="divide-y" style={{ borderColor: 'rgba(255,255,255,0.07)' }}>
-            {PROMO_REQUIREMENTS.map((req, i) => (
-              <div
-                key={i}
-                className="py-3 flex items-center gap-2 text-sm"
-                style={i === PROMO_REQUIREMENTS.length - 1 ? { background: 'rgba(141,198,63,0.07)', borderRadius: 8, padding: '10px 12px', marginTop: 4 } : {}}
-              >
-                <span style={{ color: i === PROMO_REQUIREMENTS.length - 1 ? '#fff' : '#cbd5e1', fontWeight: i === PROMO_REQUIREMENTS.length - 1 ? 700 : 400 }}>{req.label}</span>
-                <span className="text-slate-500">=</span>
-                <span className="font-black" style={{ color: req.valueColor }}>{req.value}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </SectionCard>
-
       {/* Scorecard table */}
       <SectionCard title="Technician Behavior Scorecard">
         <div className="overflow-x-auto">
@@ -195,6 +175,25 @@ export default function BehaviorsScorecardPage() {
         </div>
       </SectionCard>
 
+      {/* Promotion Eligibility */}
+      <SectionCard title="Promotion Eligibility">
+        <div className="space-y-0">
+          <p className="text-xs font-bold tracking-widest uppercase mb-3" style={{ color: '#94a3b8' }}>Requirement</p>
+          <div className="divide-y" style={{ borderColor: 'rgba(255,255,255,0.07)' }}>
+            {PROMO_REQUIREMENTS.map((req, i) => (
+              <div
+                key={i}
+                className="py-3 flex items-center gap-2 text-sm"
+                style={i === PROMO_REQUIREMENTS.length - 1 ? { background: 'rgba(141,198,63,0.07)', borderRadius: 8, padding: '10px 12px', marginTop: 4 } : {}}
+              >
+                <span style={{ color: i === PROMO_REQUIREMENTS.length - 1 ? '#fff' : '#cbd5e1', fontWeight: i === PROMO_REQUIREMENTS.length - 1 ? 700 : 400 }}>{req.label}</span>
+                <span className="text-slate-500">=</span>
+                <span className="font-black" style={{ color: req.valueColor }}>{req.value}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </SectionCard>
 
     </div>
   );
