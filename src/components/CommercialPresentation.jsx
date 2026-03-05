@@ -1,4 +1,5 @@
 import BeltSkillsTable from './BeltSkillsTable';
+import BehaviorsScorecardSection from './BehaviorsScorecardSection';
 
 const BELT_COLORS = { Gray: '#9ca3af', Blue: '#3b82f6', Green: '#84cc16', Brown: '#92400e', Black: '#e5e7eb' };
 const BELT_BG = { Gray: 'rgba(156,163,175,0.12)', Blue: 'rgba(59,130,246,0.10)', Green: 'rgba(132,204,22,0.10)', Brown: 'rgba(146,64,14,0.15)', Black: 'rgba(229,231,235,0.08)' };
@@ -154,6 +155,8 @@ export default function CommercialPresentation({ setActiveTab }) {
       <Card title="Commercial Install — Skills by Belt Level">
         <BeltSkillsTable type="commercial_install" />
       </Card>
+
+      <BehaviorsScorecardSection Card={Card} />
 
     </div>
   );
