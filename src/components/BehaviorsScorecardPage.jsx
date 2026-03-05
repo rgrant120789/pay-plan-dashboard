@@ -48,7 +48,7 @@ const BEHAVIORS = [
 const SCORES = ['Excellent', 'Meets Expectations', 'Needs Improvement'];
 
 const SCORE_COLORS = {
-  'Excellent':           { color: '#94a3b8', bg: 'transparent' },
+  'Excellent':           { color: '#8dc63f', bg: 'transparent' },
   'Meets Expectations':  { color: '#94a3b8', bg: 'transparent' },
   'Needs Improvement':   { color: '#f87171', bg: 'transparent' },
 };
@@ -142,8 +142,12 @@ export default function BehaviorsScorecardPage() {
           <p className="text-xs font-bold tracking-widest uppercase mb-3" style={{ color: '#94a3b8' }}>Requirement</p>
           <div className="divide-y" style={{ borderColor: 'rgba(255,255,255,0.07)' }}>
             {PROMO_REQUIREMENTS.map((req, i) => (
-              <div key={i} className="py-3 flex items-center gap-2 text-sm">
-                <span style={{ color: '#cbd5e1' }}>{req.label}</span>
+              <div
+                key={i}
+                className="py-3 flex items-center gap-2 text-sm"
+                style={i === PROMO_REQUIREMENTS.length - 1 ? { background: 'rgba(141,198,63,0.07)', borderRadius: 8, padding: '10px 12px', marginTop: 4 } : {}}
+              >
+                <span style={{ color: i === PROMO_REQUIREMENTS.length - 1 ? '#fff' : '#cbd5e1', fontWeight: i === PROMO_REQUIREMENTS.length - 1 ? 700 : 400 }}>{req.label}</span>
                 <span className="text-slate-500">=</span>
                 <span className="font-black" style={{ color: req.valueColor }}>{req.value}</span>
               </div>
