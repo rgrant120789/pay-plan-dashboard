@@ -68,7 +68,6 @@ const commercialApprentices = [
   { name: 'Patrick Walker',   belt: 'Brown', hourly: 37.50 },
   { name: 'Jake Lewis',       belt: 'Blue',  hourly: 28 },
   { name: 'Ethan Sanchez',    belt: 'Blue',  hourly: 28 },
-  { name: 'Chris Darlington', belt: 'Blue',  hourly: 27 },
   { name: 'Jeremy Williams',  belt: 'Blue',  hourly: 26 },
   { name: 'Hayden Mickles',   belt: 'Blue',  hourly: 26 },
   { name: 'Nick Franklin',    belt: 'Gray',  hourly: 20 },

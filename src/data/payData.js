@@ -326,7 +326,7 @@ export const commercialData = {
     ],
   },
   technicians: [
-    { name: 'Dorie L.', belt: 'Black', focus: 'Service', hourly2026: 45, hourly2025: 34 },
+    { name: 'Chris D.', belt: 'Blue', focus: 'Service', hourly2026: 29, hourly2025: 28 },
     { name: 'Grady T.', belt: 'Black', focus: 'Service', hourly2026: 43, hourly2025: 32 },
     { name: 'Alex T.', belt: 'Brown', focus: 'Install', hourly2026: 41, hourly2025: 32 },
     { name: 'Ronnie S.', belt: 'Brown', focus: 'Entry', hourly2026: 38, hourly2025: 32, note: 'partial year' },
@@ -335,7 +335,7 @@ export const commercialData = {
     { name: 'Jack D.', belt: 'Green', focus: 'Service', hourly2026: 35, hourly2025: 25 },
   ],
   comparison: [
-    { name: 'Dorie L.', regHours: 2020, otHours: 143, billableBonus: 4, revenueBonus: 2, salesBonus: 7, pay2026: 118122.50, pay2025: 111865.08 },
+    { name: 'Chris D.', regHours: 0, otHours: 0, billableBonus: 0, revenueBonus: 0, salesBonus: 0, pay2026: 0, pay2025: 0, note: 'promoted from apprentice' },
     { name: 'Grady T.', regHours: 2003, otHours: 134, billableBonus: 0, revenueBonus: 5, salesBonus: 0, pay2026: 103262, pay2025: 99399.39 },
     { name: 'Alex T.', regHours: 1980, otHours: 166, billableBonus: 4, revenueBonus: 6, salesBonus: 2, pay2026: 107825, pay2025: 100426.86 },
     { name: 'Brandon G.', regHours: 2016, otHours: 112, billableBonus: 9, revenueBonus: 1, salesBonus: 9, pay2026: 87765.92, pay2025: 80747.17 },
