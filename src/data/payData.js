@@ -253,7 +253,7 @@ export const residentialServiceData = {
     { name: 'Tim W.', belt: 'Brown', level: 3, hourly2026: 34, hourly2025: 25 },
     { name: 'Adam E.', belt: 'Brown', level: 3, hourly2026: 34, hourly2025: 25 },
     { name: 'JJ L.', belt: 'Green', level: 3, hourly2026: 29, hourly2025: 25 },
-    { name: 'Kaleb G.', belt: 'Green', level: 3, hourly2026: 29, hourly2025: 25 },
+    { name: 'Kaleb G.', belt: 'Green', level: 3, hourly2026: 25, hourly2025: 25 },
     { name: 'Cannan B.', belt: 'Green', level: 3, hourly2026: 29, hourly2025: 25 },
     { name: 'Adam D.', belt: 'Blue', level: 3, hourly2026: 25, hourly2025: 25 },
     { name: 'Marisa H.', belt: 'Blue', level: 3, hourly2026: 25, hourly2025: 20 },
