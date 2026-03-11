@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-const CORRECT_PASSWORD = 'Comfort2026';
+const CORRECT_PASSWORD = 'A1door123!';
 const STORAGE_KEY = 'ppd_auth';
 
 export default function PasswordGate({ children }) {
