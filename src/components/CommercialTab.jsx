@@ -249,6 +249,7 @@ export default function CommercialTab() {
       </SectionCard>
 
       {/* SERVICE FOCUS */}
+      {serviceTechs.length > 0 && <>
       <GoalEditor
         goals={serviceGoals}
         onChange={setServiceGoals}
@@ -265,8 +266,10 @@ export default function CommercialTab() {
           originalTechs={d.technicians}
         />
       </SectionCard>
+      </>}
 
       {/* INSTALL FOCUS */}
+      {installTechs.length > 0 && <>
       <GoalEditor
         goals={installGoals}
         onChange={setInstallGoals}
@@ -283,8 +286,10 @@ export default function CommercialTab() {
           originalTechs={d.technicians}
         />
       </SectionCard>
+      </>}
 
       {/* ENTRY FOCUS */}
+      {entryTechs.length > 0 && <>
       <GoalEditor
         goals={entryGoals}
         onChange={setEntryGoals}
@@ -301,6 +306,7 @@ export default function CommercialTab() {
           originalTechs={d.technicians}
         />
       </SectionCard>
+      </>}
 
     </div>
   );
