@@ -120,6 +120,7 @@ export default function CommercialTab() {
   const [installGoals, setInstallGoals] = useState(DEFAULT_INSTALL);
   const [entryGoals,   setEntryGoals]   = useState(DEFAULT_ENTRY);
   const [roster, setRoster] = useState(d.technicians.map((t) => ({ ...t })));
+  const [selectedTech, setSelectedTech] = useState('All');
 
   function updateTech(name, field, val) {
     setRoster((prev) => prev.map((t) => t.name === name ? { ...t, [field]: Number(val) } : t));
@@ -129,9 +130,10 @@ export default function CommercialTab() {
     setRoster(d.technicians.map((t) => ({ ...t })));
   }
 
-  const serviceTechs = roster.filter((t) => t.focus === 'Service');
-  const installTechs = roster.filter((t) => t.focus === 'Install');
-  const entryTechs   = roster.filter((t) => t.focus === 'Entry');
+  const filteredRoster = selectedTech === 'All' ? roster : roster.filter((t) => t.name === selectedTech);
+  const serviceTechs = filteredRoster.filter((t) => t.focus === 'Service');
+  const installTechs = filteredRoster.filter((t) => t.focus === 'Install');
+  const entryTechs   = filteredRoster.filter((t) => t.focus === 'Entry');
 
   return (
     <div className="space-y-6">
@@ -165,7 +167,18 @@ export default function CommercialTab() {
 
       {/* Technician roster */}
       <SectionCard title="Technician Roster — 2026 Pay Plan">
-        <div className="flex justify-end mb-3">
+        <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center gap-2">
+            <label className="text-xs font-bold tracking-widest uppercase" style={{ color: '#8dc63f' }}>Filter by Tech</label>
+            <select
+              value={selectedTech}
+              onChange={(e) => setSelectedTech(e.target.value)}
+              className="rounded px-2 py-1 text-sm font-bold bg-[#0d2b4e] border border-[#8dc63f]/40 text-white focus:outline-none focus:border-[#8dc63f] cursor-pointer"
+            >
+              <option value="All">All Technicians</option>
+              {roster.map((t) => <option key={t.name} value={t.name}>{t.name}</option>)}
+            </select>
+          </div>
           <button
             onClick={resetRoster}
             className="text-xs px-3 py-1.5 rounded-lg font-bold tracking-wide transition-all"
@@ -189,7 +202,7 @@ export default function CommercialTab() {
               </tr>
             </thead>
             <tbody>
-              {roster.map((t, i) => {
+              {filteredRoster.map((t, i) => {
                 const diff = t.hourly2026 - t.hourly2025;
                 return (
                   <tr key={t.name} className={i % 2 === 0 ? 'bg-white/5' : 'bg-white/[0.02]'}>

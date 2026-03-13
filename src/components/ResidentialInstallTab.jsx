@@ -60,6 +60,9 @@ function HourlyCell({ value, onChange, min = 15, max = 75 }) {
 export default function ResidentialInstallTab() {
   const [goals, setGoals] = useState(DEFAULT_GOALS);
   const [roster, setRoster] = useState(d.technicians.map((t) => ({ ...t })));
+  const [selectedTech, setSelectedTech] = useState('All');
+
+  const filteredRoster = selectedTech === 'All' ? roster : roster.filter((t) => t.name === selectedTech);
 
   function updateTech(name, field, val) {
     setRoster((prev) => prev.map((t) => t.name === name ? { ...t, [field]: Number(val) } : t));
@@ -125,7 +128,18 @@ export default function ResidentialInstallTab() {
 
       {/* Technician roster */}
       <SectionCard title="Technician Roster — 2026 Pay Plan">
-        <div className="flex justify-end mb-3">
+        <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center gap-2">
+            <label className="text-xs font-bold tracking-widest uppercase" style={{ color: '#8dc63f' }}>Filter by Tech</label>
+            <select
+              value={selectedTech}
+              onChange={(e) => setSelectedTech(e.target.value)}
+              className="rounded px-2 py-1 text-sm font-bold bg-[#0d2b4e] border border-[#8dc63f]/40 text-white focus:outline-none focus:border-[#8dc63f] cursor-pointer"
+            >
+              <option value="All">All Technicians</option>
+              {roster.map((t) => <option key={t.name} value={t.name}>{t.name}</option>)}
+            </select>
+          </div>
           <button
             onClick={resetRoster}
             className="text-xs px-3 py-1.5 rounded-lg font-bold tracking-wide transition-all"
@@ -148,7 +162,7 @@ export default function ResidentialInstallTab() {
               </tr>
             </thead>
             <tbody>
-              {roster.map((t, i) => {
+              {filteredRoster.map((t, i) => {
                 const diff = t.hourly2026 - t.hourly2025;
                 return (
                   <tr key={t.name} className={i % 2 === 0 ? 'bg-white/5' : 'bg-white/[0.02]'}>
@@ -202,7 +216,7 @@ export default function ResidentialInstallTab() {
       {/* Live recalculated pay comparison */}
       <SectionCard title="Live Pay Recalculation — 2025 Actuals vs. 2026 Plan (Adjustable Goals)" accent>
         <LiveBonusTable
-          techs={roster}
+          techs={filteredRoster}
           goals={goals}
           salesField="sales"
           comparisonData={d.comparison}
