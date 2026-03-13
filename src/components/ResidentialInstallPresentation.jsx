@@ -86,7 +86,7 @@ export default function ResidentialInstallPresentation({ setActiveTab }) {
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           {[
             { label: 'Google Review', value: '$15', desc: 'Per verified 5-star review' },
-            { label: 'Yard Sign', value: '$5', desc: 'Per yard sign placed' },
+            { label: 'Yard Sign', value: '$5', desc: 'Per yard sign placed (min. 10/mo)' },
             { label: 'Weekly On-Call', value: '$100', desc: 'Per on-call week completed' },
           ].map((s) => (
             <div key={s.label} className="rounded-xl p-4 text-center" style={{ background: 'rgba(141,198,63,0.07)', border: '1px solid rgba(141,198,63,0.2)' }}>
