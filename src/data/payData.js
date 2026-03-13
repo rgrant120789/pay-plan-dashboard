@@ -288,7 +288,7 @@ export const residentialInstallData = {
     { name: 'Steve G.', belt: 'Black', level: 4, hourly2026: 40, hourly2025: 25 },
     { name: 'Greg C.', belt: 'Brown', level: 3, hourly2026: 34, hourly2025: 25 },
     { name: 'Josiah B.', belt: 'Brown', level: 3, hourly2026: 34, hourly2025: 36, note: 'partial year' },
-    { name: 'Josh S.', belt: 'Brown', level: 3, hourly2026: 32, hourly2025: 25 },
+    { name: 'Josh S.', belt: 'Brown', level: 3, hourly2026: 34, hourly2025: 25 },
   ],
   comparison: [
     { name: 'Bubba B.', regHours: 1742, otHours: 0, billableBonus: 5, revenueBonus: 8, salesBonus: 7, pay2026: 89680, pay2025: 99401.27 },
@@ -296,7 +296,7 @@ export const residentialInstallData = {
     { name: 'Steve G.', regHours: 1878, otHours: 7, billableBonus: 11, revenueBonus: 12, salesBonus: 4, pay2026: 102540, pay2025: 106845.80 },
     { name: 'Greg C.', regHours: 2001, otHours: 48, billableBonus: 0, revenueBonus: 0, salesBonus: 0, pay2026: 64933, pay2025: 64123.03, note: 'will hit hourly rate' },
     { name: 'Josiah B.', regHours: 1020, otHours: 0, billableBonus: 0, revenueBonus: 0, salesBonus: 3, pay2026: 37680, pay2025: 38474.68, note: 'partial year' },
-    { name: 'Josh S.', regHours: 1840, otHours: 34, billableBonus: 6, revenueBonus: 5, salesBonus: 9, pay2026: 80512, pay2025: 91829.19 },
+    { name: 'Josh S.', regHours: 1840, otHours: 34, billableBonus: 6, revenueBonus: 5, salesBonus: 9, pay2026: 84294, pay2025: 91829.19 },
   ],
 };
 
