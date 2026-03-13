@@ -85,6 +85,7 @@ export default function ResidentialInstallTab() {
         </div>
         <p className="text-xs text-slate-500 mt-2">Hourly pay is guaranteed regardless of performance. Each bonus category is independent — hit any combination to earn that month's bonus.</p>
         <p className="text-xs text-slate-500 mt-1">Additional spiffs: <span className="text-slate-300 font-semibold">Google Reviews = $15</span> &nbsp;·&nbsp; <span className="text-slate-300 font-semibold">Yard Signs = $5</span> &nbsp;·&nbsp; <span className="text-slate-300 font-semibold">Weekly On-Call = $150</span></p>
+        <p className="text-xs text-slate-500 mt-1">Yard sign minimum: <span className="text-slate-300 font-semibold">10/mo for all install techs</span></p>
       </div>
 
       {/* Top row */}
