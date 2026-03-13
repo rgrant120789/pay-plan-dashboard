@@ -14,8 +14,8 @@ const beltLevels = [
 
 const bonuses = [
   { metric: 'Billable Hours', goal: '160 hrs/mo', bonus: '$1,000', desc: 'Hit 160 billable hours in the month' },
-  { metric: 'Revenue',        goal: '$85,000/mo',  bonus: '$1,000', desc: 'Team hits $85k in monthly revenue' },
-  { metric: 'Sales',          goal: '$10,000/mo',  bonus: '$1,000', desc: 'Team hits $10k in monthly sales' },
+  { metric: 'Revenue',        goal: '$85,000/mo',  bonus: '$1,000', desc: 'Hit $85k in monthly revenue' },
+  { metric: 'Sales',          goal: '$10,000/mo',  bonus: '$1,000', desc: 'Hit $10k in monthly sales' },
 ];
 
 function Card({ title, accent = '#8dc63f', children }) {
@@ -43,7 +43,7 @@ export default function ResidentialInstallPresentation({ setActiveTab }) {
           Residential Install
         </h1>
         <p className="text-slate-300 text-sm max-w-xl mx-auto">
-          Your hourly pay is <span className="text-white font-bold">guaranteed</span> every week regardless of performance. On top of that, you can earn up to <span className="text-white font-bold">$3,000 in monthly bonuses</span> by hitting team goals.
+          Your hourly pay is <span className="text-white font-bold">guaranteed</span> every week regardless of performance. On top of that, you can earn up to <span className="text-white font-bold">$3,000 in monthly bonuses</span> by hitting your individual monthly goals.
         </p>
       </div>
 
