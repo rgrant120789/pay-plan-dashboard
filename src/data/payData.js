@@ -291,12 +291,12 @@ export const residentialInstallData = {
     { name: 'Josh S.', belt: 'Brown', level: 3, hourly2026: 32, hourly2025: 25 },
   ],
   comparison: [
-    { name: 'Bubba B.', regHours: 1742, otHours: 0, billableBonus: 5, revenueBonus: 8, salesBonus: 7, pay2026: 85340, pay2025: 99401.27 },
-    { name: 'Mike N.', regHours: 1558, otHours: 4, billableBonus: 2, revenueBonus: 7, salesBonus: 2, pay2026: 69466.76, pay2025: 85983.10 },
-    { name: 'Steve G.', regHours: 1878, otHours: 7, billableBonus: 11, revenueBonus: 12, salesBonus: 4, pay2026: 96451.50, pay2025: 106845.80 },
+    { name: 'Bubba B.', regHours: 1742, otHours: 0, billableBonus: 5, revenueBonus: 8, salesBonus: 7, pay2026: 89680, pay2025: 99401.27 },
+    { name: 'Mike N.', regHours: 1558, otHours: 4, billableBonus: 2, revenueBonus: 7, salesBonus: 2, pay2026: 73560, pay2025: 85983.10 },
+    { name: 'Steve G.', regHours: 1878, otHours: 7, billableBonus: 11, revenueBonus: 12, salesBonus: 4, pay2026: 102540, pay2025: 106845.80 },
     { name: 'Greg C.', regHours: 2001, otHours: 48, billableBonus: 0, revenueBonus: 0, salesBonus: 0, pay2026: 64933, pay2025: 64123.03, note: 'will hit hourly rate' },
     { name: 'Josiah B.', regHours: 1020, otHours: 0, billableBonus: 0, revenueBonus: 0, salesBonus: 3, pay2026: 37680, pay2025: 38474.68, note: 'partial year' },
-    { name: 'Josh S.', regHours: 1840, otHours: 34, billableBonus: 6, revenueBonus: 5, salesBonus: 9, pay2026: 79305, pay2025: 91829.19 },
+    { name: 'Josh S.', regHours: 1840, otHours: 34, billableBonus: 6, revenueBonus: 5, salesBonus: 9, pay2026: 80512, pay2025: 91829.19 },
   ],
 };
 
@@ -338,8 +338,8 @@ export const commercialData = {
     { name: 'Chris D.', regHours: 0, otHours: 0, billableBonus: 0, revenueBonus: 0, salesBonus: 0, pay2026: 0, pay2025: 0, note: 'promoted from apprentice' },
     { name: 'Grady T.', regHours: 2003, otHours: 134, billableBonus: 0, revenueBonus: 5, salesBonus: 0, pay2026: 103262, pay2025: 99399.39 },
     { name: 'Alex T.', regHours: 1980, otHours: 166, billableBonus: 4, revenueBonus: 6, salesBonus: 2, pay2026: 107825, pay2025: 100426.86 },
-    { name: 'Brandon G.', regHours: 2016, otHours: 112, billableBonus: 9, revenueBonus: 1, salesBonus: 9, pay2026: 87765.92, pay2025: 80747.17 },
-    { name: 'Ethan H.', regHours: 1923, otHours: 81, billableBonus: 1, revenueBonus: 3, salesBonus: 4, pay2026: 82872.50, pay2025: 83934.47 },
-    { name: 'Jack D.', regHours: 2008, otHours: 131, billableBonus: 3, revenueBonus: 3, salesBonus: 10, pay2026: 96632.50, pay2025: 92193.63 },
+    { name: 'Brandon G.', regHours: 2016, otHours: 112, billableBonus: 9, revenueBonus: 1, salesBonus: 9, pay2026: 88888, pay2025: 80747.17 },
+    { name: 'Ethan H.', regHours: 1923, otHours: 81, billableBonus: 1, revenueBonus: 3, salesBonus: 4, pay2026: 81602, pay2025: 83934.47 },
+    { name: 'Jack D.', regHours: 2008, otHours: 131, billableBonus: 3, revenueBonus: 3, salesBonus: 10, pay2026: 95362, pay2025: 92193.63 },
   ],
 };
