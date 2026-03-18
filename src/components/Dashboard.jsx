@@ -111,7 +111,7 @@ function DropdownMenu({ item, activeTab, setActiveTab }) {
 }
 
 export default function Dashboard() {
-  const [activeTab, setActiveTab] = useState('presentations');
+  const [activeTab, setActiveTab] = useState('payroll-calc');
 
   return (
     <div className="min-h-screen" style={{ background: '#0a1f3a', fontFamily: "'Barlow', sans-serif" }}>
