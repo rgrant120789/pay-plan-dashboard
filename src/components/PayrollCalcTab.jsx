@@ -450,7 +450,7 @@ function autoMapResiService(headers) {
     primaryTech: findCol(headers, ['primary technician', 'primary_technician', 'primary tech', 'technician', 'tech', 'name', 'tech_name', 'employee']) || '',
     soldBy:      findCol(headers, ['sold by', 'sold_by', 'salesperson', 'sold-by']) || '',
     total:       findCol(headers, ['total', 'invoice total', 'job total', 'amount', 'revenue']) || '',
-    period:      findCol(headers, ['invoice date', 'invoice_date', 'week', 'period', 'pay_period', 'date', 'job_date']) || '',
+    period:      findCol(headers, ['completed date', 'completion date', 'completed_date', 'completion_date', 'invoice date', 'invoice_date', 'week', 'period', 'pay_period', 'date', 'job_date']) || '',
   }
 }
 
@@ -464,7 +464,7 @@ function ResiServiceSection({ roster, onRosterChange }) {
     { key: 'primaryTech', label: 'Primary Technician' },
     { key: 'soldBy',      label: 'Sold By'            },
     { key: 'total',       label: 'Job Total $'         },
-    { key: 'period',      label: 'Invoice Date (opt.)' },
+    { key: 'period',      label: 'Completed Date (opt.)' },
   ]
 
   function onData(data, hdrs, fname) {
