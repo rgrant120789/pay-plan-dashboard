@@ -267,7 +267,7 @@ function SalesSection({ roster, onRosterChange }) {
 
   return (
     <Section title="Sales Commission" badge="Weekly">
-      {/* Roster level editor */}
+      {/* Roster display (read-only) */}
       <div className="mb-4">
         <p className="text-xs font-bold tracking-widest uppercase mb-2" style={{ color: '#8dc63f' }}>Salespeople &amp; Rates</p>
         <div className="overflow-x-auto">
@@ -282,18 +282,7 @@ function SalesSection({ roster, onRosterChange }) {
               {roster.map((rep, i) => (
                 <tr key={rep.name} className={i % 2 === 0 ? 'bg-white/5' : 'bg-white/[0.02]'}>
                   <td className="px-3 py-2 text-white">{rep.name}</td>
-                  <td className="px-3 py-2 text-center">
-                    <input
-                      type="number" min={0} max={20} step={0.5}
-                      value={(rep.pct * 100).toFixed(1)}
-                      onChange={e => {
-                        const v = parseFloat(e.target.value)
-                        if (!isNaN(v)) onRosterChange(rep.name, v / 100)
-                      }}
-                      className="w-20 text-center rounded px-2 py-0.5 text-sm font-bold bg-[#0d2b4e] border border-[#8dc63f]/40 text-[#8dc63f] focus:outline-none"
-                    />
-                    <span className="ml-1 text-slate-400 text-xs">%</span>
-                  </td>
+                  <td className="px-3 py-2 text-center font-bold" style={{ color: '#8dc63f' }}>{(rep.pct * 100).toFixed(1)}%</td>
                 </tr>
               ))}
             </tbody>
@@ -420,7 +409,7 @@ function ResiServiceSection({ roster, onRosterChange }) {
         <span className="font-bold text-white">Formula:</span> Commission = (Completed Revenue × Work Done %) + (Total Sales × Sold By %) &nbsp;·&nbsp; Techs get whichever is higher: commission or hourly pay (enter hourly separately on paycheck)
       </div>
 
-      {/* Level editor */}
+      {/* Level display (read-only) */}
       <div className="mb-4">
         <p className="text-xs font-bold tracking-widest uppercase mb-2" style={{ color: '#8dc63f' }}>Tech Service Levels</p>
         <div className="overflow-x-auto">
@@ -428,7 +417,7 @@ function ResiServiceSection({ roster, onRosterChange }) {
             <thead>
               <tr style={{ background: 'rgba(141,198,63,0.12)' }}>
                 <th className="px-3 py-2 text-left text-slate-300 font-semibold">Name</th>
-                <th className="px-3 py-2 text-center text-slate-300 font-semibold">Level (1–4)</th>
+                <th className="px-3 py-2 text-center text-slate-300 font-semibold">Level</th>
                 <th className="px-3 py-2 text-center text-slate-300 font-semibold">Work Done %</th>
                 <th className="px-3 py-2 text-center text-slate-300 font-semibold">Sold By %</th>
                 <th className="px-3 py-2 text-center text-slate-300 font-semibold">Total %</th>
@@ -440,14 +429,7 @@ function ResiServiceSection({ roster, onRosterChange }) {
                 return (
                   <tr key={t.name} className={i % 2 === 0 ? 'bg-white/5' : 'bg-white/[0.02]'}>
                     <td className="px-3 py-2 text-white">{t.name}</td>
-                    <td className="px-3 py-2 text-center">
-                      <input
-                        type="number" min={1} max={4} step={1}
-                        value={t.level}
-                        onChange={e => onRosterChange(t.name, 'level', parseInt(e.target.value))}
-                        className="w-16 text-center rounded px-2 py-0.5 text-sm font-bold bg-[#0d2b4e] border border-[#8dc63f]/40 text-[#8dc63f] focus:outline-none"
-                      />
-                    </td>
+                    <td className="px-3 py-2 text-center font-bold" style={{ color: '#8dc63f' }}>{t.level}</td>
                     <td className="px-3 py-2 text-center text-slate-300">{pct(rate.workDone)}</td>
                     <td className="px-3 py-2 text-center text-slate-300">{pct(rate.soldBy)}</td>
                     <td className="px-3 py-2 text-center font-bold" style={{ color: '#8dc63f' }}>{pct(rate.workDone + rate.soldBy)}</td>
@@ -596,21 +578,16 @@ function ResiInstallSection({ goals, onGoalsChange }) {
         <span className="font-bold text-white">Formula:</span> Each month: <span style={{ color: '#8dc63f' }}>$1,000</span> if ≥ {fmtN(goals.billableHours)} billable hours &nbsp;+&nbsp; <span style={{ color: '#8dc63f' }}>$1,000</span> if ≥ {fmt(goals.revenue)} revenue &nbsp;+&nbsp; <span style={{ color: '#8dc63f' }}>$1,000</span> if ≥ {fmt(goals.sales)} sales &nbsp;·&nbsp; Max <span style={{ color: '#8dc63f' }}>$3,000/mo</span>
       </div>
 
-      {/* Goal editor */}
+      {/* Goal display (read-only) */}
       <div className="grid grid-cols-3 gap-3 mb-4">
         {[
-          { key: 'billableHours', label: 'Billable Hours Goal', unit: 'hrs', step: 5  },
-          { key: 'revenue',       label: 'Revenue Goal ($)',     unit: '$',  step: 5000 },
-          { key: 'sales',         label: 'Sales Goal ($)',       unit: '$',  step: 1000 },
+          { key: 'billableHours', label: 'Billable Hours Goal', fmt: v => fmtN(v) + ' hrs' },
+          { key: 'revenue',       label: 'Revenue Goal',        fmt: v => fmt(v) },
+          { key: 'sales',         label: 'Sales Goal',          fmt: v => fmt(v) },
         ].map(f => (
           <div key={f.key} className="rounded-lg p-3 border border-white/10" style={{ background: 'rgba(255,255,255,0.03)' }}>
-            <label className="block text-xs text-slate-400 mb-1">{f.label}</label>
-            <input
-              type="number" step={f.step} min={0}
-              value={goals[f.key]}
-              onChange={e => onGoalsChange({ ...goals, [f.key]: parseFloat(e.target.value) || 0 })}
-              className="w-full rounded px-2 py-1 text-sm font-bold bg-[#0d2b4e] border border-[#8dc63f]/40 text-[#8dc63f] focus:outline-none"
-            />
+            <p className="text-xs text-slate-400 mb-1">{f.label}</p>
+            <p className="text-sm font-bold" style={{ color: '#8dc63f' }}>{f.fmt(goals[f.key])}</p>
           </div>
         ))}
       </div>
@@ -741,7 +718,7 @@ function CommercialSection({ roster, onRosterChange, goals, onGoalsChange }) {
         <span className="font-bold text-white">Formula:</span> Each month: <span style={{ color: '#8dc63f' }}>$1,000</span> billable hours + <span style={{ color: '#8dc63f' }}>$1,000</span> revenue + <span style={{ color: '#8dc63f' }}>$1,000</span> (Sales + TGL Sales) &nbsp;·&nbsp; Goals differ by focus (Service / Install / Entry) &nbsp;·&nbsp; Max <span style={{ color: '#8dc63f' }}>$3,000/mo</span>
       </div>
 
-      {/* Roster + focus */}
+      {/* Roster + focus (read-only) */}
       <div className="mb-4">
         <p className="text-xs font-bold tracking-widest uppercase mb-2" style={{ color: '#8dc63f' }}>Commercial Technicians &amp; Focus</p>
         <div className="overflow-x-auto">
@@ -761,15 +738,7 @@ function CommercialSection({ roster, onRosterChange, goals, onGoalsChange }) {
                 return (
                   <tr key={t.name} className={i % 2 === 0 ? 'bg-white/5' : 'bg-white/[0.02]'}>
                     <td className="px-3 py-2 text-white">{t.name}</td>
-                    <td className="px-3 py-2 text-center">
-                      <select
-                        value={t.focus}
-                        onChange={e => onRosterChange(t.name, 'focus', e.target.value)}
-                        className="rounded px-2 py-0.5 text-xs font-bold bg-[#0d2b4e] border border-[#8dc63f]/40 text-[#8dc63f] focus:outline-none cursor-pointer"
-                      >
-                        {FOCUS_OPTIONS.map(f => <option key={f} value={f}>{f}</option>)}
-                      </select>
-                    </td>
+                    <td className="px-3 py-2 text-center font-bold" style={{ color: '#8dc63f' }}>{t.focus}</td>
                     <td className="px-3 py-2 text-center text-slate-300 text-xs">{fmtN(g.billableHours)} hrs</td>
                     <td className="px-3 py-2 text-center text-slate-300 text-xs">{fmt(g.revenue)}</td>
                     <td className="px-3 py-2 text-center text-slate-300 text-xs">{fmt(g.sales)}</td>
@@ -779,33 +748,6 @@ function CommercialSection({ roster, onRosterChange, goals, onGoalsChange }) {
             </tbody>
           </table>
         </div>
-      </div>
-
-      {/* Goal editors per focus */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-4">
-        {FOCUS_OPTIONS.map(focus => (
-          <div key={focus} className="rounded-xl border border-white/10 p-3" style={{ background: 'rgba(255,255,255,0.02)' }}>
-            <p className="text-xs font-bold tracking-widest uppercase mb-2" style={{ color: '#8dc63f' }}>{focus} Goals</p>
-            {[
-              { key: 'billableHours', label: 'Billable Hrs', step: 5 },
-              { key: 'revenue',       label: 'Revenue $',    step: 5000 },
-              { key: 'sales',         label: 'Sales+TGL $',  step: 2500 },
-            ].map(f => (
-              <div key={f.key} className="mb-2">
-                <label className="block text-xs text-slate-400 mb-0.5">{f.label}</label>
-                <input
-                  type="number" step={f.step} min={0}
-                  value={goals[focus][f.key]}
-                  onChange={e => onGoalsChange({
-                    ...goals,
-                    [focus]: { ...goals[focus], [f.key]: parseFloat(e.target.value) || 0 }
-                  })}
-                  className="w-full rounded px-2 py-1 text-xs font-bold bg-[#0d2b4e] border border-[#8dc63f]/30 text-[#8dc63f] focus:outline-none"
-                />
-              </div>
-            ))}
-          </div>
-        ))}
       </div>
 
       <UploadZone
