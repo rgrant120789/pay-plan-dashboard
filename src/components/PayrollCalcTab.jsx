@@ -673,6 +673,35 @@ function ResiInstallSection({ roster, goals, onGoalsChange }) {
         <span className="font-bold text-white">Formula:</span> Each month: <span style={{ color: '#8dc63f' }}>$1,000</span> if ≥ {fmtN(goals.billableHours)} billable hours &nbsp;+&nbsp; <span style={{ color: '#8dc63f' }}>$1,000</span> if ≥ {fmt(goals.revenue)} revenue &nbsp;+&nbsp; <span style={{ color: '#8dc63f' }}>$1,000</span> if ≥ {fmt(goals.sales)} sales &nbsp;·&nbsp; Max <span style={{ color: '#8dc63f' }}>$3,000/mo</span>
       </div>
 
+      {/* Roster display (read-only) */}
+      <div className="no-print mb-4">
+        <p className="text-xs font-bold tracking-widest uppercase mb-2" style={{ color: '#8dc63f' }}>Residential Install Technicians</p>
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm">
+            <thead>
+              <tr style={{ background: 'rgba(141,198,63,0.12)' }}>
+                <th className="px-3 py-2 text-left text-slate-300 font-semibold">Name</th>
+                <th className="px-3 py-2 text-center text-slate-300 font-semibold">Billable Hrs Goal</th>
+                <th className="px-3 py-2 text-center text-slate-300 font-semibold">Revenue Goal</th>
+                <th className="px-3 py-2 text-center text-slate-300 font-semibold">Sales Goal</th>
+                <th className="px-3 py-2 text-center text-slate-300 font-semibold">Max Bonus</th>
+              </tr>
+            </thead>
+            <tbody>
+              {roster.map((name, i) => (
+                <tr key={name} className={i % 2 === 0 ? 'bg-white/5' : 'bg-white/[0.02]'}>
+                  <td className="px-3 py-2 text-white">{name}</td>
+                  <td className="px-3 py-2 text-center text-slate-300 text-xs">{fmtN(goals.billableHours)} hrs</td>
+                  <td className="px-3 py-2 text-center text-slate-300 text-xs">{fmt(goals.revenue)}</td>
+                  <td className="px-3 py-2 text-center text-slate-300 text-xs">{fmt(goals.sales)}</td>
+                  <td className="px-3 py-2 text-center font-bold text-xs" style={{ color: '#8dc63f' }}>$3,000</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
       {/* Goal display (read-only) */}
       <div className="no-print grid grid-cols-3 gap-3 mb-4">
         {[
