@@ -9,11 +9,13 @@ import ResidentialBeltLevelsPage from './ResidentialBeltLevelsPage';
 import CommercialBeltLevelsPage from './CommercialBeltLevelsPage';
 import BehaviorsScorecardPage from './BehaviorsScorecardPage';
 import PresentationsHome from './PresentationsHome';
+import PayrollCalcTab from './PayrollCalcTab';
 import ResidentialServicePresentation from './ResidentialServicePresentation';
 import ResidentialInstallPresentation from './ResidentialInstallPresentation';
 import CommercialPresentation from './CommercialPresentation';
 
 const NAV_ITEMS = [
+  { id: 'payroll-calc', label: 'Payroll Calculator' },
   {
     label: 'Presentations',
     homeId: 'presentations',
@@ -198,6 +200,7 @@ export default function Dashboard() {
 
       {/* Content */}
       <main className="max-w-7xl mx-auto px-3 sm:px-6 py-4 sm:py-8">
+        {activeTab === 'payroll-calc' && <PayrollCalcTab />}
         {activeTab === 'roster'       && <RosterTab />}
         {activeTab === 'resi-service' && <ResidentialServiceTab />}
         {activeTab === 'resi-install' && <ResidentialInstallTab />}
