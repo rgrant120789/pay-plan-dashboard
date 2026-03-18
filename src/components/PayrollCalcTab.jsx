@@ -1,10 +1,12 @@
-import { useState, useCallback, useRef } from 'react'
+import { useState, useCallback, useRef, useEffect } from 'react'
 import Papa from 'papaparse'
 import * as XLSX from 'xlsx'
 import { Upload, ChevronDown, ChevronUp, Printer, RefreshCw, CheckCircle, AlertCircle, Info } from 'lucide-react'
 
-// ─── Pay Plan Config (matches your Google Sheet) ──────────────────────────────
+// ─── Google Sheet CSV URL (Payroll tab) ───────────────────────────────────────
+const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRKnMSCtFqzHDhdhbcDc_2zPGCs87tX4S-DjLE8TqAAPcvqntB43Mrqigt6MBn05jWDLXWAKyt1DDuC/pub?gid=704511217&single=true&output=csv'
 
+// ─── Static fallback rates (levels 1-4) ───────────────────────────────────────
 const RESI_SERVICE_COMM_RATES = {
   1: { workDone: 0.06, soldBy: 0.05 },
   2: { workDone: 0.08, soldBy: 0.05 },
@@ -12,41 +14,110 @@ const RESI_SERVICE_COMM_RATES = {
   4: { workDone: 0.12, soldBy: 0.05 },
 }
 
-const SALES_REPS = [
-  { name: 'Brandon Jestice',  pct: 0.025 },
-  { name: 'Lee Roeder',       pct: 0.015 },
-  { name: 'Kevin Hardy',      pct: 0.015 },
-  { name: 'David Wilkerson',  pct: 0.015 },
-  { name: 'Cliff Williams',   pct: 0.015 },
-]
+// ─── Parse Payroll CSV into config ────────────────────────────────────────────
+function parsePayrollCSV(csvText) {
+  const lines = csvText.split('\n').map(l => l.split(',').map(c => c.replace(/^"|"|\r$/g, '').trim()))
 
-const RESI_SERVICE_ROSTER = [
-  { name: 'Adam Engle',    level: 3 },
-  { name: 'Kaleb Gosselin',level: 3 },
-  { name: 'Tim White',     level: 3 },
-  { name: 'Adam Duncan',   level: 3 },
-  { name: 'Marisa Hill',   level: 3 },
-  { name: 'Cannan Bonney', level: 3 },
-  { name: 'JJ Leclerc',   level: 3 },
-  { name: 'Josiah Brown',  level: 3 },
-]
+  const salesReps      = []
+  const resiSvcRoster  = []
+  const resiInstallRoster = []
+  const resiInstallGoals  = { billableHours: 160, revenue: 85000, sales: 10000 }
+  const commercialRoster  = []
+  const commercialGoals   = {
+    Service: { billableHours: 160, revenue: 65000, sales: 45000 },
+    Install: { billableHours: 160, revenue: 85000, sales: 20000 },
+    Entry:   { billableHours: 160, revenue: 65000, sales: 20000 },
+  }
 
-const RESI_INSTALL_ROSTER = ['Bubba Bryant', 'Greg Collins', 'Josh Smith', 'Josiah Brown', 'Mike Needham', 'Steve Gurganus']
-const RESI_INSTALL_GOALS  = { billableHours: 160, revenue: 85000, sales: 10000 }
+  // Column layout from sheet:
+  // Col0: Sales Name  | Col1: Sales %
+  // Col3: RS Name     | Col4: RS Level | Col5: RS workDone% | Col6: RS soldBy%
+  // Col8: Install bonus label | Col9: Install goal value
+  // Col12: Comm bonus label | Col13: Comm goal value (Service)
+  // Row 7+ Col8: Install tech names
+  // Row 19+ Col12: Comm tech name | Col13: Comm focus
 
-const COMMERCIAL_ROSTER = [
-  { name: 'Brandon Gurganus', focus: 'Service' },
-  { name: 'Chris Darlington', focus: 'Service' },
-  { name: 'Grady Thomas',     focus: 'Service' },
-  { name: 'Jack Dunham',      focus: 'Service' },
-  { name: 'Alex Talbott',     focus: 'Install' },
-  { name: 'Ethan Hatch',      focus: 'Install' },
-  { name: 'Ronnie Sherman',   focus: 'Entry'   },
-]
-const COMMERCIAL_GOALS = {
-  Service: { billableHours: 160, revenue: 65000, sales: 45000 },
-  Install: { billableHours: 160, revenue: 85000, sales: 20000 },
-  Entry:   { billableHours: 160, revenue: 65000, sales: 20000 },
+  const installGoalLabels  = { 'Billable Hour': 'billableHours', 'Revenue': 'revenue', 'Sales': 'sales' }
+  const commSvcGoalLabels  = { 'Billable Hour': 'billableHours', 'Revenue': 'revenue', 'Sales + TGL Sales': 'sales' }
+  const commInstGoalLabels = { 'Billable Hour': 'billableHours', 'Revenue': 'revenue', 'Sales + TGL Sales': 'sales' }
+  const commEntGoalLabels  = { 'Billable Hour': 'billableHours', 'Revenue': 'revenue', 'Sales + TGL Sales': 'sales' }
+
+  let installGoalRow = 0  // rows 3-5 have install goals (0-indexed row 2-4)
+  let commSvcGoalRow = 0
+  let commInstGoalRow = 0
+  let commEntGoalRow = 0
+
+  lines.forEach((cols, i) => {
+    // Row 0 = headers, Row 1 = column headers, data starts row 2
+    if (i < 2) return
+
+    // Sales reps (col 0 = name, col 1 = pct like "2.5%")
+    const salesName = cols[0]
+    const salesPctStr = cols[1]
+    if (salesName && salesPctStr && salesPctStr.includes('%')) {
+      const pct = parseFloat(salesPctStr) / 100
+      if (!isNaN(pct)) salesReps.push({ name: salesName, pct })
+    }
+
+    // Resi Service (col 3 = name, col 4 = level)
+    const rsName = cols[3]
+    const rsLevel = parseInt(cols[4])
+    if (rsName && !isNaN(rsLevel) && rsLevel >= 1 && rsLevel <= 4) {
+      resiSvcRoster.push({ name: rsName, level: rsLevel })
+    }
+
+    // Install goals (rows 2-4: col 8 = label, col 9 = value)
+    const instLabel = cols[8]
+    const instVal   = cols[9]
+    if (instLabel && instVal && installGoalLabels[instLabel]) {
+      const key = installGoalLabels[instLabel]
+      resiInstallGoals[key] = parseMoney(instVal) || parseFloat(instVal) || resiInstallGoals[key]
+    }
+
+    // Install roster (rows 7+ col 8)
+    if (i >= 7 && cols[8] && !installGoalLabels[cols[8]] && !cols[8].includes('Install') && !cols[8].includes('Billable') && !cols[8].includes('Revenue') && !cols[8].includes('Sales')) {
+      resiInstallRoster.push(cols[8])
+    }
+
+    // Commercial Service goals (rows 2-4: col 12 = label, col 13 = value)
+    const commSvcLabel = cols[12]
+    const commSvcVal   = cols[13]
+    if (commSvcLabel && commSvcVal && commSvcGoalLabels[commSvcLabel]) {
+      const key = commSvcGoalLabels[commSvcLabel]
+      commercialGoals.Service[key] = parseMoney(commSvcVal) || parseFloat(commSvcVal) || commercialGoals.Service[key]
+    }
+
+    // Commercial Install goals (rows 8-10)
+    if (i >= 7 && i <= 10) {
+      const ciLabel = cols[12]
+      const ciVal   = cols[13]
+      if (ciLabel && ciVal && commInstGoalLabels[ciLabel]) {
+        const key = commInstGoalLabels[ciLabel]
+        commercialGoals.Install[key] = parseMoney(ciVal) || parseFloat(ciVal) || commercialGoals.Install[key]
+      }
+    }
+
+    // Commercial Entry goals (rows 14-16)
+    if (i >= 13 && i <= 16) {
+      const ceLabel = cols[12]
+      const ceVal   = cols[13]
+      if (ceLabel && ceVal && commEntGoalLabels[ceLabel]) {
+        const key = commEntGoalLabels[ceLabel]
+        commercialGoals.Entry[key] = parseMoney(ceVal) || parseFloat(ceVal) || commercialGoals.Entry[key]
+      }
+    }
+
+    // Commercial technicians (rows 19+: col 12 = name, col 13 = focus)
+    if (i >= 18) {
+      const commName  = cols[12]
+      const commFocus = cols[13]
+      if (commName && ['Service','Install','Entry'].includes(commFocus)) {
+        commercialRoster.push({ name: commName, focus: commFocus })
+      }
+    }
+  })
+
+  return { salesReps, resiSvcRoster, resiInstallRoster, resiInstallGoals, commercialRoster, commercialGoals }
 }
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -528,7 +599,7 @@ function GoalChip({ hit, goal, actual, unit = '$' }) {
   )
 }
 
-function ResiInstallSection({ goals, onGoalsChange }) {
+function ResiInstallSection({ roster, goals, onGoalsChange }) {
   const [rows, setRows]       = useState([])
   const [headers, setHeaders] = useState([])
   const [fileName, setFileName] = useState('')
@@ -562,7 +633,7 @@ function ResiInstallSection({ goals, onGoalsChange }) {
     byName[name].sales         += sales
   })
 
-  const results = RESI_INSTALL_ROSTER.map(name => {
+  const results = roster.map(name => {
     const d      = byName[name] || { billableHours: 0, revenue: 0, sales: 0 }
     const bhHit  = d.billableHours >= goals.billableHours
     const revHit = d.revenue >= goals.revenue
@@ -810,29 +881,54 @@ function CommercialSection({ roster, onRosterChange, goals, onGoalsChange }) {
 // ─── MAIN TAB ────────────────────────────────────────────────────────────────
 
 export default function PayrollCalcTab() {
-  // Editable rosters / rates
-  const [salesRoster,    setSalesRoster]    = useState(SALES_REPS.map(r => ({ ...r })))
-  const [resiSvcRoster,  setResiSvcRoster]  = useState(RESI_SERVICE_ROSTER.map(r => ({ ...r })))
-  const [commercialRoster, setCommercialRoster] = useState(COMMERCIAL_ROSTER.map(r => ({ ...r })))
-
-  // Editable goals
-  const [resiInstallGoals,  setResiInstallGoals]  = useState({ ...RESI_INSTALL_GOALS })
-  const [commercialGoals,   setCommercialGoals]   = useState({
-    Service: { ...COMMERCIAL_GOALS.Service },
-    Install: { ...COMMERCIAL_GOALS.Install },
-    Entry:   { ...COMMERCIAL_GOALS.Entry   },
+  const [salesRoster,      setSalesRoster]      = useState([])
+  const [resiSvcRoster,    setResiSvcRoster]    = useState([])
+  const [resiInstallRoster,setResiInstallRoster]= useState([])
+  const [commercialRoster, setCommercialRoster] = useState([])
+  const [resiInstallGoals, setResiInstallGoals] = useState({ billableHours: 160, revenue: 85000, sales: 10000 })
+  const [commercialGoals,  setCommercialGoals]  = useState({
+    Service: { billableHours: 160, revenue: 65000, sales: 45000 },
+    Install: { billableHours: 160, revenue: 85000, sales: 20000 },
+    Entry:   { billableHours: 160, revenue: 65000, sales: 20000 },
   })
+  const [sheetLoading, setSheetLoading] = useState(true)
+  const [sheetError,   setSheetError]   = useState(null)
+
+  useEffect(() => {
+    fetch(SHEET_CSV_URL)
+      .then(r => r.text())
+      .then(csv => {
+        const cfg = parsePayrollCSV(csv)
+        if (cfg.salesReps.length)      setSalesRoster(cfg.salesReps)
+        if (cfg.resiSvcRoster.length)  setResiSvcRoster(cfg.resiSvcRoster)
+        if (cfg.resiInstallRoster.length) setResiInstallRoster(cfg.resiInstallRoster)
+        if (cfg.commercialRoster.length)  setCommercialRoster(cfg.commercialRoster)
+        setResiInstallGoals(cfg.resiInstallGoals)
+        setCommercialGoals(cfg.commercialGoals)
+        setSheetLoading(false)
+      })
+      .catch(err => {
+        setSheetError('Could not load pay plan config from Google Sheet.')
+        setSheetLoading(false)
+      })
+  }, [])
 
   function resetAll() {
-    setSalesRoster(SALES_REPS.map(r => ({ ...r })))
-    setResiSvcRoster(RESI_SERVICE_ROSTER.map(r => ({ ...r })))
-    setCommercialRoster(COMMERCIAL_ROSTER.map(r => ({ ...r })))
-    setResiInstallGoals({ ...RESI_INSTALL_GOALS })
-    setCommercialGoals({
-      Service: { ...COMMERCIAL_GOALS.Service },
-      Install: { ...COMMERCIAL_GOALS.Install },
-      Entry:   { ...COMMERCIAL_GOALS.Entry   },
-    })
+    setSheetLoading(true)
+    setSheetError(null)
+    fetch(SHEET_CSV_URL)
+      .then(r => r.text())
+      .then(csv => {
+        const cfg = parsePayrollCSV(csv)
+        if (cfg.salesReps.length)      setSalesRoster(cfg.salesReps)
+        if (cfg.resiSvcRoster.length)  setResiSvcRoster(cfg.resiSvcRoster)
+        if (cfg.resiInstallRoster.length) setResiInstallRoster(cfg.resiInstallRoster)
+        if (cfg.commercialRoster.length)  setCommercialRoster(cfg.commercialRoster)
+        setResiInstallGoals(cfg.resiInstallGoals)
+        setCommercialGoals(cfg.commercialGoals)
+        setSheetLoading(false)
+      })
+      .catch(() => { setSheetError('Could not reload config.'); setSheetLoading(false) })
   }
 
   return (
@@ -843,7 +939,7 @@ export default function PayrollCalcTab() {
         <Info className="w-5 h-5 mt-0.5 shrink-0" style={{ color: '#8dc63f' }} />
         <div>
           <p className="text-sm font-bold text-white mb-1">Payroll Commission Calculator</p>
-          <p className="text-xs text-slate-300">Upload your Service Titan CSV exports below for each pay type. The calculator will automatically detect columns and compute exactly what each person is owed. You can adjust levels, rates, and goals at any time — changes recalculate instantly.</p>
+          <p className="text-xs text-slate-300">Upload your Service Titan exports below for each pay type. Rosters, rates, goals, and focus are pulled live from your Google Sheet — update the sheet and refresh to apply changes.</p>
           <p className="text-xs text-slate-400 mt-1">Tip: The column mapper lets you manually match any ST export format. No need to rename your columns.</p>
         </div>
         <button onClick={resetAll} className="ml-auto shrink-0 flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg font-bold cursor-pointer transition-all"
@@ -886,6 +982,16 @@ export default function PayrollCalcTab() {
         </button>
       </div>
 
+      {/* Sheet loading / error */}
+      {sheetLoading && (
+        <div className="text-center text-slate-400 text-sm py-4">Loading pay plan config from Google Sheet…</div>
+      )}
+      {sheetError && (
+        <div className="flex items-center gap-2 text-amber-400 text-xs px-4 py-2 rounded-lg border border-amber-400/30 bg-amber-400/5">
+          <AlertCircle className="w-4 h-4 shrink-0" />{sheetError}
+        </div>
+      )}
+
       {/* ── Four pay plan sections ── */}
       <SalesSection
         roster={salesRoster}
@@ -902,6 +1008,7 @@ export default function PayrollCalcTab() {
       />
 
       <ResiInstallSection
+        roster={resiInstallRoster}
         goals={resiInstallGoals}
         onGoalsChange={setResiInstallGoals}
       />
