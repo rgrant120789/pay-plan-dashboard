@@ -359,9 +359,9 @@ function SalesSection({ roster, onRosterChange }) {
 
 function autoMapResiService(headers) {
   return {
-    name:    findCol(headers, ['tech_name', 'technician', 'name', 'employee', 'tech']) || '',
-    revenue: findCol(headers, ['completed_revenue', 'revenue', 'completed revenue', 'job_revenue', 'total_revenue']) || '',
-    sales:   findCol(headers, ['total_sales', 'sales', 'sold_revenue', 'sold revenue', 'sold_by_revenue']) || '',
+    name:    findCol(headers, ['name', 'tech_name', 'technician', 'employee', 'tech']) || '',
+    revenue: findCol(headers, ['completed revenue', 'completed_revenue', 'revenue', 'job_revenue', 'total_revenue']) || '',
+    sales:   findCol(headers, ['total sales', 'total_sales', 'sold_revenue', 'sold revenue', 'sold_by_revenue']) || '',
     period:  findCol(headers, ['week', 'period', 'pay_period', 'week_ending', 'date', 'job_date']) || '',
   }
 }
@@ -531,10 +531,10 @@ function ResiServiceSection({ roster, onRosterChange }) {
 
 function autoMapInstall(headers) {
   return {
-    name:          findCol(headers, ['tech_name', 'technician', 'name', 'employee', 'tech']) || '',
-    billableHours: findCol(headers, ['billable_hours', 'billable hours', 'billed_hours', 'hours_billed', 'billable']) || '',
-    revenue:       findCol(headers, ['revenue', 'completed_revenue', 'job_revenue', 'total_revenue']) || '',
-    sales:         findCol(headers, ['total_sales', 'sales', 'sold_revenue', 'sold revenue']) || '',
+    name:          findCol(headers, ['name', 'tech_name', 'technician', 'employee', 'tech']) || '',
+    billableHours: findCol(headers, ['job billable hours', 'billable_hours', 'billable hours', 'billed_hours', 'hours_billed', 'billable']) || '',
+    revenue:       findCol(headers, ['completed revenue', 'completed_revenue', 'revenue', 'job_revenue', 'total_revenue']) || '',
+    sales:         findCol(headers, ['total sales', 'total_sales', 'sales', 'sold_revenue', 'sold revenue']) || '',
   }
 }
 
