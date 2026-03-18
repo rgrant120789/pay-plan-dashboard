@@ -58,10 +58,10 @@ function DeptTable({ title, headers, rows }) {
 const residentialApprentices = [
   { name: 'Josh C.',   belt: 'Blue', hourly: 25 },
   { name: 'Miguel R.', belt: 'Blue', hourly: 25 },
-  { name: 'Austin B.',  belt: 'Gray', hourly: 20 },
+  { name: 'Austin B.',  belt: 'Gray', hourly: 21 },
   { name: 'Hector L.', belt: 'Gray', hourly: 21 },
   { name: 'Kaleb S.',  belt: 'Gray', hourly: 20 },
-  { name: 'AJ W.',     belt: 'Gray', hourly: 20 },
+  { name: 'AJ W.',     belt: 'Gray', hourly: 21 },
 ];
 
 const commercialApprentices = [

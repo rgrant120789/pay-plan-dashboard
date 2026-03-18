@@ -257,7 +257,7 @@ export const residentialServiceData = {
     { name: 'Cannan B.', belt: 'Green', level: 3, hourly2026: 29, hourly2025: 25 },
     { name: 'Adam D.', belt: 'Blue', level: 3, hourly2026: 25, hourly2025: 25 },
     { name: 'Marisa H.', belt: 'Blue', level: 3, hourly2026: 25, hourly2025: 20 },
-    { name: 'Josiah B.', belt: 'Brown', level: 3, hourly2026: 34, hourly2025: 36, note: 'partial year' },
+    { name: 'Josiah B.', belt: 'Brown', level: 3, hourly2026: 36, hourly2025: 36, note: 'partial year' },
   ],
   comparison: [
     { name: 'Tim W.',   revenue: 392206.77,  sales: 852626.27,   pay2026: 91335.99,  pay2025: 88891.39,  level: 3, bonusTotal: 4741.99 },
