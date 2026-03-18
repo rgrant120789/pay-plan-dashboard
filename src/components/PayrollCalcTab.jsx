@@ -419,10 +419,10 @@ function SalesSection({ roster, onRosterChange }) {
 
 function autoMapResiService(headers) {
   return {
-    name:    findCol(headers, ['name', 'tech_name', 'technician', 'employee', 'tech']) || '',
-    revenue: findCol(headers, ['completed revenue', 'completed_revenue', 'revenue', 'job_revenue', 'total_revenue']) || '',
-    sales:   findCol(headers, ['total sales', 'total_sales', 'sold_revenue', 'sold revenue', 'sold_by_revenue']) || '',
-    period:  findCol(headers, ['week', 'period', 'pay_period', 'week_ending', 'date', 'job_date']) || '',
+    primaryTech: findCol(headers, ['primary technician', 'primary_technician', 'primary tech', 'technician', 'tech', 'name', 'tech_name', 'employee']) || '',
+    soldBy:      findCol(headers, ['sold by', 'sold_by', 'salesperson', 'sold-by']) || '',
+    total:       findCol(headers, ['total', 'invoice total', 'job total', 'amount', 'revenue']) || '',
+    period:      findCol(headers, ['invoice date', 'invoice_date', 'week', 'period', 'pay_period', 'date', 'job_date']) || '',
   }
 }
 
@@ -431,13 +431,12 @@ function ResiServiceSection({ roster, onRosterChange }) {
   const [headers, setHeaders] = useState([])
   const [fileName, setFileName] = useState('')
   const [mapping, setMapping] = useState({})
-  const [periodMode, setPeriodMode] = useState('all') // 'all' | 'weekly'
 
   const FIELDS = [
-    { key: 'name',    label: 'Tech Name'           },
-    { key: 'revenue', label: 'Completed Revenue $'  },
-    { key: 'sales',   label: 'Total Sales $'        },
-    { key: 'period',  label: 'Week / Period (opt.)'  },
+    { key: 'primaryTech', label: 'Primary Technician' },
+    { key: 'soldBy',      label: 'Sold By'            },
+    { key: 'total',       label: 'Job Total $'         },
+    { key: 'period',      label: 'Invoice Date (opt.)' },
   ]
 
   function onData(data, hdrs, fname) {
@@ -447,29 +446,35 @@ function ResiServiceSection({ roster, onRosterChange }) {
     setMapping(autoMapResiService(hdrs))
   }
 
-  // Aggregate by name (and optionally by period)
-  const byNamePeriod = {}
+  // Aggregate per tech: workRevenue = rows where they are primary tech, soldRevenue = rows where they are sold by
+  const byTech = {}
+  const ensureTech = (name) => {
+    if (!byTech[name]) byTech[name] = { name, workRevenue: 0, soldRevenue: 0 }
+  }
   rows.forEach(r => {
-    const name    = String(r[mapping.name] || '').trim()
-    const revenue = parseMoney(r[mapping.revenue])
-    const sales   = parseMoney(r[mapping.sales])
-    const period  = mapping.period ? String(r[mapping.period] || 'All').trim() : 'All'
-    if (!name) return
-    const key = periodMode === 'weekly' ? `${name}||${period}` : name
-    if (!byNamePeriod[key]) byNamePeriod[key] = { name, period, revenue: 0, sales: 0 }
-    byNamePeriod[key].revenue += revenue
-    byNamePeriod[key].sales   += sales
+    const primary = String(r[mapping.primaryTech] || '').trim()
+    const soldBy  = String(r[mapping.soldBy]      || '').trim()
+    const total   = parseMoney(r[mapping.total])
+    if (!total) return
+    if (primary) { ensureTech(primary); byTech[primary].workRevenue += total }
+    if (soldBy)  { ensureTech(soldBy);  byTech[soldBy].soldRevenue  += total }
   })
 
   const rosterMap = Object.fromEntries(roster.map(t => [t.name, t]))
-  const entries = Object.values(byNamePeriod)
 
-  const results = entries.map(e => {
-    const tech = rosterMap[e.name]
-    if (!tech) return { ...e, level: '?', commission: 0, matched: false }
+  // Build results for everyone who appears in data, ordered by roster first then unmatched
+  const allNames = [
+    ...roster.map(t => t.name).filter(n => byTech[n]),
+    ...Object.keys(byTech).filter(n => !rosterMap[n]),
+  ]
+
+  const results = allNames.map(name => {
+    const d    = byTech[name] || { workRevenue: 0, soldRevenue: 0 }
+    const tech = rosterMap[name]
+    if (!tech) return { name, ...d, level: '?', commission: 0, matched: false }
     const rate = RESI_SERVICE_COMM_RATES[tech.level] || RESI_SERVICE_COMM_RATES[3]
-    const commission = e.revenue * rate.workDone + e.sales * rate.soldBy
-    return { ...e, level: tech.level, workDonePct: rate.workDone, soldByPct: rate.soldBy, commission, matched: true }
+    const commission = d.workRevenue * rate.workDone + d.soldRevenue * rate.soldBy
+    return { name, ...d, level: tech.level, workDonePct: rate.workDone, soldByPct: rate.soldBy, commission, matched: true }
   })
 
   const grandTotal = results.reduce((s, r) => s + r.commission, 0)
@@ -512,31 +517,16 @@ function ResiServiceSection({ roster, onRosterChange }) {
         </div>
       </div>
 
-      <div className="flex items-center gap-3 mb-3">
-        <span className="text-xs text-slate-400">Calculation mode:</span>
-        {['all', 'weekly'].map(m => (
-          <button key={m} onClick={() => setPeriodMode(m)}
-            className="text-xs px-3 py-1 rounded-lg font-bold cursor-pointer transition-all"
-            style={{
-              background: periodMode === m ? 'rgba(141,198,63,0.2)' : 'rgba(255,255,255,0.05)',
-              color: periodMode === m ? '#8dc63f' : '#94a3b8',
-              border: `1px solid ${periodMode === m ? 'rgba(141,198,63,0.5)' : 'transparent'}`,
-            }}>
-            {m === 'all' ? 'Aggregate (all rows)' : 'By Period/Week'}
-          </button>
-        ))}
-      </div>
-
       <UploadZone
-        label="Drop Resi Service Report CSV"
-        hint="Needs: tech name, completed revenue, total sales"
+        label="Drop Resi Service Job Report"
+        hint="Needs: Primary Technician, Sold By, Total"
         onData={onData}
         rowCount={rows.length}
         fileName={fileName}
       />
       <ColMapper headers={headers} mapping={mapping} onChange={setMapping} fields={FIELDS} />
 
-      {rows.length > 0 && mapping.name && mapping.revenue && (
+      {rows.length > 0 && mapping.primaryTech && mapping.total && (
         <div className="mt-5">
           <p className="text-xs font-bold tracking-widest uppercase mb-2" style={{ color: '#8dc63f' }}>Commission Owed</p>
           <div className="overflow-x-auto rounded-xl border border-white/10">
@@ -544,10 +534,9 @@ function ResiServiceSection({ roster, onRosterChange }) {
               <thead>
                 <tr className="bg-[#8dc63f] text-[#0d2b4e]">
                   <th className="px-4 py-2.5 text-left font-bold">Name</th>
-                  {periodMode === 'weekly' && <th className="px-4 py-2.5 text-left font-bold">Period</th>}
                   <th className="px-4 py-2.5 text-right font-bold">Lvl</th>
-                  <th className="px-4 py-2.5 text-right font-bold">Completed Rev</th>
-                  <th className="px-4 py-2.5 text-right font-bold">Total Sales</th>
+                  <th className="px-4 py-2.5 text-right font-bold">Work Done Rev</th>
+                  <th className="px-4 py-2.5 text-right font-bold">Sold By Rev</th>
                   <th className="px-4 py-2.5 text-right font-bold">Commission Owed</th>
                 </tr>
               </thead>
@@ -558,17 +547,22 @@ function ResiServiceSection({ roster, onRosterChange }) {
                       {r.name}
                       {!r.matched && <span className="ml-1 text-xs text-amber-400">*unmatched</span>}
                     </td>
-                    {periodMode === 'weekly' && <td className="px-4 py-2.5 text-slate-400 text-xs">{r.period}</td>}
                     <td className="px-4 py-2.5 text-right text-slate-300">{r.level}</td>
-                    <td className="px-4 py-2.5 text-right text-slate-300">{fmt(r.revenue)}</td>
-                    <td className="px-4 py-2.5 text-right text-slate-300">{fmt(r.sales)}</td>
+                    <td className="px-4 py-2.5 text-right text-slate-300">
+                      {fmt(r.workRevenue)}
+                      {r.matched && <span className="ml-1 text-xs text-slate-500">×{pct(r.workDonePct)}</span>}
+                    </td>
+                    <td className="px-4 py-2.5 text-right text-slate-300">
+                      {fmt(r.soldRevenue)}
+                      {r.matched && <span className="ml-1 text-xs text-slate-500">×{pct(r.soldByPct)}</span>}
+                    </td>
                     <td className="px-4 py-2.5 text-right font-bold" style={{ color: r.matched ? '#8dc63f' : '#94a3b8' }}>{fmt(r.commission)}</td>
                   </tr>
                 ))}
               </tbody>
               <tfoot>
                 <tr style={{ background: 'rgba(13,43,78,0.8)', borderTop: '1px solid rgba(141,198,63,0.3)' }}>
-                  <td colSpan={periodMode === 'weekly' ? 5 : 4} className="px-4 py-2.5 text-right font-bold text-slate-200">TOTAL RESI SERVICE COMMISSIONS</td>
+                  <td colSpan={4} className="px-4 py-2.5 text-right font-bold text-slate-200">TOTAL RESI SERVICE COMMISSIONS</td>
                   <td className="px-4 py-2.5 text-right font-bold text-lg" style={{ color: '#8dc63f' }}>{fmt(grandTotal)}</td>
                 </tr>
               </tfoot>
