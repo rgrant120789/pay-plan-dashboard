@@ -3,6 +3,33 @@ import Papa from 'papaparse'
 import * as XLSX from 'xlsx'
 import { Upload, ChevronDown, ChevronUp, Printer, RefreshCw, CheckCircle, AlertCircle, Info } from 'lucide-react'
 
+// ─── Print stylesheet (injected once) ────────────────────────────────────────
+const PRINT_STYLE = [
+  '@media print {',
+  '  .no-print { display: none !important; }',
+  '  .print-section { page-break-inside: avoid; margin-bottom: 28px; }',
+  '  .print-section-title { font-size: 13pt; font-weight: 700; text-transform: uppercase; color: #1a1a1a; border-bottom: 2px solid #8dc63f; padding-bottom: 4px; margin-bottom: 8px; }',
+  '  body, html { background: #fff; color: #111; }',
+  '  table { width: 100%; border-collapse: collapse; font-size: 10pt; }',
+  '  th { background: #1e3a5f; color: #fff; padding: 5px 8px; text-align: left; }',
+  '  td { padding: 4px 8px; border-bottom: 1px solid #e5e7eb; color: #111; }',
+  '  tr:nth-child(even) td { background: #f3f4f6; }',
+  '  tfoot td { background: #e8f5d0; font-weight: 700; color: #1a1a1a; }',
+  '  .print-commission { color: #2d6a00; font-weight: 700; }',
+  '  * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }',
+  '}',
+].join('\n')
+
+function usePrintStyle() {
+  useEffect(() => {
+    if (document.getElementById('payroll-print-style')) return
+    const el = document.createElement('style')
+    el.id = 'payroll-print-style'
+    el.textContent = PRINT_STYLE
+    document.head.appendChild(el)
+  }, [])
+}
+
 // ─── Google Sheet CSV URL (Payroll tab) ───────────────────────────────────────
 const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRKnMSCtFqzHDhdhbcDc_2zPGCs87tX4S-DjLE8TqAAPcvqntB43Mrqigt6MBn05jWDLXWAKyt1DDuC/pub?gid=704511217&single=true&output=csv'
 
@@ -339,7 +366,7 @@ function SalesSection({ roster, onRosterChange }) {
   return (
     <Section title="Sales Commission" badge="Weekly">
       {/* Roster display (read-only) */}
-      <div className="mb-4">
+      <div className="no-print mb-4">
         <p className="text-xs font-bold tracking-widest uppercase mb-2" style={{ color: '#8dc63f' }}>Salespeople &amp; Rates</p>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
@@ -362,6 +389,7 @@ function SalesSection({ roster, onRosterChange }) {
       </div>
 
       {/* Upload */}
+      <div className="no-print">
       <UploadZone
         label="Drop Sales Report CSV"
         hint="Needs: salesperson name + total sales columns"
@@ -370,8 +398,8 @@ function SalesSection({ roster, onRosterChange }) {
         fileName={fileName}
       />
       <ColMapper headers={headers} mapping={mapping} onChange={setMapping} fields={FIELDS} />
+      </div>
 
-      {/* Results */}
       {rows.length > 0 && mapping.name && mapping.sales && (
         <div className="mt-5">
           <p className="text-xs font-bold tracking-widest uppercase mb-2" style={{ color: '#8dc63f' }}>Commission Owed</p>
@@ -481,12 +509,12 @@ function ResiServiceSection({ roster, onRosterChange }) {
 
   return (
     <Section title="Residential Service Commission" badge="Weekly">
-      <div className="rounded-xl border px-4 py-3 mb-4 text-xs text-slate-300" style={{ borderColor: 'rgba(141,198,63,0.25)', background: 'rgba(141,198,63,0.05)' }}>
+      <div className="no-print rounded-xl border px-4 py-3 mb-4 text-xs text-slate-300" style={{ borderColor: 'rgba(141,198,63,0.25)', background: 'rgba(141,198,63,0.05)' }}>
         <span className="font-bold text-white">Formula:</span> Commission = (Completed Revenue × Work Done %) + (Total Sales × Sold By %) &nbsp;·&nbsp; Techs get whichever is higher: commission or hourly pay (enter hourly separately on paycheck)
       </div>
 
       {/* Level display (read-only) */}
-      <div className="mb-4">
+      <div className="no-print mb-4">
         <p className="text-xs font-bold tracking-widest uppercase mb-2" style={{ color: '#8dc63f' }}>Tech Service Levels</p>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
@@ -517,6 +545,7 @@ function ResiServiceSection({ roster, onRosterChange }) {
         </div>
       </div>
 
+      <div className="no-print">
       <UploadZone
         label="Drop Resi Service Job Report"
         hint="Needs: Primary Technician, Sold By, Total"
@@ -525,6 +554,7 @@ function ResiServiceSection({ roster, onRosterChange }) {
         fileName={fileName}
       />
       <ColMapper headers={headers} mapping={mapping} onChange={setMapping} fields={FIELDS} />
+      </div>
 
       {rows.length > 0 && mapping.primaryTech && mapping.total && (
         <div className="mt-5">
@@ -639,12 +669,12 @@ function ResiInstallSection({ roster, goals, onGoalsChange }) {
 
   return (
     <Section title="Residential Install Bonuses" badge="Monthly">
-      <div className="rounded-xl border px-4 py-3 mb-4 text-xs text-slate-300" style={{ borderColor: 'rgba(141,198,63,0.25)', background: 'rgba(141,198,63,0.05)' }}>
+      <div className="no-print rounded-xl border px-4 py-3 mb-4 text-xs text-slate-300" style={{ borderColor: 'rgba(141,198,63,0.25)', background: 'rgba(141,198,63,0.05)' }}>
         <span className="font-bold text-white">Formula:</span> Each month: <span style={{ color: '#8dc63f' }}>$1,000</span> if ≥ {fmtN(goals.billableHours)} billable hours &nbsp;+&nbsp; <span style={{ color: '#8dc63f' }}>$1,000</span> if ≥ {fmt(goals.revenue)} revenue &nbsp;+&nbsp; <span style={{ color: '#8dc63f' }}>$1,000</span> if ≥ {fmt(goals.sales)} sales &nbsp;·&nbsp; Max <span style={{ color: '#8dc63f' }}>$3,000/mo</span>
       </div>
 
       {/* Goal display (read-only) */}
-      <div className="grid grid-cols-3 gap-3 mb-4">
+      <div className="no-print grid grid-cols-3 gap-3 mb-4">
         {[
           { key: 'billableHours', label: 'Billable Hours Goal', fmt: v => fmtN(v) + ' hrs' },
           { key: 'revenue',       label: 'Revenue Goal',        fmt: v => fmt(v) },
@@ -657,14 +687,16 @@ function ResiInstallSection({ roster, goals, onGoalsChange }) {
         ))}
       </div>
 
-      <UploadZone
-        label="Drop Resi Install Report CSV"
-        hint="Needs: tech name, billable hours, revenue, sales — run one month at a time"
-        onData={onData}
-        rowCount={rows.length}
-        fileName={fileName}
-      />
-      <ColMapper headers={headers} mapping={mapping} onChange={setMapping} fields={FIELDS} />
+      <div className="no-print">
+        <UploadZone
+          label="Drop Resi Install Report CSV"
+          hint="Needs: tech name, billable hours, revenue, sales — run one month at a time"
+          onData={onData}
+          rowCount={rows.length}
+          fileName={fileName}
+        />
+        <ColMapper headers={headers} mapping={mapping} onChange={setMapping} fields={FIELDS} />
+      </div>
 
       {rows.length > 0 && mapping.name && (
         <div className="mt-5">
@@ -779,12 +811,12 @@ function CommercialSection({ roster, onRosterChange, goals, onGoalsChange }) {
 
   return (
     <Section title="Commercial Bonuses" badge="Monthly">
-      <div className="rounded-xl border px-4 py-3 mb-4 text-xs text-slate-300" style={{ borderColor: 'rgba(141,198,63,0.25)', background: 'rgba(141,198,63,0.05)' }}>
+      <div className="no-print rounded-xl border px-4 py-3 mb-4 text-xs text-slate-300" style={{ borderColor: 'rgba(141,198,63,0.25)', background: 'rgba(141,198,63,0.05)' }}>
         <span className="font-bold text-white">Formula:</span> Each month: <span style={{ color: '#8dc63f' }}>$1,000</span> billable hours + <span style={{ color: '#8dc63f' }}>$1,000</span> revenue + <span style={{ color: '#8dc63f' }}>$1,000</span> (Sales + TGL Sales) &nbsp;·&nbsp; Goals differ by focus (Service / Install / Entry) &nbsp;·&nbsp; Max <span style={{ color: '#8dc63f' }}>$3,000/mo</span>
       </div>
 
       {/* Roster + focus (read-only) */}
-      <div className="mb-4">
+      <div className="no-print mb-4">
         <p className="text-xs font-bold tracking-widest uppercase mb-2" style={{ color: '#8dc63f' }}>Commercial Technicians &amp; Focus</p>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
@@ -815,14 +847,16 @@ function CommercialSection({ roster, onRosterChange, goals, onGoalsChange }) {
         </div>
       </div>
 
-      <UploadZone
-        label="Drop Commercial Report CSV"
-        hint="Needs: tech name, billable hours, revenue, sales, TGL sales — run one month at a time"
-        onData={onData}
-        rowCount={rows.length}
-        fileName={fileName}
-      />
-      <ColMapper headers={headers} mapping={mapping} onChange={setMapping} fields={FIELDS} />
+      <div className="no-print">
+        <UploadZone
+          label="Drop Commercial Report CSV"
+          hint="Needs: tech name, billable hours, revenue, sales, TGL sales — run one month at a time"
+          onData={onData}
+          rowCount={rows.length}
+          fileName={fileName}
+        />
+        <ColMapper headers={headers} mapping={mapping} onChange={setMapping} fields={FIELDS} />
+      </div>
 
       {rows.length > 0 && mapping.name && (
         <div className="mt-5">
@@ -875,6 +909,7 @@ function CommercialSection({ roster, onRosterChange, goals, onGoalsChange }) {
 // ─── MAIN TAB ────────────────────────────────────────────────────────────────
 
 export default function PayrollCalcTab() {
+  usePrintStyle()
   const [salesRoster,      setSalesRoster]      = useState([])
   const [resiSvcRoster,    setResiSvcRoster]    = useState([])
   const [resiInstallRoster,setResiInstallRoster]= useState([])
@@ -929,7 +964,7 @@ export default function PayrollCalcTab() {
     <div className="space-y-6">
 
       {/* Header card */}
-      <div className="rounded-xl border px-5 py-4 flex items-start gap-4" style={{ borderColor: 'rgba(141,198,63,0.3)', background: 'rgba(141,198,63,0.06)' }}>
+      <div className="no-print rounded-xl border px-5 py-4 flex items-start gap-4" style={{ borderColor: 'rgba(141,198,63,0.3)', background: 'rgba(141,198,63,0.06)' }}>
         <Info className="w-5 h-5 mt-0.5 shrink-0" style={{ color: '#8dc63f' }} />
         <div>
           <p className="text-sm font-bold text-white mb-1">Payroll Commission Calculator</p>
@@ -946,7 +981,7 @@ export default function PayrollCalcTab() {
       </div>
 
       {/* CSV Format hint */}
-      <div className="rounded-xl border border-white/10 p-4" style={{ background: 'rgba(255,255,255,0.02)' }}>
+      <div className="no-print rounded-xl border border-white/10 p-4" style={{ background: 'rgba(255,255,255,0.02)' }}>
         <p className="text-xs font-bold tracking-widest uppercase mb-2 text-slate-400">Expected CSV Columns (flexible — use the mapper to match your actual headers)</p>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
           {[
@@ -964,7 +999,7 @@ export default function PayrollCalcTab() {
       </div>
 
       {/* Print button */}
-      <div className="flex justify-end">
+      <div className="no-print flex justify-end">
         <button
           onClick={() => window.print()}
           className="flex items-center gap-2 text-xs px-4 py-2 rounded-lg font-bold cursor-pointer transition-all"
@@ -978,10 +1013,10 @@ export default function PayrollCalcTab() {
 
       {/* Sheet loading / error */}
       {sheetLoading && (
-        <div className="text-center text-slate-400 text-sm py-4">Loading pay plan config from Google Sheet…</div>
+        <div className="no-print text-center text-slate-400 text-sm py-4">Loading pay plan config from Google Sheet…</div>
       )}
       {sheetError && (
-        <div className="flex items-center gap-2 text-amber-400 text-xs px-4 py-2 rounded-lg border border-amber-400/30 bg-amber-400/5">
+        <div className="no-print flex items-center gap-2 text-amber-400 text-xs px-4 py-2 rounded-lg border border-amber-400/30 bg-amber-400/5">
           <AlertCircle className="w-4 h-4 shrink-0" />{sheetError}
         </div>
       )}
