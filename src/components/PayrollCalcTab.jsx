@@ -674,11 +674,11 @@ function ResiInstallSection({ goals, onGoalsChange }) {
 
 function autoMapCommercial(headers) {
   return {
-    name:          findCol(headers, ['tech_name', 'technician', 'name', 'employee', 'tech']) || '',
-    billableHours: findCol(headers, ['billable_hours', 'billable hours', 'billed_hours', 'hours_billed', 'billable']) || '',
-    revenue:       findCol(headers, ['revenue', 'completed_revenue', 'job_revenue', 'total_revenue']) || '',
-    sales:         findCol(headers, ['total_sales', 'sales', 'sold_revenue', 'sold revenue']) || '',
-    tgl:           findCol(headers, ['tgl', 'tgl_sales', 'tech_generated_lead', 'tech generated lead', 'tgl sales']) || '',
+    name:          findCol(headers, ['name', 'tech_name', 'technician', 'employee', 'tech']) || '',
+    billableHours: findCol(headers, ['job billable hours', 'billable_hours', 'billable hours', 'billed_hours', 'hours_billed', 'billable']) || '',
+    revenue:       findCol(headers, ['completed revenue', 'completed_revenue', 'revenue', 'job_revenue', 'total_revenue']) || '',
+    sales:         findCol(headers, ['total sales', 'total_sales', 'sales', 'sold_revenue', 'sold revenue']) || '',
+    tgl:           findCol(headers, ['total tech lead sales', 'tgl', 'tgl_sales', 'tech_generated_lead', 'tech generated lead', 'tgl sales']) || '',
   }
 }
 
