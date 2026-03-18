@@ -225,8 +225,8 @@ function ResultRow({ name, detail, total, highlight }) {
 
 function autoMapSales(headers) {
   return {
-    name:  findCol(headers, ['sold_by', 'salesperson', 'sold by', 'sold-by', 'tech_name', 'technician', 'name', 'employee']) || '',
-    sales: findCol(headers, ['total_sales', 'total sales', 'sold_revenue', 'sold revenue', 'revenue', 'amount', 'sale_amount']) || '',
+    name:  findCol(headers, ['sold by', 'sold_by', 'salesperson', 'sold-by', 'tech_name', 'technician', 'name', 'employee']) || '',
+    sales: findCol(headers, ['total', 'total_sales', 'total sales', 'sold_revenue', 'sold revenue', 'revenue', 'amount', 'sale_amount']) || '',
   }
 }
 
