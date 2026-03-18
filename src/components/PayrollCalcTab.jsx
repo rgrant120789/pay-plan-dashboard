@@ -13,35 +13,35 @@ const RESI_SERVICE_COMM_RATES = {
 }
 
 const SALES_REPS = [
-  { name: 'Brandon J.', pct: 0.025 },
-  { name: 'Lee R.',     pct: 0.015 },
-  { name: 'Kevin H.',   pct: 0.015 },
-  { name: 'David W.',   pct: 0.015 },
-  { name: 'Cliff W.',   pct: 0.015 },
+  { name: 'Brandon Jestice',  pct: 0.025 },
+  { name: 'Lee Roeder',       pct: 0.015 },
+  { name: 'Kevin Hardy',      pct: 0.015 },
+  { name: 'David Wilkerson',  pct: 0.015 },
+  { name: 'Cliff Williams',   pct: 0.015 },
 ]
 
 const RESI_SERVICE_ROSTER = [
-  { name: 'Adam E.',   level: 3 },
-  { name: 'Kaleb G.', level: 3 },
-  { name: 'Tim W.',    level: 3 },
-  { name: 'Adam D.',   level: 3 },
-  { name: 'Marisa H.',level: 3 },
-  { name: 'Cannan B.',level: 3 },
-  { name: 'JJ L.',    level: 3 },
-  { name: 'Josiah B.',level: 3 },
+  { name: 'Adam Engle',    level: 3 },
+  { name: 'Kaleb Gosselin',level: 3 },
+  { name: 'Tim White',     level: 3 },
+  { name: 'Adam Duncan',   level: 3 },
+  { name: 'Marisa Hill',   level: 3 },
+  { name: 'Cannan Bonney', level: 3 },
+  { name: 'JJ Leclerc',   level: 3 },
+  { name: 'Josiah Brown',  level: 3 },
 ]
 
-const RESI_INSTALL_ROSTER = ['Bubba B.', 'Greg C.', 'Josh S.', 'Josiah B.', 'Mike N.', 'Steve G.']
+const RESI_INSTALL_ROSTER = ['Bubba Bryant', 'Greg Collins', 'Josh Smith', 'Josiah Brown', 'Mike Needham', 'Steve Gurganus']
 const RESI_INSTALL_GOALS  = { billableHours: 160, revenue: 85000, sales: 10000 }
 
 const COMMERCIAL_ROSTER = [
-  { name: 'Dorie L.',   focus: 'Service' },
-  { name: 'Grady T.',   focus: 'Service' },
-  { name: 'Jack D.',    focus: 'Service' },
-  { name: 'Alex T.',    focus: 'Install' },
-  { name: 'Brandon G.', focus: 'Service' },
-  { name: 'Ethan H.',   focus: 'Install' },
-  { name: 'Ronnie S.',  focus: 'Entry'   },
+  { name: 'Brandon Gurganus', focus: 'Service' },
+  { name: 'Chris Darlington', focus: 'Service' },
+  { name: 'Grady Thomas',     focus: 'Service' },
+  { name: 'Jack Dunham',      focus: 'Service' },
+  { name: 'Alex Talbott',     focus: 'Install' },
+  { name: 'Ethan Hatch',      focus: 'Install' },
+  { name: 'Ronnie Sherman',   focus: 'Entry'   },
 ]
 const COMMERCIAL_GOALS = {
   Service: { billableHours: 160, revenue: 65000, sales: 45000 },
