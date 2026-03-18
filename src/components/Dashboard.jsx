@@ -142,12 +142,25 @@ export default function Dashboard() {
     <div data-print-root className="min-h-screen" style={{ background: '#0a1f3a', fontFamily: "'Barlow', sans-serif" }}>
 
       {/* Header */}
-      <header className="no-print"
+      <header className="no-print relative overflow-hidden"
         style={{
           background: 'linear-gradient(105deg, #0d2b4e 55%, #8dc63f 100%)',
           borderBottom: '3px solid #8dc63f',
         }}
       >
+        {/* Diagonal stripe overlay */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            backgroundImage: `repeating-linear-gradient(
+              -55deg,
+              transparent,
+              transparent 18px,
+              rgba(255,255,255,0.035) 18px,
+              rgba(255,255,255,0.035) 20px
+            )`,
+          }}
+        />
         <div className="relative max-w-7xl mx-auto px-3 sm:px-6 py-2 flex items-center gap-3 sm:gap-6">
           <img
             src="/logo.png"
