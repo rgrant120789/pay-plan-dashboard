@@ -12,10 +12,10 @@ const PRINT_STYLE = [
   '  body, html { background: #fff; color: #111; }',
   '  table { width: 100%; border-collapse: collapse; font-size: 10pt; }',
   '  th { background: #1e3a5f; color: #fff; padding: 5px 8px; text-align: left; }',
-  '  td { padding: 4px 8px; border-bottom: 1px solid #e5e7eb; color: #111; }',
+  '  td { padding: 4px 8px; border-bottom: 1px solid #e5e7eb; color: #111 !important; }',
+  '  td * { color: #111 !important; }',
   '  tr:nth-child(even) td { background: #f3f4f6; }',
-  '  tfoot td { background: #e8f5d0; font-weight: 700; color: #1a1a1a; }',
-  '  .print-commission { color: #2d6a00; font-weight: 700; }',
+  '  tfoot td { background: #e8f5d0; font-weight: 700; color: #111 !important; }',
   '  * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }',
   '}',
 ].join('\n')
