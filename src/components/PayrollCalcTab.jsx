@@ -1104,7 +1104,7 @@ export default function PayrollCalcTab() {
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
           {[
             { label: 'Sales Report',          cols: 'Salesperson name, Total sales $' },
-            { label: 'Resi Service Report',   cols: 'Tech name, Completed revenue $, Total sales $' },
+            { label: 'Resi Service Report',   cols: 'Primary Technician, Sold By, Job Total $ — also upload a separate Hours report (Tech name, Hours worked)' },
             { label: 'Resi Install Report',          cols: 'Tech name, Billable hours, Revenue $, Sales $' },
             { label: 'Commercial Report',     cols: 'Tech name, Billable hours, Revenue $, Sales $, TGL Sales $' },
           ].map(r => (
