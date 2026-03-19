@@ -448,26 +448,41 @@ function SalesSection({ roster, onRosterChange }) {
 
 function autoMapResiService(headers) {
   return {
-    primaryTech:   findCol(headers, ['primary technician', 'primary_technician', 'primary tech', 'technician', 'tech', 'name', 'tech_name', 'employee']) || '',
-    soldBy:        findCol(headers, ['sold by', 'sold_by', 'salesperson', 'sold-by']) || '',
-    total:         findCol(headers, ['total', 'invoice total', 'job total', 'amount', 'revenue']) || '',
-    billableHours: findCol(headers, ['job billable hours', 'billable hours', 'billable_hours', 'billed hours', 'hours']) || '',
-    period:        findCol(headers, ['completed date', 'completion date', 'completed_date', 'completion_date', 'invoice date', 'invoice_date', 'week', 'period', 'pay_period', 'date', 'job_date']) || '',
+    primaryTech: findCol(headers, ['primary technician', 'primary_technician', 'primary tech', 'technician', 'tech', 'name', 'tech_name', 'employee']) || '',
+    soldBy:      findCol(headers, ['sold by', 'sold_by', 'salesperson', 'sold-by']) || '',
+    total:       findCol(headers, ['total', 'invoice total', 'job total', 'amount', 'revenue']) || '',
+    period:      findCol(headers, ['completed date', 'completion date', 'completed_date', 'completion_date', 'invoice date', 'invoice_date', 'week', 'period', 'pay_period', 'date', 'job_date']) || '',
+  }
+}
+
+function autoMapResiHours(headers) {
+  return {
+    name:  findCol(headers, ['name', 'tech name', 'tech_name', 'technician', 'employee', 'tech']) || '',
+    hours: findCol(headers, ['hours worked', 'hours_worked', 'total hours', 'total_hours', 'hours', 'time', 'worked']) || '',
   }
 }
 
 function ResiServiceSection({ roster, onRosterChange }) {
-  const [rows, setRows]       = useState([])
-  const [headers, setHeaders] = useState([])
-  const [fileName, setFileName] = useState('')
-  const [mapping, setMapping] = useState({})
+  const [rows, setRows]           = useState([])
+  const [headers, setHeaders]     = useState([])
+  const [fileName, setFileName]   = useState('')
+  const [mapping, setMapping]     = useState({})
 
-  const FIELDS = [
-    { key: 'primaryTech',   label: 'Primary Technician'    },
-    { key: 'soldBy',        label: 'Sold By'               },
-    { key: 'total',         label: 'Job Total $'            },
-    { key: 'billableHours', label: 'Billable Hours'         },
-    { key: 'period',        label: 'Completed Date (opt.)'  },
+  const [hoursRows, setHoursRows]         = useState([])
+  const [hoursHeaders, setHoursHeaders]   = useState([])
+  const [hoursFileName, setHoursFileName] = useState('')
+  const [hoursMapping, setHoursMapping]   = useState({})
+
+  const JOB_FIELDS = [
+    { key: 'primaryTech', label: 'Primary Technician'   },
+    { key: 'soldBy',      label: 'Sold By'              },
+    { key: 'total',       label: 'Job Total $'           },
+    { key: 'period',      label: 'Completed Date (opt.)' },
+  ]
+
+  const HOURS_FIELDS = [
+    { key: 'name',  label: 'Tech Name'    },
+    { key: 'hours', label: 'Hours Worked' },
   ]
 
   function onData(data, hdrs, fname) {
@@ -477,23 +492,33 @@ function ResiServiceSection({ roster, onRosterChange }) {
     setMapping(autoMapResiService(hdrs))
   }
 
-  // Aggregate per tech: workRevenue = rows where they are primary tech, soldRevenue = rows where they are sold by
+  function onHoursData(data, hdrs, fname) {
+    setHoursHeaders(hdrs)
+    setHoursRows(data)
+    setHoursFileName(fname)
+    setHoursMapping(autoMapResiHours(hdrs))
+  }
+
+  // Build hours-worked map from the time tracking upload
+  const hoursMap = {}
+  hoursRows.forEach(r => {
+    const name  = String(r[hoursMapping.name]  || '').trim()
+    const hours = parseNum(r[hoursMapping.hours])
+    if (name) hoursMap[name] = (hoursMap[name] || 0) + hours
+  })
+
+  // Aggregate per tech: workRevenue = rows where primary tech, soldRevenue = rows where sold by
   const byTech = {}
   const ensureTech = (name) => {
-    if (!byTech[name]) byTech[name] = { name, workRevenue: 0, soldRevenue: 0, billableHours: 0 }
+    if (!byTech[name]) byTech[name] = { name, workRevenue: 0, soldRevenue: 0 }
   }
   rows.forEach(r => {
     const primary = String(r[mapping.primaryTech] || '').trim()
     const soldBy  = String(r[mapping.soldBy]      || '').trim()
     const total   = parseMoney(r[mapping.total])
-    const bh      = parseNum(r[mapping.billableHours])
     if (!total) return
-    if (primary) {
-      ensureTech(primary)
-      byTech[primary].workRevenue   += total
-      byTech[primary].billableHours += bh
-    }
-    if (soldBy) { ensureTech(soldBy); byTech[soldBy].soldRevenue += total }
+    if (primary) { ensureTech(primary); byTech[primary].workRevenue += total }
+    if (soldBy)  { ensureTech(soldBy);  byTech[soldBy].soldRevenue  += total }
   })
 
   const rosterMap = Object.fromEntries(roster.map(t => [t.name, t]))
@@ -505,14 +530,15 @@ function ResiServiceSection({ roster, onRosterChange }) {
   ]
 
   const results = allNames.map(name => {
-    const d    = byTech[name] || { workRevenue: 0, soldRevenue: 0, billableHours: 0 }
-    const tech = rosterMap[name]
-    if (!tech) return { name, ...d, level: '?', commission: 0, hourlyPay: 0, paidAmount: 0, matched: false }
+    const d          = byTech[name] || { workRevenue: 0, soldRevenue: 0 }
+    const tech       = rosterMap[name]
+    const hoursWorked = hoursMap[name] || 0
+    if (!tech) return { name, ...d, hoursWorked, level: '?', commission: 0, hourlyPay: 0, paidAmount: 0, matched: false }
     const rate       = RESI_SERVICE_COMM_RATES[tech.level] || RESI_SERVICE_COMM_RATES[3]
     const commission = d.workRevenue * rate.workDone + d.soldRevenue * rate.soldBy
-    const hourlyPay  = (tech.hourly || 0) * d.billableHours
+    const hourlyPay  = (tech.hourly || 0) * hoursWorked
     const paidAmount = Math.max(commission, hourlyPay)
-    return { name, ...d, level: tech.level, workDonePct: rate.workDone, soldByPct: rate.soldBy, hourlyRate: tech.hourly || 0, commission, hourlyPay, paidAmount, matched: true }
+    return { name, ...d, hoursWorked, level: tech.level, workDonePct: rate.workDone, soldByPct: rate.soldBy, hourlyRate: tech.hourly || 0, commission, hourlyPay, paidAmount, matched: true }
   })
 
   const grandTotal = results.reduce((s, r) => s + r.paidAmount, 0)
@@ -556,14 +582,26 @@ function ResiServiceSection({ roster, onRosterChange }) {
       </div>
 
       <div className="no-print">
-      <UploadZone
-        label="Drop Resi Service Job Report"
-        hint="Needs: Primary Technician, Sold By, Total"
-        onData={onData}
-        rowCount={rows.length}
-        fileName={fileName}
-      />
-      <ColMapper headers={headers} mapping={mapping} onChange={setMapping} fields={FIELDS} />
+        <UploadZone
+          label="Drop Resi Service Job Report"
+          hint="Needs: Primary Technician, Sold By, Total"
+          onData={onData}
+          rowCount={rows.length}
+          fileName={fileName}
+          accent="#8dc63f"
+        />
+        <ColMapper headers={headers} mapping={mapping} onChange={setMapping} fields={JOB_FIELDS} />
+        <div className="mt-3">
+          <UploadZone
+            label="Drop Weekly Time Tracking Report"
+            hint="Needs: Tech name + hours worked for the week"
+            onData={onHoursData}
+            rowCount={hoursRows.length}
+            fileName={hoursFileName}
+            accent="#60a5fa"
+          />
+          <ColMapper headers={hoursHeaders} mapping={hoursMapping} onChange={setHoursMapping} fields={HOURS_FIELDS} />
+        </div>
       </div>
 
       {rows.length > 0 && mapping.primaryTech && mapping.total && (
@@ -600,7 +638,7 @@ function ResiServiceSection({ roster, onRosterChange }) {
                     </td>
                     <td className="px-4 py-2.5 text-right text-slate-400 text-sm">{fmt(r.commission)}</td>
                     <td className="px-4 py-2.5 text-right text-slate-400 text-sm">
-                      {r.matched && r.hourlyRate > 0 ? <>{fmt(r.hourlyPay)}<span className="ml-1 text-xs text-slate-500">({fmtN(r.billableHours)}h×{fmt(r.hourlyRate)})</span></> : '—'}
+                      {r.matched && r.hourlyRate > 0 ? <>{fmt(r.hourlyPay)}<span className="ml-1 text-xs text-slate-500">({fmtN(r.hoursWorked)}h×{fmt(r.hourlyRate)})</span></> : '—'}
                     </td>
                     <td className="px-4 py-2.5 text-right font-bold" style={{ color: r.matched ? '#8dc63f' : '#94a3b8' }}>
                       {fmt(r.paidAmount)}
