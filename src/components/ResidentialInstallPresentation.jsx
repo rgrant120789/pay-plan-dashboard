@@ -13,7 +13,7 @@ const beltLevels = [
 ];
 
 const bonuses = [
-  { metric: 'Billable Hours', goal: '160 hrs/mo', bonus: '$1,000', desc: 'Hit 160 billable hours in the month' },
+  { metric: 'Billable Hours', goal: '150 hrs/mo', bonus: '$1,000', desc: 'Hit 150 billable hours in the month' },
   { metric: 'Revenue',        goal: '$85,000/mo',  bonus: '$1,000', desc: 'Hit $85k in monthly revenue' },
   { metric: 'Sales',          goal: '$10,000/mo',  bonus: '$1,000', desc: 'Hit $10k in monthly sales' },
 ];

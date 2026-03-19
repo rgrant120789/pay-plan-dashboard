@@ -14,7 +14,7 @@ const GOAL_FIELDS = [
   { key: 'sales',         label: 'Sales Goal',            min: 2000,  max: 30000,   step: 1000 },
 ];
 
-const DEFAULT_GOALS = { billableHours: 160, revenue: 85000, sales: 10000 };
+const DEFAULT_GOALS = { billableHours: 150, revenue: 85000, sales: 10000 };
 
 const BELT_RANGES = {
   Gray:  { min: 18, max: 21 },

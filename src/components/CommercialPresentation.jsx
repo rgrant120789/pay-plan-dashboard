@@ -17,7 +17,7 @@ const focuses = [
     name: 'Service Focus',
     color: '#8dc63f',
     bonuses: [
-      { metric: 'Billable Hours', goal: '160 hrs/mo', bonus: '$1,000' },
+      { metric: 'Billable Hours', goal: '150 hrs/mo', bonus: '$1,000' },
       { metric: 'Revenue',        goal: '$65,000/mo',  bonus: '$1,000' },
       { metric: 'Sales + TGL',    goal: '$45,000/mo',  bonus: '$1,000' },
     ],
@@ -26,7 +26,7 @@ const focuses = [
     name: 'Install Focus',
     color: '#8dc63f',
     bonuses: [
-      { metric: 'Billable Hours', goal: '160 hrs/mo', bonus: '$1,000' },
+      { metric: 'Billable Hours', goal: '150 hrs/mo', bonus: '$1,000' },
       { metric: 'Revenue',        goal: '$85,000/mo',  bonus: '$1,000' },
       { metric: 'Sales + TGL',    goal: '$20,000/mo',  bonus: '$1,000' },
     ],
@@ -35,7 +35,7 @@ const focuses = [
     name: 'Entry Focus',
     color: '#8dc63f',
     bonuses: [
-      { metric: 'Billable Hours', goal: '160 hrs/mo', bonus: '$1,000' },
+      { metric: 'Billable Hours', goal: '150 hrs/mo', bonus: '$1,000' },
       { metric: 'Revenue',        goal: '$65,000/mo',  bonus: '$1,000' },
       { metric: 'Sales + TGL',    goal: '$20,000/mo',  bonus: '$1,000' },
     ],
