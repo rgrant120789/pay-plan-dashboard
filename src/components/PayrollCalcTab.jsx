@@ -43,7 +43,8 @@ const RESI_SERVICE_COMM_RATES = {
 
 // ─── Parse Payroll CSV into config ────────────────────────────────────────────
 function parsePayrollCSV(csvText) {
-  const lines = csvText.split('\n').map(l => l.split(',').map(c => c.replace(/^"|"|\r$/g, '').trim()))
+  const parsed = Papa.parse(csvText, { skipEmptyLines: false })
+  const lines  = parsed.data.map(row => row.map(c => String(c).trim()))
 
   const salesReps      = []
   const resiSvcRoster  = []
