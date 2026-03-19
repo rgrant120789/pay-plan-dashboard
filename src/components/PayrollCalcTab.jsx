@@ -1119,19 +1119,45 @@ export default function PayrollCalcTab() {
         </button>
       </div>
 
-      {/* CSV Format hint */}
+      {/* Reports Required */}
       <div className="no-print rounded-xl border border-white/10 p-4" style={{ background: 'rgba(255,255,255,0.02)' }}>
-        <p className="text-xs font-bold tracking-widest uppercase mb-2 text-slate-400">Expected CSV Columns (flexible — use the mapper to match your actual headers)</p>
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
+        <p className="text-xs font-bold tracking-widest uppercase mb-3 text-slate-400">Reports Required</p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
           {[
-            { label: 'Sales Report',          cols: 'Salesperson name, Total sales $' },
-            { label: 'Resi Service Report',   cols: 'Primary Technician, Sold By, Job Total $ — also upload a separate Hours report (Tech name, Hours worked)' },
-            { label: 'Resi Install Report',          cols: 'Tech name, Billable hours, Revenue $, Sales $' },
-            { label: 'Commercial Report',     cols: 'Tech name, Billable hours, Revenue $, Sales $, TGL Sales $' },
-          ].map(r => (
-            <div key={r.label} className="rounded-lg p-2.5 border border-white/10" style={{ background: 'rgba(0,0,0,0.2)' }}>
-              <p className="font-bold text-slate-300 mb-1">{r.label}</p>
-              <p className="text-slate-500">{r.cols}</p>
+            {
+              section: 'Sales Commission',
+              reports: [
+                { system: 'ServiceTitan', name: 'A1 Pay Plan - Sales', fields: ['Salesperson', 'Total Sales $'] },
+              ],
+            },
+            {
+              section: 'Residential Service',
+              reports: [
+                { system: 'ServiceTitan', name: 'A1 Pay Plan - Residential Service (Weekly Pay)', fields: ['Primary Technician', 'Sold By', 'Job Total $', 'Completed Date'] },
+                { system: 'BambooHR', name: 'A1 Resi Service Tech Hours', fields: ['First Name', 'Last Name', 'Hours-Regular', 'Hours-Overtime'] },
+              ],
+            },
+            {
+              section: 'Residential Install',
+              reports: [
+                { system: 'ServiceTitan', name: 'A1 Pay Plan - Residential Install', fields: ['Tech Name', 'Billable Hours', 'Revenue $', 'Sales $'] },
+              ],
+            },
+            {
+              section: 'Commercial',
+              reports: [
+                { system: 'ServiceTitan', name: 'A1 Pay Plan - Commercial', fields: ['Tech Name', 'Billable Hours', 'Revenue $', 'Sales $', 'TGL Sales $'] },
+              ],
+            },
+          ].map(sec => (
+            <div key={sec.section} className="rounded-lg p-3 border border-white/10" style={{ background: 'rgba(0,0,0,0.2)' }}>
+              <p className="font-bold text-white mb-2" style={{ fontFamily: "'Barlow Condensed', sans-serif", letterSpacing: '0.05em', textTransform: 'uppercase' }}>{sec.section}</p>
+              {sec.reports.map(r => (
+                <div key={r.name} className="mb-2 last:mb-0">
+                  <p className="text-slate-400 mb-0.5"><span className="text-slate-500">{r.system} · </span><span className="font-semibold text-slate-300">{r.name}</span></p>
+                  <p className="text-slate-500">Required: {r.fields.join(', ')}</p>
+                </div>
+              ))}
             </div>
           ))}
         </div>
