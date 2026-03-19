@@ -7,15 +7,15 @@ import { Upload, ChevronDown, ChevronUp, Printer, RefreshCw, CheckCircle, AlertC
 const PRINT_STYLE = [
   '@media print {',
   '  .no-print { display: none !important; }',
-  '  .print-section { page-break-inside: avoid; margin-bottom: 28px; }',
-  '  .print-section-title { font-size: 13pt; font-weight: 700; text-transform: uppercase; color: #1a1a1a; border-bottom: 2px solid #8dc63f; padding-bottom: 4px; margin-bottom: 8px; }',
+  '  .print-hide { display: none !important; }',
   '  body, html { background: #fff; color: #111; }',
-  '  table { width: 100%; border-collapse: collapse; font-size: 10pt; }',
-  '  th { background: #1e3a5f; color: #fff; padding: 5px 8px; text-align: left; }',
-  '  td { padding: 4px 8px; border-bottom: 1px solid #e5e7eb; color: #111 !important; }',
+  '  table { width: 100%; border-collapse: collapse; font-size: 9pt; table-layout: auto; }',
+  '  th { background: #1e3a5f !important; color: #fff !important; padding: 4px 6px; text-align: left !important; white-space: nowrap; font-size: 8.5pt; }',
+  '  td { padding: 3px 6px; border-bottom: 1px solid #e5e7eb; color: #111 !important; text-align: left !important; white-space: nowrap; vertical-align: middle; }',
   '  td * { color: #111 !important; }',
+  '  td span { white-space: nowrap; }',
   '  tr:nth-child(even) td { background: #f3f4f6; }',
-  '  tfoot td { background: #e8f5d0; font-weight: 700; color: #111 !important; }',
+  '  tfoot td { background: #e8f5d0 !important; font-weight: 700; color: #111 !important; white-space: nowrap; }',
   '  * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }',
   '}',
 ].join('\n')
@@ -683,7 +683,7 @@ function ResiServiceSection({ roster, onRosterChange }) {
                     <td className="px-3 py-2.5 text-center text-xs" style={{ color: r.overtimeHours > 0 ? '#f59e0b' : '#64748b' }}>{fmtN(r.overtimeHours)}</td>
                     <td className="px-3 py-2.5 text-right text-slate-300 text-xs">
                       {fmt(r.commissionPay)}
-                      {r.matched && <div className="text-slate-500">{fmt(r.workRevenue)}×{pct(r.workDonePct)} + {fmt(r.soldRevenue)}×{pct(r.soldByPct)}</div>}
+                      {r.matched && <div className="text-slate-500 print-hide">{fmt(r.workRevenue)}×{pct(r.workDonePct)} + {fmt(r.soldRevenue)}×{pct(r.soldByPct)}</div>}
                     </td>
                     <td className="px-3 py-2.5 text-center">
                       <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${
