@@ -367,7 +367,7 @@ function SalesSection({ roster, onRosterChange }) {
   const grandTotal = results.reduce((s, r) => s + r.commission, 0)
 
   return (
-    <Section title="Product Specialist Commissions" badge="Weekly">
+    <Section title="Salesperson Commissions" badge="Weekly">
       {/* Roster display (read-only) */}
       <div className="no-print mb-4">
         <p className="text-xs font-bold tracking-widest uppercase mb-2" style={{ color: '#8dc63f' }}>Salespeople &amp; Rates</p>
