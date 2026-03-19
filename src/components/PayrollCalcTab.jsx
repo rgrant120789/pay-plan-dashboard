@@ -86,11 +86,12 @@ function parsePayrollCSV(csvText) {
       if (!isNaN(pct)) salesReps.push({ name: salesName, pct })
     }
 
-    // Resi Service (col 3 = name, col 4 = level)
-    const rsName = cols[3]
-    const rsLevel = parseInt(cols[4])
+    // Resi Service (col 3 = name, col 4 = hourly, col 5 = level)
+    const rsName  = cols[3]
+    const rsHourly = parseFloat(String(cols[4]).replace(/[$,\s]/g, '')) || 0
+    const rsLevel = parseInt(cols[5])
     if (rsName && !isNaN(rsLevel) && rsLevel >= 1 && rsLevel <= 4) {
-      resiSvcRoster.push({ name: rsName, level: rsLevel })
+      resiSvcRoster.push({ name: rsName, level: rsLevel, hourly: rsHourly })
     }
 
     // Install goals (rows 2-4: col 8 = label, col 9 = value)
@@ -447,10 +448,11 @@ function SalesSection({ roster, onRosterChange }) {
 
 function autoMapResiService(headers) {
   return {
-    primaryTech: findCol(headers, ['primary technician', 'primary_technician', 'primary tech', 'technician', 'tech', 'name', 'tech_name', 'employee']) || '',
-    soldBy:      findCol(headers, ['sold by', 'sold_by', 'salesperson', 'sold-by']) || '',
-    total:       findCol(headers, ['total', 'invoice total', 'job total', 'amount', 'revenue']) || '',
-    period:      findCol(headers, ['completed date', 'completion date', 'completed_date', 'completion_date', 'invoice date', 'invoice_date', 'week', 'period', 'pay_period', 'date', 'job_date']) || '',
+    primaryTech:   findCol(headers, ['primary technician', 'primary_technician', 'primary tech', 'technician', 'tech', 'name', 'tech_name', 'employee']) || '',
+    soldBy:        findCol(headers, ['sold by', 'sold_by', 'salesperson', 'sold-by']) || '',
+    total:         findCol(headers, ['total', 'invoice total', 'job total', 'amount', 'revenue']) || '',
+    billableHours: findCol(headers, ['job billable hours', 'billable hours', 'billable_hours', 'billed hours', 'hours']) || '',
+    period:        findCol(headers, ['completed date', 'completion date', 'completed_date', 'completion_date', 'invoice date', 'invoice_date', 'week', 'period', 'pay_period', 'date', 'job_date']) || '',
   }
 }
 
@@ -461,10 +463,11 @@ function ResiServiceSection({ roster, onRosterChange }) {
   const [mapping, setMapping] = useState({})
 
   const FIELDS = [
-    { key: 'primaryTech', label: 'Primary Technician' },
-    { key: 'soldBy',      label: 'Sold By'            },
-    { key: 'total',       label: 'Job Total $'         },
-    { key: 'period',      label: 'Completed Date (opt.)' },
+    { key: 'primaryTech',   label: 'Primary Technician'    },
+    { key: 'soldBy',        label: 'Sold By'               },
+    { key: 'total',         label: 'Job Total $'            },
+    { key: 'billableHours', label: 'Billable Hours'         },
+    { key: 'period',        label: 'Completed Date (opt.)'  },
   ]
 
   function onData(data, hdrs, fname) {
@@ -477,15 +480,20 @@ function ResiServiceSection({ roster, onRosterChange }) {
   // Aggregate per tech: workRevenue = rows where they are primary tech, soldRevenue = rows where they are sold by
   const byTech = {}
   const ensureTech = (name) => {
-    if (!byTech[name]) byTech[name] = { name, workRevenue: 0, soldRevenue: 0 }
+    if (!byTech[name]) byTech[name] = { name, workRevenue: 0, soldRevenue: 0, billableHours: 0 }
   }
   rows.forEach(r => {
     const primary = String(r[mapping.primaryTech] || '').trim()
     const soldBy  = String(r[mapping.soldBy]      || '').trim()
     const total   = parseMoney(r[mapping.total])
+    const bh      = parseNum(r[mapping.billableHours])
     if (!total) return
-    if (primary) { ensureTech(primary); byTech[primary].workRevenue += total }
-    if (soldBy)  { ensureTech(soldBy);  byTech[soldBy].soldRevenue  += total }
+    if (primary) {
+      ensureTech(primary)
+      byTech[primary].workRevenue   += total
+      byTech[primary].billableHours += bh
+    }
+    if (soldBy) { ensureTech(soldBy); byTech[soldBy].soldRevenue += total }
   })
 
   const rosterMap = Object.fromEntries(roster.map(t => [t.name, t]))
@@ -497,20 +505,22 @@ function ResiServiceSection({ roster, onRosterChange }) {
   ]
 
   const results = allNames.map(name => {
-    const d    = byTech[name] || { workRevenue: 0, soldRevenue: 0 }
+    const d    = byTech[name] || { workRevenue: 0, soldRevenue: 0, billableHours: 0 }
     const tech = rosterMap[name]
-    if (!tech) return { name, ...d, level: '?', commission: 0, matched: false }
-    const rate = RESI_SERVICE_COMM_RATES[tech.level] || RESI_SERVICE_COMM_RATES[3]
+    if (!tech) return { name, ...d, level: '?', commission: 0, hourlyPay: 0, paidAmount: 0, matched: false }
+    const rate       = RESI_SERVICE_COMM_RATES[tech.level] || RESI_SERVICE_COMM_RATES[3]
     const commission = d.workRevenue * rate.workDone + d.soldRevenue * rate.soldBy
-    return { name, ...d, level: tech.level, workDonePct: rate.workDone, soldByPct: rate.soldBy, commission, matched: true }
+    const hourlyPay  = (tech.hourly || 0) * d.billableHours
+    const paidAmount = Math.max(commission, hourlyPay)
+    return { name, ...d, level: tech.level, workDonePct: rate.workDone, soldByPct: rate.soldBy, hourlyRate: tech.hourly || 0, commission, hourlyPay, paidAmount, matched: true }
   })
 
-  const grandTotal = results.reduce((s, r) => s + r.commission, 0)
+  const grandTotal = results.reduce((s, r) => s + r.paidAmount, 0)
 
   return (
     <Section title="Residential Service Commission" badge="Weekly">
       <div className="no-print rounded-xl border px-4 py-3 mb-4 text-xs text-slate-300" style={{ borderColor: 'rgba(141,198,63,0.25)', background: 'rgba(141,198,63,0.05)' }}>
-        <span className="font-bold text-white">Formula:</span> Commission = (Completed Revenue × Work Done %) + (Total Sales × Sold By %) &nbsp;·&nbsp; Techs get whichever is higher: commission or hourly pay (enter hourly separately on paycheck)
+        <span className="font-bold text-white">Formula:</span> Commission = (Work Done Rev × Work Done %) + (Sold By Rev × Sold By %) &nbsp;·&nbsp; Paid = <span style={{ color: '#8dc63f' }}>max(Commission, Hourly Rate × Billable Hours)</span>
       </div>
 
       {/* Level display (read-only) */}
@@ -521,10 +531,10 @@ function ResiServiceSection({ roster, onRosterChange }) {
             <thead>
               <tr style={{ background: 'rgba(141,198,63,0.12)' }}>
                 <th className="px-3 py-2 text-left text-slate-300 font-semibold">Name</th>
+                <th className="px-3 py-2 text-center text-slate-300 font-semibold">Hourly Rate</th>
                 <th className="px-3 py-2 text-center text-slate-300 font-semibold">Level</th>
                 <th className="px-3 py-2 text-center text-slate-300 font-semibold">Work Done %</th>
                 <th className="px-3 py-2 text-center text-slate-300 font-semibold">Sold By %</th>
-                <th className="px-3 py-2 text-center text-slate-300 font-semibold">Total %</th>
               </tr>
             </thead>
             <tbody>
@@ -533,10 +543,10 @@ function ResiServiceSection({ roster, onRosterChange }) {
                 return (
                   <tr key={t.name} className={i % 2 === 0 ? 'bg-white/5' : 'bg-white/[0.02]'}>
                     <td className="px-3 py-2 text-white">{t.name}</td>
+                    <td className="px-3 py-2 text-center font-bold" style={{ color: '#8dc63f' }}>{t.hourly ? fmt(t.hourly) + '/hr' : '—'}</td>
                     <td className="px-3 py-2 text-center font-bold" style={{ color: '#8dc63f' }}>{t.level}</td>
                     <td className="px-3 py-2 text-center text-slate-300">{pct(rate.workDone)}</td>
                     <td className="px-3 py-2 text-center text-slate-300">{pct(rate.soldBy)}</td>
-                    <td className="px-3 py-2 text-center font-bold" style={{ color: '#8dc63f' }}>{pct(rate.workDone + rate.soldBy)}</td>
                   </tr>
                 )
               })}
@@ -567,7 +577,9 @@ function ResiServiceSection({ roster, onRosterChange }) {
                   <th className="px-4 py-2.5 text-right font-bold">Lvl</th>
                   <th className="px-4 py-2.5 text-right font-bold">Work Done Rev</th>
                   <th className="px-4 py-2.5 text-right font-bold">Sold By Rev</th>
-                  <th className="px-4 py-2.5 text-right font-bold">Commission Owed</th>
+                  <th className="px-4 py-2.5 text-right font-bold">Commission</th>
+                  <th className="px-4 py-2.5 text-right font-bold">Hourly Pay</th>
+                  <th className="px-4 py-2.5 text-right font-bold">Paid (Higher)</th>
                 </tr>
               </thead>
               <tbody>
@@ -586,13 +598,20 @@ function ResiServiceSection({ roster, onRosterChange }) {
                       {fmt(r.soldRevenue)}
                       {r.matched && <span className="ml-1 text-xs text-slate-500">×{pct(r.soldByPct)}</span>}
                     </td>
-                    <td className="px-4 py-2.5 text-right font-bold" style={{ color: r.matched ? '#8dc63f' : '#94a3b8' }}>{fmt(r.commission)}</td>
+                    <td className="px-4 py-2.5 text-right text-slate-400 text-sm">{fmt(r.commission)}</td>
+                    <td className="px-4 py-2.5 text-right text-slate-400 text-sm">
+                      {r.matched && r.hourlyRate > 0 ? <>{fmt(r.hourlyPay)}<span className="ml-1 text-xs text-slate-500">({fmtN(r.billableHours)}h×{fmt(r.hourlyRate)})</span></> : '—'}
+                    </td>
+                    <td className="px-4 py-2.5 text-right font-bold" style={{ color: r.matched ? '#8dc63f' : '#94a3b8' }}>
+                      {fmt(r.paidAmount)}
+                      {r.matched && r.hourlyRate > 0 && <span className="ml-1 text-xs" style={{ color: r.hourlyPay > r.commission ? '#f59e0b' : '#64748b' }}>{r.hourlyPay > r.commission ? '↑ hourly' : '↑ comm'}</span>}
+                    </td>
                   </tr>
                 ))}
               </tbody>
               <tfoot>
                 <tr style={{ background: 'rgba(13,43,78,0.8)', borderTop: '1px solid rgba(141,198,63,0.3)' }}>
-                  <td colSpan={4} className="px-4 py-2.5 text-right font-bold text-slate-200">TOTAL RESI SERVICE COMMISSIONS</td>
+                  <td colSpan={6} className="px-4 py-2.5 text-right font-bold text-slate-200">TOTAL RESI SERVICE PAID</td>
                   <td className="px-4 py-2.5 text-right font-bold text-lg" style={{ color: '#8dc63f' }}>{fmt(grandTotal)}</td>
                 </tr>
               </tfoot>
