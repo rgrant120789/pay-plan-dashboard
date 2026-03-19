@@ -1186,8 +1186,8 @@ export default function PayrollCalcTab() {
       )}
 
       {/* ── Weekly sections ── */}
-      <div className="rounded-2xl border-2 p-4 space-y-4" style={{ borderColor: '#f59e0b', background: 'rgba(245,158,11,0.04)' }}>
-        <p className="text-xs font-bold tracking-widest uppercase" style={{ color: '#f59e0b' }}>⟳ Weekly Pay</p>
+      <div className="rounded-2xl border-2 p-4 space-y-4" style={{ borderColor: '#8dc63f', background: 'rgba(141,198,63,0.04)' }}>
+        <p className="text-xs font-bold tracking-widest uppercase" style={{ color: '#8dc63f' }}>⟳ Weekly Pay</p>
         <SalesSection
           roster={salesRoster}
           onRosterChange={(name, newPct) =>
