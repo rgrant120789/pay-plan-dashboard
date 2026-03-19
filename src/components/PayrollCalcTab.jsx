@@ -457,8 +457,12 @@ function autoMapResiService(headers) {
 
 function autoMapResiHours(headers) {
   return {
-    name:  findCol(headers, ['name', 'tech name', 'tech_name', 'technician', 'employee', 'tech']) || '',
-    hours: findCol(headers, ['hours worked', 'hours_worked', 'total hours', 'total_hours', 'hours', 'time', 'worked']) || '',
+    name:      findCol(headers, ['name', 'full name', 'full_name', 'tech name', 'tech_name', 'technician', 'employee', 'tech']) || '',
+    firstName: findCol(headers, ['first name', 'first_name', 'firstname']) || '',
+    lastName:  findCol(headers, ['last name', 'last_name', 'lastname', 'surname']) || '',
+    regHours:  findCol(headers, ['regular hours', 'regular_hours', 'reg hours', 'reg_hours', 'regular']) || '',
+    otHours:   findCol(headers, ['overtime hours', 'overtime_hours', 'ot hours', 'ot_hours', 'overtime', 'over time']) || '',
+    totalHours: findCol(headers, ['hours worked', 'hours_worked', 'total hours', 'total_hours', 'hours', 'time', 'worked']) || '',
   }
 }
 
@@ -481,8 +485,12 @@ function ResiServiceSection({ roster, onRosterChange }) {
   ]
 
   const HOURS_FIELDS = [
-    { key: 'name',  label: 'Tech Name'    },
-    { key: 'hours', label: 'Hours Worked' },
+    { key: 'name',       label: 'Full Name (if combined)' },
+    { key: 'firstName',  label: 'First Name'              },
+    { key: 'lastName',   label: 'Last Name'               },
+    { key: 'regHours',   label: 'Regular Hours'           },
+    { key: 'otHours',    label: 'Overtime Hours'          },
+    { key: 'totalHours', label: 'Total Hours (if combined)' },
   ]
 
   function onData(data, hdrs, fname) {
@@ -500,11 +508,24 @@ function ResiServiceSection({ roster, onRosterChange }) {
   }
 
   // Build hours-worked map from the time tracking upload
-  const hoursMap = {}
+  // Supports: combined name OR first+last name columns; total OR reg+OT columns
+  const hoursMap = {}   // name -> { reg, ot }
   hoursRows.forEach(r => {
-    const name  = String(r[hoursMapping.name]  || '').trim()
-    const hours = parseNum(r[hoursMapping.hours])
-    if (name) hoursMap[name] = (hoursMap[name] || 0) + hours
+    const fullName  = String(r[hoursMapping.name]      || '').trim()
+    const firstName = String(r[hoursMapping.firstName] || '').trim()
+    const lastName  = String(r[hoursMapping.lastName]  || '').trim()
+    const name = fullName || (firstName && lastName ? `${firstName} ${lastName}` : firstName || lastName)
+    if (!name) return
+    const reg   = parseNum(r[hoursMapping.regHours])
+    const ot    = parseNum(r[hoursMapping.otHours])
+    const total = parseNum(r[hoursMapping.totalHours])
+    if (!hoursMap[name]) hoursMap[name] = { reg: 0, ot: 0 }
+    if (reg || ot) {
+      hoursMap[name].reg += reg
+      hoursMap[name].ot  += ot
+    } else if (total) {
+      hoursMap[name].reg += total
+    }
   })
 
   // Aggregate per tech: workRevenue = rows where primary tech, soldRevenue = rows where sold by
@@ -530,16 +551,17 @@ function ResiServiceSection({ roster, onRosterChange }) {
   ]
 
   const results = allNames.map(name => {
-    const d           = byTech[name] || { workRevenue: 0, soldRevenue: 0 }
-    const tech        = rosterMap[name]
-    const totalHours  = Math.max(hoursMap[name] || 0, 0)
-    if (!tech) return { name, ...d, totalHours, level: '?', commission: 0, hourlyPay: 0, finalPay: 0, matched: false }
+    const d             = byTech[name] || { workRevenue: 0, soldRevenue: 0 }
+    const tech          = rosterMap[name]
+    const hEntry        = hoursMap[name] || { reg: 0, ot: 0 }
+    const regularHours  = Math.max(hEntry.reg, 0)
+    const overtimeHours = Math.max(hEntry.ot, 0)
+    const totalHours    = regularHours + overtimeHours
+    if (!tech) return { name, ...d, totalHours, regularHours, overtimeHours, level: '?', commissionPay: 0, hourlyPay: 0, finalPay: 0, matched: false }
 
     const rate           = RESI_SERVICE_COMM_RATES[tech.level] || RESI_SERVICE_COMM_RATES[3]
     const commissionPay  = d.workRevenue * rate.workDone + d.soldRevenue * rate.soldBy
     const hourlyRate     = Math.max(tech.hourly || 0, 0)
-    const regularHours   = Math.min(totalHours, 40)
-    const overtimeHours  = Math.max(totalHours - 40, 0)
     const hourlyPay      = hourlyRate * regularHours + hourlyRate * 1.5 * overtimeHours
 
     // Straight-time base = hourly rate × ALL hours (no OT multiplier).
