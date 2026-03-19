@@ -461,8 +461,8 @@ function autoMapResiHours(headers) {
     name:      findCol(headers, ['name', 'full name', 'full_name', 'tech name', 'tech_name', 'technician', 'employee', 'tech']) || '',
     firstName: findCol(headers, ['first name', 'first_name', 'firstname']) || '',
     lastName:  findCol(headers, ['last name', 'last_name', 'lastname', 'surname']) || '',
-    regHours:  findCol(headers, ['regular hours', 'regular_hours', 'reg hours', 'reg_hours', 'regular']) || '',
-    otHours:   findCol(headers, ['overtime hours', 'overtime_hours', 'ot hours', 'ot_hours', 'overtime', 'over time']) || '',
+    regHours:  findCol(headers, ['hours-regular', 'hours_regular', 'regular hours', 'regular_hours', 'reg hours', 'reg_hours', 'regular']) || '',
+    otHours:   findCol(headers, ['hours-overtime', 'hours_overtime', 'overtime hours', 'overtime_hours', 'ot hours', 'ot_hours', 'overtime', 'over time']) || '',
     totalHours: findCol(headers, ['hours worked', 'hours_worked', 'total hours', 'total_hours', 'hours', 'time', 'worked']) || '',
   }
 }
