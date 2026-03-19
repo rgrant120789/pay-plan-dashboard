@@ -58,11 +58,11 @@ function parsePayrollCSV(csvText) {
 
   // Column layout from sheet:
   // Col0: Sales Name  | Col1: Sales %
-  // Col3: RS Name     | Col4: RS Level | Col5: RS workDone% | Col6: RS soldBy%
-  // Col8: Install bonus label | Col9: Install goal value
-  // Col12: Comm bonus label | Col13: Comm goal value (Service)
-  // Row 7+ Col8: Install tech names
-  // Row 19+ Col12: Comm tech name | Col13: Comm focus
+  // Col3: RS Name     | Col4: RS Hourly | Col5: RS Level | Col6: RS workDone% | Col7: RS soldBy%
+  // Col9: Install bonus label | Col10: Install goal value
+  // Col13: Comm bonus label | Col14: Comm goal value (Service)
+  // Row 7+ Col9: Install tech names
+  // Row 18+ Col13: Comm tech name | Col14: Comm focus
 
   const installGoalLabels  = { 'Billable Hour': 'billableHours', 'Revenue': 'revenue', 'Sales': 'sales' }
   const commSvcGoalLabels  = { 'Billable Hour': 'billableHours', 'Revenue': 'revenue', 'Sales + TGL Sales': 'sales' }
@@ -94,22 +94,22 @@ function parsePayrollCSV(csvText) {
       resiSvcRoster.push({ name: rsName, level: rsLevel, hourly: rsHourly })
     }
 
-    // Install goals (rows 2-4: col 8 = label, col 9 = value)
-    const instLabel = cols[8]
-    const instVal   = cols[9]
+    // Install goals (rows 2-4: col 9 = label, col 10 = value)
+    const instLabel = cols[9]
+    const instVal   = cols[10]
     if (instLabel && instVal && installGoalLabels[instLabel]) {
       const key = installGoalLabels[instLabel]
       resiInstallGoals[key] = parseMoney(instVal) || parseFloat(instVal) || resiInstallGoals[key]
     }
 
-    // Install roster (rows 7+ col 8)
-    if (i >= 7 && cols[8] && !installGoalLabels[cols[8]] && !cols[8].includes('Install') && !cols[8].includes('Billable') && !cols[8].includes('Revenue') && !cols[8].includes('Sales')) {
-      resiInstallRoster.push(cols[8])
+    // Install roster (rows 7+ col 9)
+    if (i >= 7 && cols[9] && !installGoalLabels[cols[9]] && !cols[9].includes('Install') && !cols[9].includes('Billable') && !cols[9].includes('Revenue') && !cols[9].includes('Sales') && !cols[9].includes('Technician')) {
+      resiInstallRoster.push(cols[9])
     }
 
-    // Commercial Service goals (rows 2-4: col 12 = label, col 13 = value)
-    const commSvcLabel = cols[12]
-    const commSvcVal   = cols[13]
+    // Commercial Service goals (rows 2-4: col 13 = label, col 14 = value)
+    const commSvcLabel = cols[13]
+    const commSvcVal   = cols[14]
     if (commSvcLabel && commSvcVal && commSvcGoalLabels[commSvcLabel]) {
       const key = commSvcGoalLabels[commSvcLabel]
       commercialGoals.Service[key] = parseMoney(commSvcVal) || parseFloat(commSvcVal) || commercialGoals.Service[key]
@@ -117,8 +117,8 @@ function parsePayrollCSV(csvText) {
 
     // Commercial Install goals (rows 8-10)
     if (i >= 7 && i <= 10) {
-      const ciLabel = cols[12]
-      const ciVal   = cols[13]
+      const ciLabel = cols[13]
+      const ciVal   = cols[14]
       if (ciLabel && ciVal && commInstGoalLabels[ciLabel]) {
         const key = commInstGoalLabels[ciLabel]
         commercialGoals.Install[key] = parseMoney(ciVal) || parseFloat(ciVal) || commercialGoals.Install[key]
@@ -127,18 +127,18 @@ function parsePayrollCSV(csvText) {
 
     // Commercial Entry goals (rows 14-16)
     if (i >= 13 && i <= 16) {
-      const ceLabel = cols[12]
-      const ceVal   = cols[13]
+      const ceLabel = cols[13]
+      const ceVal   = cols[14]
       if (ceLabel && ceVal && commEntGoalLabels[ceLabel]) {
         const key = commEntGoalLabels[ceLabel]
         commercialGoals.Entry[key] = parseMoney(ceVal) || parseFloat(ceVal) || commercialGoals.Entry[key]
       }
     }
 
-    // Commercial technicians (rows 19+: col 12 = name, col 13 = focus)
-    if (i >= 18) {
-      const commName  = cols[12]
-      const commFocus = cols[13]
+    // Commercial technicians (rows 18+: col 13 = name, col 14 = focus)
+    if (i >= 17) {
+      const commName  = cols[13]
+      const commFocus = cols[14]
       if (commName && ['Service','Install','Entry'].includes(commFocus)) {
         commercialRoster.push({ name: commName, focus: commFocus })
       }
