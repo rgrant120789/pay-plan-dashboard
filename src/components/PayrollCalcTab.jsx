@@ -1185,35 +1185,40 @@ export default function PayrollCalcTab() {
         </div>
       )}
 
-      {/* ── Four pay plan sections ── */}
-      <SalesSection
-        roster={salesRoster}
-        onRosterChange={(name, newPct) =>
-          setSalesRoster(prev => prev.map(r => r.name === name ? { ...r, pct: newPct } : r))
-        }
-      />
+      {/* ── Weekly sections ── */}
+      <div className="rounded-2xl border-2 p-4 space-y-4" style={{ borderColor: '#f59e0b', background: 'rgba(245,158,11,0.04)' }}>
+        <p className="text-xs font-bold tracking-widest uppercase" style={{ color: '#f59e0b' }}>⟳ Weekly Pay</p>
+        <SalesSection
+          roster={salesRoster}
+          onRosterChange={(name, newPct) =>
+            setSalesRoster(prev => prev.map(r => r.name === name ? { ...r, pct: newPct } : r))
+          }
+        />
+        <ResiServiceSection
+          roster={resiSvcRoster}
+          onRosterChange={(name, field, val) =>
+            setResiSvcRoster(prev => prev.map(t => t.name === name ? { ...t, [field]: val } : t))
+          }
+        />
+      </div>
 
-      <ResiServiceSection
-        roster={resiSvcRoster}
-        onRosterChange={(name, field, val) =>
-          setResiSvcRoster(prev => prev.map(t => t.name === name ? { ...t, [field]: val } : t))
-        }
-      />
-
-      <ResiInstallSection
-        roster={resiInstallRoster}
-        goals={resiInstallGoals}
-        onGoalsChange={setResiInstallGoals}
-      />
-
-      <CommercialSection
-        roster={commercialRoster}
-        onRosterChange={(name, field, val) =>
-          setCommercialRoster(prev => prev.map(t => t.name === name ? { ...t, [field]: val } : t))
-        }
-        goals={commercialGoals}
-        onGoalsChange={setCommercialGoals}
-      />
+      {/* ── Monthly sections ── */}
+      <div className="rounded-2xl border-2 p-4 space-y-4" style={{ borderColor: '#60a5fa', background: 'rgba(96,165,250,0.04)' }}>
+        <p className="text-xs font-bold tracking-widest uppercase" style={{ color: '#60a5fa' }}>⟳ Monthly Pay</p>
+        <ResiInstallSection
+          roster={resiInstallRoster}
+          goals={resiInstallGoals}
+          onGoalsChange={setResiInstallGoals}
+        />
+        <CommercialSection
+          roster={commercialRoster}
+          onRosterChange={(name, field, val) =>
+            setCommercialRoster(prev => prev.map(t => t.name === name ? { ...t, [field]: val } : t))
+          }
+          goals={commercialGoals}
+          onGoalsChange={setCommercialGoals}
+        />
+      </div>
 
     </div>
   )
