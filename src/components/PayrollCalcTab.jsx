@@ -367,7 +367,7 @@ function SalesSection({ roster, onRosterChange }) {
   const grandTotal = results.reduce((s, r) => s + r.commission, 0)
 
   return (
-    <Section title="Sales Commission" badge="Weekly">
+    <Section title="Product Specialist Commissions" badge="Weekly">
       {/* Roster display (read-only) */}
       <div className="no-print mb-4">
         <p className="text-xs font-bold tracking-widest uppercase mb-2" style={{ color: '#8dc63f' }}>Salespeople &amp; Rates</p>
@@ -597,7 +597,7 @@ function ResiServiceSection({ roster, onRosterChange }) {
   const grandTotal = results.reduce((s, r) => s + r.finalPay, 0)
 
   return (
-    <Section title="Residential Service Commission" badge="Weekly">
+    <Section title="Residential Service Tech Performance Pay" badge="Weekly">
       <div className="no-print rounded-xl border px-4 py-3 mb-4 text-xs text-slate-300" style={{ borderColor: 'rgba(141,198,63,0.25)', background: 'rgba(141,198,63,0.05)' }}>
         <span className="font-bold text-white">Formula:</span> Pay = higher of (hourly + 1.5× OT) or commission &nbsp;·&nbsp; If commission wins with OT: add <span style={{ color: '#8dc63f' }}>0.5 × (commission ÷ total hrs) × OT hrs</span> true-up
       </div>
@@ -779,7 +779,7 @@ function ResiInstallSection({ roster, goals, onGoalsChange }) {
   const grandTotal = results.reduce((s, r) => s + r.bonus, 0)
 
   return (
-    <Section title="Residential Install Bonuses" badge="Monthly">
+    <Section title="Residential Install Tech Bonuses" badge="Monthly">
       <div className="no-print rounded-xl border px-4 py-3 mb-4 text-xs text-slate-300" style={{ borderColor: 'rgba(141,198,63,0.25)', background: 'rgba(141,198,63,0.05)' }}>
         <span className="font-bold text-white">Formula:</span> Each month: <span style={{ color: '#8dc63f' }}>$1,000</span> if ≥ {fmtN(goals.billableHours)} billable hours &nbsp;+&nbsp; <span style={{ color: '#8dc63f' }}>$1,000</span> if ≥ {fmt(goals.revenue)} revenue &nbsp;+&nbsp; <span style={{ color: '#8dc63f' }}>$1,000</span> if ≥ {fmt(goals.sales)} sales &nbsp;·&nbsp; Max <span style={{ color: '#8dc63f' }}>$3,000/mo</span>
       </div>
@@ -950,7 +950,7 @@ function CommercialSection({ roster, onRosterChange, goals, onGoalsChange }) {
   const FOCUS_OPTIONS = ['Service', 'Install', 'Entry']
 
   return (
-    <Section title="Commercial Bonuses" badge="Monthly">
+    <Section title="Commercial Tech Bonuses" badge="Monthly">
       <div className="no-print rounded-xl border px-4 py-3 mb-4 text-xs text-slate-300" style={{ borderColor: 'rgba(141,198,63,0.25)', background: 'rgba(141,198,63,0.05)' }}>
         <span className="font-bold text-white">Formula:</span> Each month: <span style={{ color: '#8dc63f' }}>$1,000</span> billable hours + <span style={{ color: '#8dc63f' }}>$1,000</span> revenue + <span style={{ color: '#8dc63f' }}>$1,000</span> (Sales + TGL Sales) &nbsp;·&nbsp; Goals differ by focus (Service / Install / Entry) &nbsp;·&nbsp; Max <span style={{ color: '#8dc63f' }}>$3,000/mo</span>
       </div>
