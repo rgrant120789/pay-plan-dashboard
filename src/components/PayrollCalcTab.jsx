@@ -1154,7 +1154,7 @@ export default function PayrollCalcTab() {
               <p className="font-bold text-white mb-2" style={{ fontFamily: "'Barlow Condensed', sans-serif", letterSpacing: '0.05em', textTransform: 'uppercase' }}>{sec.section}</p>
               {sec.reports.map(r => (
                 <div key={r.name} className="mb-1.5 last:mb-0">
-                  <p className="text-slate-400"><span className="text-slate-500">{r.system} · </span><span className="font-semibold text-slate-300">{r.name}</span></p>
+                  <p><span className="font-semibold" style={{ color: '#8dc63f' }}>{r.system}</span><span className="text-slate-400"> · </span><span className="font-semibold text-white">{r.name}</span></p>
                 </div>
               ))}
             </div>
