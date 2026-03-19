@@ -49,12 +49,12 @@ function parsePayrollCSV(csvText) {
   const salesReps      = []
   const resiSvcRoster  = []
   const resiInstallRoster = []
-  const resiInstallGoals  = { billableHours: 160, revenue: 85000, sales: 10000 }
+  const resiInstallGoals  = { billableHours: 150, revenue: 85000, sales: 10000 }
   const commercialRoster  = []
   const commercialGoals   = {
-    Service: { billableHours: 160, revenue: 65000, sales: 45000 },
-    Install: { billableHours: 160, revenue: 85000, sales: 20000 },
-    Entry:   { billableHours: 160, revenue: 65000, sales: 20000 },
+    Service: { billableHours: 150, revenue: 65000, sales: 45000 },
+    Install: { billableHours: 150, revenue: 85000, sales: 20000 },
+    Entry:   { billableHours: 150, revenue: 65000, sales: 20000 },
   }
 
   // Column layout from sheet:
@@ -1053,11 +1053,11 @@ export default function PayrollCalcTab() {
   const [resiSvcRoster,    setResiSvcRoster]    = useState([])
   const [resiInstallRoster,setResiInstallRoster]= useState([])
   const [commercialRoster, setCommercialRoster] = useState([])
-  const [resiInstallGoals, setResiInstallGoals] = useState({ billableHours: 160, revenue: 85000, sales: 10000 })
+  const [resiInstallGoals, setResiInstallGoals] = useState({ billableHours: 150, revenue: 85000, sales: 10000 })
   const [commercialGoals,  setCommercialGoals]  = useState({
-    Service: { billableHours: 160, revenue: 65000, sales: 45000 },
-    Install: { billableHours: 160, revenue: 85000, sales: 20000 },
-    Entry:   { billableHours: 160, revenue: 65000, sales: 20000 },
+    Service: { billableHours: 150, revenue: 65000, sales: 45000 },
+    Install: { billableHours: 150, revenue: 85000, sales: 20000 },
+    Entry:   { billableHours: 150, revenue: 65000, sales: 20000 },
   })
   const [sheetLoading, setSheetLoading] = useState(true)
   const [sheetError,   setSheetError]   = useState(null)
