@@ -5,6 +5,7 @@ import { Upload, ChevronDown, ChevronUp, Printer, RefreshCw, CheckCircle, AlertC
 
 // ─── Print stylesheet (injected once) ────────────────────────────────────────
 const PRINT_STYLE = [
+  '@page { size: landscape; margin: 0.5in; }',
   '@media print {',
   '  .no-print { display: none !important; }',
   '  .print-hide { display: none !important; }',
