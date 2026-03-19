@@ -530,23 +530,54 @@ function ResiServiceSection({ roster, onRosterChange }) {
   ]
 
   const results = allNames.map(name => {
-    const d          = byTech[name] || { workRevenue: 0, soldRevenue: 0 }
-    const tech       = rosterMap[name]
-    const hoursWorked = hoursMap[name] || 0
-    if (!tech) return { name, ...d, hoursWorked, level: '?', commission: 0, hourlyPay: 0, paidAmount: 0, matched: false }
-    const rate       = RESI_SERVICE_COMM_RATES[tech.level] || RESI_SERVICE_COMM_RATES[3]
-    const commission = d.workRevenue * rate.workDone + d.soldRevenue * rate.soldBy
-    const hourlyPay  = (tech.hourly || 0) * hoursWorked
-    const paidAmount = Math.max(commission, hourlyPay)
-    return { name, ...d, hoursWorked, level: tech.level, workDonePct: rate.workDone, soldByPct: rate.soldBy, hourlyRate: tech.hourly || 0, commission, hourlyPay, paidAmount, matched: true }
+    const d           = byTech[name] || { workRevenue: 0, soldRevenue: 0 }
+    const tech        = rosterMap[name]
+    const totalHours  = Math.max(hoursMap[name] || 0, 0)
+    if (!tech) return { name, ...d, totalHours, level: '?', commission: 0, hourlyPay: 0, finalPay: 0, matched: false }
+
+    const rate           = RESI_SERVICE_COMM_RATES[tech.level] || RESI_SERVICE_COMM_RATES[3]
+    const commissionPay  = d.workRevenue * rate.workDone + d.soldRevenue * rate.soldBy
+    const hourlyRate     = Math.max(tech.hourly || 0, 0)
+    const regularHours   = Math.min(totalHours, 40)
+    const overtimeHours  = Math.max(totalHours - 40, 0)
+    const hourlyPay      = hourlyRate * regularHours + hourlyRate * 1.5 * overtimeHours
+
+    let winningType, basePay, regularRateForTrueUp, overtimeTrueUp, finalPay
+    if (commissionPay > hourlyPay) {
+      winningType = 'commission'
+      basePay     = commissionPay
+      if (overtimeHours > 0) {
+        regularRateForTrueUp = commissionPay / totalHours
+        overtimeTrueUp       = 0.5 * regularRateForTrueUp * overtimeHours
+      } else {
+        regularRateForTrueUp = 0
+        overtimeTrueUp       = 0
+      }
+      finalPay = commissionPay + overtimeTrueUp
+    } else {
+      winningType          = 'hourly'
+      basePay              = hourlyPay
+      regularRateForTrueUp = 0
+      overtimeTrueUp       = 0
+      finalPay             = hourlyPay
+    }
+
+    return {
+      name, ...d,
+      level: tech.level, workDonePct: rate.workDone, soldByPct: rate.soldBy,
+      hourlyRate, totalHours, regularHours, overtimeHours,
+      hourlyPay, commissionPay, winningType, basePay,
+      regularRateForTrueUp, overtimeTrueUp, finalPay,
+      matched: true,
+    }
   })
 
-  const grandTotal = results.reduce((s, r) => s + r.paidAmount, 0)
+  const grandTotal = results.reduce((s, r) => s + r.finalPay, 0)
 
   return (
     <Section title="Residential Service Commission" badge="Weekly">
       <div className="no-print rounded-xl border px-4 py-3 mb-4 text-xs text-slate-300" style={{ borderColor: 'rgba(141,198,63,0.25)', background: 'rgba(141,198,63,0.05)' }}>
-        <span className="font-bold text-white">Formula:</span> Commission = (Work Done Rev × Work Done %) + (Sold By Rev × Sold By %) &nbsp;·&nbsp; Paid = <span style={{ color: '#8dc63f' }}>max(Commission, Hourly Rate × Billable Hours)</span>
+        <span className="font-bold text-white">Formula:</span> Pay = higher of (hourly + 1.5× OT) or commission &nbsp;·&nbsp; If commission wins with OT: add <span style={{ color: '#8dc63f' }}>0.5 × (commission ÷ total hrs) × OT hrs</span> true-up
       </div>
 
       {/* Level display (read-only) */}
@@ -606,51 +637,57 @@ function ResiServiceSection({ roster, onRosterChange }) {
 
       {rows.length > 0 && mapping.primaryTech && mapping.total && (
         <div className="mt-5">
-          <p className="text-xs font-bold tracking-widest uppercase mb-2" style={{ color: '#8dc63f' }}>Commission Owed</p>
+          <p className="text-xs font-bold tracking-widest uppercase mb-2" style={{ color: '#8dc63f' }}>Pay Breakdown</p>
           <div className="overflow-x-auto rounded-xl border border-white/10">
             <table className="w-full text-sm">
               <thead>
                 <tr className="bg-[#8dc63f] text-[#0d2b4e]">
-                  <th className="px-4 py-2.5 text-left font-bold">Name</th>
-                  <th className="px-4 py-2.5 text-right font-bold">Lvl</th>
-                  <th className="px-4 py-2.5 text-right font-bold">Work Done Rev</th>
-                  <th className="px-4 py-2.5 text-right font-bold">Sold By Rev</th>
-                  <th className="px-4 py-2.5 text-right font-bold">Commission</th>
-                  <th className="px-4 py-2.5 text-right font-bold">Hourly Pay</th>
-                  <th className="px-4 py-2.5 text-right font-bold">Paid (Higher)</th>
+                  <th className="px-3 py-2.5 text-left font-bold">Name</th>
+                  <th className="px-3 py-2.5 text-center font-bold">Hrs</th>
+                  <th className="px-3 py-2.5 text-center font-bold">Reg</th>
+                  <th className="px-3 py-2.5 text-center font-bold">OT</th>
+                  <th className="px-3 py-2.5 text-right font-bold">Hourly Pay</th>
+                  <th className="px-3 py-2.5 text-right font-bold">Commission</th>
+                  <th className="px-3 py-2.5 text-center font-bold">Winner</th>
+                  <th className="px-3 py-2.5 text-right font-bold">OT True-Up</th>
+                  <th className="px-3 py-2.5 text-right font-bold">Final Pay</th>
                 </tr>
               </thead>
               <tbody>
                 {results.map((r, i) => (
                   <tr key={i} className={`${i % 2 === 0 ? 'bg-white/5' : 'bg-white/[0.02]'} ${!r.matched ? 'opacity-60' : ''}`}>
-                    <td className="px-4 py-2.5 font-semibold text-white">
+                    <td className="px-3 py-2.5 font-semibold text-white">
                       {r.name}
                       {!r.matched && <span className="ml-1 text-xs text-amber-400">*unmatched</span>}
                     </td>
-                    <td className="px-4 py-2.5 text-right text-slate-300">{r.level}</td>
-                    <td className="px-4 py-2.5 text-right text-slate-300">
-                      {fmt(r.workRevenue)}
-                      {r.matched && <span className="ml-1 text-xs text-slate-500">×{pct(r.workDonePct)}</span>}
+                    <td className="px-3 py-2.5 text-center text-slate-300 text-xs">{fmtN(r.totalHours)}</td>
+                    <td className="px-3 py-2.5 text-center text-slate-300 text-xs">{fmtN(r.regularHours)}</td>
+                    <td className="px-3 py-2.5 text-center text-xs" style={{ color: r.overtimeHours > 0 ? '#f59e0b' : '#64748b' }}>{fmtN(r.overtimeHours)}</td>
+                    <td className="px-3 py-2.5 text-right text-slate-300 text-xs">
+                      {r.matched && r.hourlyRate > 0 ? <>{fmt(r.hourlyPay)}<br/><span className="text-slate-500">${r.hourlyRate}/hr</span></> : '—'}
                     </td>
-                    <td className="px-4 py-2.5 text-right text-slate-300">
-                      {fmt(r.soldRevenue)}
-                      {r.matched && <span className="ml-1 text-xs text-slate-500">×{pct(r.soldByPct)}</span>}
+                    <td className="px-3 py-2.5 text-right text-slate-300 text-xs">
+                      {fmt(r.commissionPay)}
+                      {r.matched && <div className="text-slate-500">{fmt(r.workRevenue)}×{pct(r.workDonePct)} + {fmt(r.soldRevenue)}×{pct(r.soldByPct)}</div>}
                     </td>
-                    <td className="px-4 py-2.5 text-right text-slate-400 text-sm">{fmt(r.commission)}</td>
-                    <td className="px-4 py-2.5 text-right text-slate-400 text-sm">
-                      {r.matched && r.hourlyRate > 0 ? <>{fmt(r.hourlyPay)}<span className="ml-1 text-xs text-slate-500">({fmtN(r.hoursWorked)}h×{fmt(r.hourlyRate)})</span></> : '—'}
+                    <td className="px-3 py-2.5 text-center">
+                      <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${
+                        r.winningType === 'commission' ? 'bg-emerald-400/10 text-emerald-400' : 'bg-amber-400/10 text-amber-400'
+                      }`}>{r.winningType || '—'}</span>
                     </td>
-                    <td className="px-4 py-2.5 text-right font-bold" style={{ color: r.matched ? '#8dc63f' : '#94a3b8' }}>
-                      {fmt(r.paidAmount)}
-                      {r.matched && r.hourlyRate > 0 && <span className="ml-1 text-xs" style={{ color: r.hourlyPay > r.commission ? '#f59e0b' : '#64748b' }}>{r.hourlyPay > r.commission ? '↑ hourly' : '↑ comm'}</span>}
+                    <td className="px-3 py-2.5 text-right text-xs" style={{ color: r.overtimeTrueUp > 0 ? '#f59e0b' : '#64748b' }}>
+                      {r.overtimeTrueUp > 0 ? <>{fmt(r.overtimeTrueUp)}<br/><span className="text-slate-500">0.5×${r.regularRateForTrueUp?.toFixed(4)}/hr×{fmtN(r.overtimeHours)}h</span></> : '—'}
+                    </td>
+                    <td className="px-3 py-2.5 text-right font-bold" style={{ color: r.matched ? '#8dc63f' : '#94a3b8' }}>
+                      {fmt(r.finalPay)}
                     </td>
                   </tr>
                 ))}
               </tbody>
               <tfoot>
                 <tr style={{ background: 'rgba(13,43,78,0.8)', borderTop: '1px solid rgba(141,198,63,0.3)' }}>
-                  <td colSpan={6} className="px-4 py-2.5 text-right font-bold text-slate-200">TOTAL RESI SERVICE PAID</td>
-                  <td className="px-4 py-2.5 text-right font-bold text-lg" style={{ color: '#8dc63f' }}>{fmt(grandTotal)}</td>
+                  <td colSpan={8} className="px-3 py-2.5 text-right font-bold text-slate-200">TOTAL RESI SERVICE FINAL PAY</td>
+                  <td className="px-3 py-2.5 text-right font-bold text-lg" style={{ color: '#8dc63f' }}>{fmt(grandTotal)}</td>
                 </tr>
               </tfoot>
             </table>
