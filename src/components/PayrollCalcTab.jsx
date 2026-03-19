@@ -486,12 +486,10 @@ function ResiServiceSection({ roster, onRosterChange }) {
   ]
 
   const HOURS_FIELDS = [
-    { key: 'name',       label: 'Full Name (if combined)' },
-    { key: 'firstName',  label: 'First Name'              },
-    { key: 'lastName',   label: 'Last Name'               },
-    { key: 'regHours',   label: 'Regular Hours'           },
-    { key: 'otHours',    label: 'Overtime Hours'          },
-    { key: 'totalHours', label: 'Total Hours (if combined)' },
+    { key: 'firstName', label: 'First Name'    },
+    { key: 'lastName',  label: 'Last Name'     },
+    { key: 'regHours',  label: 'Regular Hours' },
+    { key: 'otHours',   label: 'Overtime Hours' },
   ]
 
   function onData(data, hdrs, fname) {
