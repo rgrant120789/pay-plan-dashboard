@@ -542,32 +542,32 @@ function ResiServiceSection({ roster, onRosterChange }) {
     const overtimeHours  = Math.max(totalHours - 40, 0)
     const hourlyPay      = hourlyRate * regularHours + hourlyRate * 1.5 * overtimeHours
 
-    let winningType, basePay, regularRateForTrueUp, overtimeTrueUp, finalPay
+    // Straight-time base = hourly rate × ALL hours (no OT multiplier).
+    // The payroll system pays Regular + Overtime lines; these are pre-handled.
+    // We only need to tell it what to enter for the two Commission lines.
+    const straightTimePay = hourlyRate * totalHours  // base the payroll system already covers via Regular+OT lines
+
+    let winningType, commPerf, commPerfOT, finalPay
     if (commissionPay > hourlyPay) {
-      winningType = 'commission'
-      basePay     = commissionPay
-      if (overtimeHours > 0) {
-        regularRateForTrueUp = commissionPay / totalHours
-        overtimeTrueUp       = 0.5 * regularRateForTrueUp * overtimeHours
-      } else {
-        regularRateForTrueUp = 0
-        overtimeTrueUp       = 0
-      }
-      finalPay = commissionPay + overtimeTrueUp
+      winningType  = 'commission'
+      // Surplus above straight-time base → Commission - Performance line
+      commPerf     = Math.max(commissionPay - straightTimePay, 0)
+      // Half-time adder for OT hours → Commission - Performance OT line
+      commPerfOT   = overtimeHours > 0 ? 0.5 * (commissionPay / totalHours) * overtimeHours : 0
+      finalPay     = commissionPay + commPerfOT
     } else {
-      winningType          = 'hourly'
-      basePay              = hourlyPay
-      regularRateForTrueUp = 0
-      overtimeTrueUp       = 0
-      finalPay             = hourlyPay
+      winningType  = 'hourly'
+      commPerf     = 0
+      commPerfOT   = 0
+      finalPay     = hourlyPay
     }
 
     return {
       name, ...d,
       level: tech.level, workDonePct: rate.workDone, soldByPct: rate.soldBy,
       hourlyRate, totalHours, regularHours, overtimeHours,
-      hourlyPay, commissionPay, winningType, basePay,
-      regularRateForTrueUp, overtimeTrueUp, finalPay,
+      hourlyPay, commissionPay, straightTimePay, winningType,
+      commPerf, commPerfOT, finalPay,
       matched: true,
     }
   })
@@ -637,20 +637,18 @@ function ResiServiceSection({ roster, onRosterChange }) {
 
       {rows.length > 0 && mapping.primaryTech && mapping.total && (
         <div className="mt-5">
-          <p className="text-xs font-bold tracking-widest uppercase mb-2" style={{ color: '#8dc63f' }}>Pay Breakdown</p>
+          <p className="text-xs font-bold tracking-widest uppercase mb-2" style={{ color: '#8dc63f' }}>Paystub Commission Lines — Enter These in Payroll</p>
           <div className="overflow-x-auto rounded-xl border border-white/10">
             <table className="w-full text-sm">
               <thead>
                 <tr className="bg-[#8dc63f] text-[#0d2b4e]">
                   <th className="px-3 py-2.5 text-left font-bold">Name</th>
-                  <th className="px-3 py-2.5 text-center font-bold">Hrs</th>
-                  <th className="px-3 py-2.5 text-center font-bold">Reg</th>
-                  <th className="px-3 py-2.5 text-center font-bold">OT</th>
-                  <th className="px-3 py-2.5 text-right font-bold">Hourly Pay</th>
-                  <th className="px-3 py-2.5 text-right font-bold">Commission</th>
+                  <th className="px-3 py-2.5 text-center font-bold">Reg Hrs</th>
+                  <th className="px-3 py-2.5 text-center font-bold">OT Hrs</th>
+                  <th className="px-3 py-2.5 text-right font-bold">Commission Total</th>
                   <th className="px-3 py-2.5 text-center font-bold">Winner</th>
-                  <th className="px-3 py-2.5 text-right font-bold">OT True-Up</th>
-                  <th className="px-3 py-2.5 text-right font-bold">Final Pay</th>
+                  <th className="px-3 py-2.5 text-right font-bold" style={{ background: 'rgba(13,43,78,0.3)' }}>Commission – Performance</th>
+                  <th className="px-3 py-2.5 text-right font-bold" style={{ background: 'rgba(13,43,78,0.3)' }}>Commission – Performance OT</th>
                 </tr>
               </thead>
               <tbody>
@@ -660,12 +658,8 @@ function ResiServiceSection({ roster, onRosterChange }) {
                       {r.name}
                       {!r.matched && <span className="ml-1 text-xs text-amber-400">*unmatched</span>}
                     </td>
-                    <td className="px-3 py-2.5 text-center text-slate-300 text-xs">{fmtN(r.totalHours)}</td>
                     <td className="px-3 py-2.5 text-center text-slate-300 text-xs">{fmtN(r.regularHours)}</td>
                     <td className="px-3 py-2.5 text-center text-xs" style={{ color: r.overtimeHours > 0 ? '#f59e0b' : '#64748b' }}>{fmtN(r.overtimeHours)}</td>
-                    <td className="px-3 py-2.5 text-right text-slate-300 text-xs">
-                      {r.matched && r.hourlyRate > 0 ? <>{fmt(r.hourlyPay)}<br/><span className="text-slate-500">${r.hourlyRate}/hr</span></> : '—'}
-                    </td>
                     <td className="px-3 py-2.5 text-right text-slate-300 text-xs">
                       {fmt(r.commissionPay)}
                       {r.matched && <div className="text-slate-500">{fmt(r.workRevenue)}×{pct(r.workDonePct)} + {fmt(r.soldRevenue)}×{pct(r.soldByPct)}</div>}
@@ -675,19 +669,20 @@ function ResiServiceSection({ roster, onRosterChange }) {
                         r.winningType === 'commission' ? 'bg-emerald-400/10 text-emerald-400' : 'bg-amber-400/10 text-amber-400'
                       }`}>{r.winningType || '—'}</span>
                     </td>
-                    <td className="px-3 py-2.5 text-right text-xs" style={{ color: r.overtimeTrueUp > 0 ? '#f59e0b' : '#64748b' }}>
-                      {r.overtimeTrueUp > 0 ? <>{fmt(r.overtimeTrueUp)}<br/><span className="text-slate-500">0.5×${r.regularRateForTrueUp?.toFixed(4)}/hr×{fmtN(r.overtimeHours)}h</span></> : '—'}
+                    <td className="px-3 py-2.5 text-right font-bold text-base" style={{ color: r.commPerf > 0 ? '#8dc63f' : '#64748b' }}>
+                      {r.commPerf > 0 ? fmt(r.commPerf) : '—'}
                     </td>
-                    <td className="px-3 py-2.5 text-right font-bold" style={{ color: r.matched ? '#8dc63f' : '#94a3b8' }}>
-                      {fmt(r.finalPay)}
+                    <td className="px-3 py-2.5 text-right font-bold text-base" style={{ color: r.commPerfOT > 0 ? '#f59e0b' : '#64748b' }}>
+                      {r.commPerfOT > 0 ? fmt(r.commPerfOT) : '—'}
                     </td>
                   </tr>
                 ))}
               </tbody>
               <tfoot>
                 <tr style={{ background: 'rgba(13,43,78,0.8)', borderTop: '1px solid rgba(141,198,63,0.3)' }}>
-                  <td colSpan={8} className="px-3 py-2.5 text-right font-bold text-slate-200">TOTAL RESI SERVICE FINAL PAY</td>
-                  <td className="px-3 py-2.5 text-right font-bold text-lg" style={{ color: '#8dc63f' }}>{fmt(grandTotal)}</td>
+                  <td colSpan={5} className="px-3 py-2.5 text-right font-bold text-slate-200">TOTALS</td>
+                  <td className="px-3 py-2.5 text-right font-bold" style={{ color: '#8dc63f' }}>{fmt(results.reduce((s,r)=>s+r.commPerf,0))}</td>
+                  <td className="px-3 py-2.5 text-right font-bold" style={{ color: '#f59e0b' }}>{fmt(results.reduce((s,r)=>s+r.commPerfOT,0))}</td>
                 </tr>
               </tfoot>
             </table>
