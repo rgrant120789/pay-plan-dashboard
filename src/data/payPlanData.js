@@ -77,7 +77,7 @@ export const resiInstallOptionA = [
 ];
 
 export const resiInstallOptionB = [
-  { bonus: 'Billable Hour', goal: 160, goalUnit: 'hours', monthlyBonus: 500 },
+  { bonus: 'Billable Hour', goal: 150, goalUnit: 'hours', monthlyBonus: 500 },
   { bonus: 'Revenue', goal: 80000, goalUnit: 'dollars', monthlyBonus: 500 },
   { bonus: 'Sales', goal: 10000, goalUnit: 'dollars', monthlyBonus: 500 },
 ];
@@ -95,19 +95,19 @@ export const commercialBeltLevels = [
 ];
 
 export const commercialServiceFocusBonuses = [
-  { bonus: 'Billable Hour', goal: 160, goalUnit: 'hours', monthlyBonus: 500 },
+  { bonus: 'Billable Hour', goal: 150, goalUnit: 'hours', monthlyBonus: 500 },
   { bonus: 'Revenue', goal: 55000, goalUnit: 'dollars', monthlyBonus: 500 },
   { bonus: 'Sales + TGL Sales', goal: 35000, goalUnit: 'dollars', monthlyBonus: 500 },
 ];
 
 export const commercialInstallFocusBonuses = [
-  { bonus: 'Billable Hour', goal: 160, goalUnit: 'hours', monthlyBonus: 500 },
+  { bonus: 'Billable Hour', goal: 150, goalUnit: 'hours', monthlyBonus: 500 },
   { bonus: 'Revenue', goal: 75000, goalUnit: 'dollars', monthlyBonus: 500 },
   { bonus: 'Sales + TGL Sales', goal: 35000, goalUnit: 'dollars', monthlyBonus: 500 },
 ];
 
 export const commercialEntryFocusBonuses = [
-  { bonus: 'Billable Hour', goal: 160, goalUnit: 'hours', monthlyBonus: 500 },
+  { bonus: 'Billable Hour', goal: 150, goalUnit: 'hours', monthlyBonus: 500 },
   { bonus: 'Revenue', goal: 65000, goalUnit: 'dollars', monthlyBonus: 500 },
   { bonus: 'Sales + TGL Sales', goal: 35000, goalUnit: 'dollars', monthlyBonus: 500 },
 ];
@@ -161,7 +161,7 @@ export function calcProposedResiInstallOptionA(hoursWorked, hourlyRate, installL
 export function calcProposedResiInstallOptionB(hoursWorked, hourlyRate, billableHours, revenue, sales) {
   const base = hoursWorked * hourlyRate;
   let bonus = 0;
-  if (billableHours >= 160) bonus += 500;
+  if (billableHours >= 150) bonus += 500;
   if (revenue >= 80000) bonus += 500;
   if (sales >= 10000) bonus += 500;
   return base + bonus;
@@ -174,7 +174,7 @@ export function calcProposedCommercialPay(hoursWorked, hourlyRate, focus, billab
   const base = hoursWorked * hourlyRate;
   let bonus = 0;
   const revenueGoal = focus === 'Service' ? 55000 : focus === 'Install' ? 75000 : 65000;
-  if (billableHours >= 160) bonus += 500;
+  if (billableHours >= 150) bonus += 500;
   if (revenue >= revenueGoal) bonus += 500;
   if (sales >= 35000) bonus += 500;
   return base + bonus;

@@ -137,7 +137,7 @@ export function calcProposedCommercialPay(hoursWorked, hourlyRate, focus, billab
   const base = hoursWorked * hourlyRate;
   let bonus = 0;
   const revenueGoal = focus === 'Service' ? 55000 : focus === 'Install' ? 75000 : 65000;
-  if (billableHours >= 160) bonus += 500;
+  if (billableHours >= 150) bonus += 500;
   if (revenue >= revenueGoal) bonus += 500;
   if ((sales + techLeadSales) >= 35000) bonus += 500;
   return base + bonus;
